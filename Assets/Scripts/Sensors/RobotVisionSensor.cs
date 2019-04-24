@@ -68,19 +68,19 @@ namespace Sensors
 //            var poi = targetsInViewRadius.FirstOrDefault(x => x.transform.name == "soccerball" || x.transform.name == "leftGoalLine");
 
             var soccerball = GameObject.Find("soccerball");
-            var leftGoalLine = GameObject.Find("leftGoalLine");
+            var leftGoalLine = GameObject.Find("leftGoalPost");
             
             if (!soccerball || !leftGoalLine)
                 return;
         
-            Vector2 dirToSoccerball = (soccerball.transform.position - position).normalized;
-            Vector2 dirToLeftGoalLine = (leftGoalLine.transform.position - position).normalized;
+            Vector3 dirToSoccerball = (soccerball.transform.position - position).normalized;
+            Vector3 dirToLeftGoalLine = (leftGoalLine.transform.position - position).normalized;
 
 
-            if (Vector2.Angle(transform.up, dirToSoccerball) < viewAngle / 2)
+            if (Vector3.Angle(transform.forward, dirToSoccerball) < viewAngle / 2)
             {
                 print(" ball in angle");
-                var distanceToBall = Vector2.Distance(soccerball.transform.position, position);
+                var distanceToBall = Vector3.Distance(soccerball.transform.position, position);
 
                 if (distanceToBall < 0.5)
                 {
@@ -97,9 +97,9 @@ namespace Sensors
                 ballNotInsideVision.Invoke();
             }
             
-            if (Vector2.Angle(transform.up, dirToLeftGoalLine) < viewAngle)
+            if (Vector3.Angle(transform.forward, dirToLeftGoalLine) < viewAngle)
             {
-                var distanceToGoal = Vector2.Distance(leftGoalLine.transform.position, position);
+                var distanceToGoal = Vector3.Distance(leftGoalLine.transform.position, position);
 
                 if (distanceToGoal < 0.5)
                 {
@@ -126,10 +126,10 @@ namespace Sensors
             float totalFOV = viewRadius;
             float rayRange = 10.0f;
             float halfFOV = viewAngle / 2.0f;
-            Quaternion leftRayRotation = Quaternion.AngleAxis( -halfFOV, Vector3.back );
-            Quaternion rightRayRotation = Quaternion.AngleAxis( halfFOV, Vector3.back );
-            Vector3 leftRayDirection = leftRayRotation * transform.up;
-            Vector3 rightRayDirection = rightRayRotation * transform.up;
+            Quaternion leftRayRotation = Quaternion.AngleAxis( -halfFOV, Vector3.up );
+            Quaternion rightRayRotation = Quaternion.AngleAxis( halfFOV, Vector3.up );
+            Vector3 leftRayDirection = leftRayRotation * transform.forward;
+            Vector3 rightRayDirection = rightRayRotation * transform.forward;
             Gizmos.DrawRay( transform.position, leftRayDirection * rayRange );
             Gizmos.DrawRay( transform.position, rightRayDirection * rayRange );
         }

@@ -7,6 +7,13 @@ public class RobotVisionActuator : MonoBehaviour
 {
     
     private RobotMotorAction _activeRobotMotorAction;
+
+    private void Start()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody.freezeRotation = true;
+    }
+
     private RobotWheelAction _activeRobotWheelAction;
     private RobotLegAction _activeRobotLegAction;
 
@@ -15,6 +22,7 @@ public class RobotVisionActuator : MonoBehaviour
 
     private float? rotationBefore45DegreesTurn;
     private bool hasExecutedMove;
+    private Rigidbody _rigidbody;
 
     public void TriggerAction(RobotMotorAction robotAction)
     {
@@ -113,30 +121,30 @@ public class RobotVisionActuator : MonoBehaviour
     //Here are the motor functions
     public void MoveForward()
     {
-        GetComponent<Rigidbody>().velocity = transform.up * 100.0f * Time.deltaTime; 
+        _rigidbody.velocity = transform.forward * 100.0f * Time.deltaTime; 
     }
 
     public void MoveBackward()
     {
-        transform.Translate(Vector2.down * 1.0f * Time.deltaTime);
+        transform.Translate(Vector3.back * 1.0f * Time.deltaTime);
     }
 
     //Here are the wheel functions
     public void TurnRight()
     {
-        transform.Rotate(Vector3.back * (150.0f * Time.deltaTime));
+        transform.Rotate(Vector3.up * (150.0f * Time.deltaTime));
     }
 
     public void TurnLeft()
     {
-        transform.Rotate(Vector3.back * (-150.0f * Time.deltaTime));
+        transform.Rotate(Vector3.up * (-150.0f * Time.deltaTime));
     }
 
     //Here are the leg(?) functions
     public void KickForward()
     {
         // Test to see if ball keeps moving (will look like a shot)
-        GetComponent<Rigidbody>().velocity = Vector2.zero;
+        _rigidbody.velocity = Vector3.zero;
         // GetComponent<Rigidbody2D>().velocity = transform.up * 300.0f * Time.deltaTime;
     }
 

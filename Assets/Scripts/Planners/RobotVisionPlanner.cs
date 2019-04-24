@@ -18,7 +18,7 @@ namespace Planners
         void Start()
         {
             // Get the vision component
-            var fovComponent = transform.Find("robot").Find("fov").GetComponent<RobotVisionSensor>();
+            var fovComponent = transform.Find("fov").GetComponent<RobotVisionSensor>();
 
             // Bind our function to the unity event of the fov component, which will trigger when the ball is or is not inside this robot's vision.
             fovComponent.ballInsideVision.AddListener(SetBallInsideVision);
@@ -28,7 +28,7 @@ namespace Planners
             fovComponent.goalInsideVision.AddListener(SetGoalInsideVision);
             fovComponent.goalNotInsideVision.AddListener(SetGoalOutsideVision);
 
-            _robotVisionActuator = transform.Find("robot").GetComponent<RobotVisionActuator>();
+            _robotVisionActuator = transform.GetComponent<RobotVisionActuator>();
 
         }
 
@@ -57,35 +57,35 @@ namespace Planners
                 _robotVisionActuator.TriggerAction(RobotWheelAction.TurnLeft);
                 _robotVisionActuator.TriggerAction(RobotMotorAction.DoNothing);
             }
-//
-//            //Try to find goal
-//            if (GoalInsideVision == false && BallInsideVision == true)
-//            {
-//                _robotVisionActuator.TriggerAction(RobotWheelAction.TurnRight);
-//                _robotVisionActuator.TriggerAction(RobotMotorAction.DoNothing);
-//                _robotVisionActuator.TriggerAction(RobotLegAction.DoNothing);
-//            }
-//
-//            //Try to find goal
-//            if (GoalInsideVision == false)
-//            {
-//                _robotVisionActuator.TriggerAction(RobotLegAction.DoNothing);
-//            }
-//
-//            //Try to find goal
-//            if (GoalInsideVision == true && BallCloseVision == true)
-//            {
-//                _robotVisionActuator.TriggerAction(RobotLegAction.KickForward);
-//                _robotVisionActuator.TriggerAction(RobotMotorAction.DoNothing);
-//            }
-//
-//            //Try to score
-//            if (GoalCloseVision == true && BallCloseVision == true)
-//            {
-//                _robotVisionActuator.TriggerAction(RobotLegAction.KickForward);
-//                _robotVisionActuator.TriggerAction(RobotMotorAction.DoNothing);
-//                _robotVisionActuator.TriggerAction(RobotWheelAction.DoNothing);
-//            }
+
+            //Try to find goal
+            if (GoalInsideVision == false && BallInsideVision == true)
+            {
+                _robotVisionActuator.TriggerAction(RobotWheelAction.TurnRight);
+                _robotVisionActuator.TriggerAction(RobotMotorAction.DoNothing);
+                _robotVisionActuator.TriggerAction(RobotLegAction.DoNothing);
+            }
+
+            //Try to find goal
+            if (GoalInsideVision == false)
+            {
+                _robotVisionActuator.TriggerAction(RobotLegAction.DoNothing);
+            }
+
+            //Try to find goal
+            if (GoalInsideVision == true && BallCloseVision == true)
+            {
+                _robotVisionActuator.TriggerAction(RobotLegAction.KickForward);
+                _robotVisionActuator.TriggerAction(RobotMotorAction.DoNothing);
+            }
+
+            //Try to score
+            if (GoalCloseVision == true && BallCloseVision == true)
+            {
+                _robotVisionActuator.TriggerAction(RobotLegAction.KickForward);
+                _robotVisionActuator.TriggerAction(RobotMotorAction.DoNothing);
+                _robotVisionActuator.TriggerAction(RobotWheelAction.DoNothing);
+            }
 
         }
     }
