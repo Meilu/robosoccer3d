@@ -9,7 +9,6 @@ namespace PhysReps
         private IList<GameObject> players;
         public GameObject robotPrefab;
         public TeamSide teamSide; 
-        public Sprite RobotSprite;
         
         enum Formation
         {
@@ -18,55 +17,47 @@ namespace PhysReps
             Neutral
         }
 
-        private Dictionary<Formation, Dictionary<int, Vector2>> _formationsPositionsDictionary;
+        private Dictionary<Formation, Dictionary<int, Vector3>> _formationsPositionsDictionary;
         
         private void Awake()
         {
             // Get the bounds of the team area. We can calculate positions from these bounds so that they are not screensize dependent.
             // If we want to have them on a specific side of the field we can simply flip this team object and they wil be on the other side. really easy.
-            var colliderBounds = GetComponent<Collider2D>().bounds.size;
+            var colliderBounds = GetComponent<BoxCollider>().bounds.size;
 
-           var robotPrefabSize = robotPrefab.gameObject.transform.Find("robot").Find("collider").GetComponent<BoxCollider2D>().size;
-
-            _formationsPositionsDictionary = new Dictionary<Formation, Dictionary<int, Vector2>>
+           var robotPrefabSize = robotPrefab.transform.GetComponent<BoxCollider>().size;
+           var robotYAxisPosition = -0.1f;
+           
+            _formationsPositionsDictionary = new Dictionary<Formation, Dictionary<int, Vector3>>
             {
                 {
-                    Formation.Offensive, new Dictionary<int, Vector2>
+
+                    Formation.Offensive, new Dictionary<int, Vector3>
                     {
-                        {1, new Vector2(colliderBounds.x - robotPrefabSize.x, 0)},
-                        {2, new Vector2(0, (colliderBounds.y / 2 - robotPrefabSize.y / 2) * -1)}, 
-                        {3, new Vector2(0, (colliderBounds.y / 2 - robotPrefabSize.y / 2))} 
+                        {1, new Vector3(colliderBounds.x - robotPrefabSize.x, robotYAxisPosition, 0)},
+                        {2, new Vector3(robotPrefabSize.x / 2, robotYAxisPosition, colliderBounds.z / 2 - robotPrefabSize.x / 2)}, 
+                        {3, new Vector3(robotPrefabSize.x / 2, robotYAxisPosition,   -(colliderBounds.z / 2 - robotPrefabSize.x / 2))}
                     }
                 }
             };
-
-            var teamIsFlipped = transform.localScale.x < 0;
-            foreach (KeyValuePair<Formation, Dictionary<int, Vector2>> positions in _formationsPositionsDictionary)
+            
+            foreach (KeyValuePair<Formation, Dictionary<int, Vector3>> positions in _formationsPositionsDictionary)
             {
-                foreach (KeyValuePair<int, Vector2> positionVector in positions.Value)
+                foreach (KeyValuePair<int, Vector3> positionVector in positions.Value)
                 {
                     var robot = Instantiate(robotPrefab, transform, false);
-                    
-                    // If this team's x scale is flipped (used for the opposite side) we also have to flip the text for this robot, else it's in mirror.
-                    if (teamIsFlipped)
-                        FlipModeCanvasRect(robot);
 
-                    robot.transform.localPosition = new Vector2(positionVector.Value.x, positionVector.Value.y);
-                    return;
+                    robot.transform.localPosition = new Vector3(positionVector.Value.x, positionVector.Value.y, positionVector.Value.z);
                 }
             }
         }
 
+        // If there is a canvas inside the robot, we need to reverse its scale for the awayteam because else it is flipped (doesnt matter for now but leaving this function here)
         private void FlipModeCanvasRect(GameObject robot)
         {
             var rectTransform = robot.transform.Find("modeCanvas").GetComponent<RectTransform>();
             var localScale = rectTransform.localScale;
             rectTransform.localScale = new Vector3(-localScale.x, localScale.y, localScale.z);
-        }
-
-        private void AssignSpriteToRobot(GameObject robot)
-        {
-            
         }
     }
 }
