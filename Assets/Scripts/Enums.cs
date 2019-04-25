@@ -18,7 +18,8 @@ public enum EventType
 {
     BallOut,
     HomeGoal,
-    AwayGoal
+    AwayGoal,
+    MatchFinished
 }
 
 //TO DO: to do something with this?

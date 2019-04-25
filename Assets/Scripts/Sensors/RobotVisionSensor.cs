@@ -79,7 +79,6 @@ namespace Sensors
 
             if (Vector3.Angle(transform.forward, dirToSoccerball) < viewAngle / 2)
             {
-                print(" ball in angle");
                 var distanceToBall = Vector3.Distance(soccerball.transform.position, position);
 
                 if (distanceToBall < 0.5)

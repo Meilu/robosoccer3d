@@ -45,6 +45,7 @@
             <e p="ScheduleService.cs" t="Include" />
             <e p="TeamService.cs" t="Include" />
           </e>
+          <e p="timer.cs" t="Include" />
         </e>
       </e>
       <e p="Library" t="ExcludeRecursive" />
