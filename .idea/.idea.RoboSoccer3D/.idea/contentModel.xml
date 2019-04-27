@@ -37,14 +37,6 @@
           <e p="Sensors" t="Include">
             <e p="RobotVisionSensor.cs" t="Include" />
           </e>
-          <e p="Services" t="Include">
-            <e p="IMatchService.cs" t="Include" />
-            <e p="IScheduleService.cs" t="Include" />
-            <e p="ITeamService.cs" t="Include" />
-            <e p="MatchService.cs" t="Include" />
-            <e p="ScheduleService.cs" t="Include" />
-            <e p="TeamService.cs" t="Include" />
-          </e>
           <e p="Settings.cs" t="Include" />
           <e p="timer.cs" t="Include" />
         </e>

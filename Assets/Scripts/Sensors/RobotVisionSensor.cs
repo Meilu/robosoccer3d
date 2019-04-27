@@ -28,7 +28,7 @@ namespace Sensors
 
         private void Start()
         {
-            // After everything is started up, first loop through the objectstofind list and find and set all gameobjects needed for it.
+            // After everything is started up, first loop through the objectstofind list and find and set all gameobjects needed for it (so we dont have to keep finding them in the update loop)
             foreach (var objectOfInterestVisionStatus in objectsOfInterestVisionStatus)
             {
                 objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
