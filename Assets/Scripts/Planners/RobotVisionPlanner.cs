@@ -19,6 +19,7 @@ namespace Planners
         private void FixedUpdate()
         {
             var ballObjectStatus = _robotVisionSensor.objectsOfInterestVisionStatus.FirstOrDefault(x => x.ObjectName == Settings.SoccerBallObjectName);
+            
             if (ballObjectStatus == null)
                 return;
 

@@ -25,6 +25,16 @@ namespace Sensors
                 }
             };
         }
+
+        private void Start()
+        {
+            // After everything is started up, first loop through the objectstofind list and find and set all gameobjects needed for it.
+            foreach (var objectOfInterestVisionStatus in objectsOfInterestVisionStatus)
+            {
+                objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
+            }
+        }
+
         private void FixedUpdate()
         {
             FindVisibleTargets(); 
@@ -37,14 +47,12 @@ namespace Sensors
         {
             foreach (var objectOfInterestVisionStatus in objectsOfInterestVisionStatus)
             {
-                var gameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
-
                 // If object not found, don't continue this iteration but go to the next.
-                if (!gameObjectToFind)
+                if (!objectOfInterestVisionStatus.GameObjectToFind)
                     continue;
                 
-                objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(gameObjectToFind, 1.0f);
-                objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(gameObjectToFind);   
+                objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, 1.0f);
+                objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectOfInterestVisionStatus.GameObjectToFind);   
             }
         }
 

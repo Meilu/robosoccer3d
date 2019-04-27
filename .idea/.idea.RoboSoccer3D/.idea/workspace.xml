@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55bbbb05-eed4-4bbc-be24-f34b6298118d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/DataModels/ObjectOfInterestVisionStatus.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/DebugScripts/FovDebugger.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Settings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RoboSoccer3D/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RoboSoccer3D/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RoboSoccer3D/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RoboSoccer3D/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RoboSoccer3D/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RoboSoccer3D/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RoboSoccer3D/riderModule.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RoboSoccer3D/riderModule.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj.DotSettings" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj.DotSettings" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DebugScripts.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/FovEditor.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/FovEditor.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DebugScripts/FovDebugger.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Planners/RobotVisionPlanner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Planners/RobotVisionPlanner.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Sensors/RobotVisionSensor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Sensors/RobotVisionSensor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/prefabs/robot.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/robot.prefab" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,24 +16,24 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Sensors/RobotVisionSensor.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="240">
+              <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
               <folding>
-                <marker date="1556324111093" expanded="true" signature="6:179" ph="..." />
-                <marker date="1556324111093" expanded="true" signature="198:3516" ph="{...}" />
-                <marker date="1556324111093" expanded="true" signature="251:3514" ph="{...}" />
-                <marker date="1556324111093" expanded="true" signature="441:976" ph="{...}" />
-                <marker date="1556324111093" expanded="true" signature="464:705" ph="/* Initialize the list of items this robot is interested in with his visionsensor. ... */" />
-                <marker date="1556324111093" expanded="true" signature="791:965" ph="{...}" />
-                <marker date="1556324111093" expanded="true" signature="869:951" ph="{...}" />
-                <marker date="1556324111093" expanded="true" signature="1011:1066" ph="{...}" />
-                <marker date="1556324111093" expanded="true" signature="1076:1201" ph="/// Will loop through all objects of interest and update their status if needed. ... " />
-                <marker date="1556324111093" expanded="true" signature="1243:1880" ph="{...}" />
-                <marker date="1556324111093" expanded="true" signature="1341:1870" ph="{...}" />
-                <marker date="1556324111093" expanded="true" signature="1890:2090" ph="/// Checks whether the object is inside the robot's vision angle or not ... " />
-                <marker date="1556324111093" expanded="true" signature="2162:2763" ph="{...}" />
-                <marker date="1556324111093" expanded="true" signature="2773:3019" ph="/// Checks whether the object is inside the given max distance. ... " />
-                <marker date="1556324111093" expanded="true" signature="3107:3508" ph="{...}" />
+                <marker date="1556324635108" expanded="true" signature="6:179" ph="..." />
+                <marker date="1556324635108" expanded="true" signature="198:3498" ph="{...}" />
+                <marker date="1556324635108" expanded="true" signature="251:3496" ph="{...}" />
+                <marker date="1556324635108" expanded="true" signature="423:958" ph="{...}" />
+                <marker date="1556324635108" expanded="true" signature="446:687" ph="/* Initialize the list of items this robot is interested in with his visionsensor. ... */" />
+                <marker date="1556324635108" expanded="true" signature="773:947" ph="{...}" />
+                <marker date="1556324635108" expanded="true" signature="851:933" ph="{...}" />
+                <marker date="1556324635108" expanded="true" signature="993:1048" ph="{...}" />
+                <marker date="1556324635108" expanded="true" signature="1058:1183" ph="/// Will loop through all objects of interest and update their status if needed. ... " />
+                <marker date="1556324635108" expanded="true" signature="1225:1862" ph="{...}" />
+                <marker date="1556324635108" expanded="true" signature="1323:1852" ph="{...}" />
+                <marker date="1556324635108" expanded="true" signature="1872:2072" ph="/// Checks whether the object is inside the robot's vision angle or not ... " />
+                <marker date="1556324635108" expanded="true" signature="2144:2745" ph="{...}" />
+                <marker date="1556324635108" expanded="true" signature="2755:3001" ph="/// Checks whether the object is inside the given max distance. ... " />
+                <marker date="1556324635108" expanded="true" signature="3089:3490" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -54,19 +42,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Planners/RobotVisionPlanner.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
+            <state relative-caret-position="240">
               <caret line="18" column="34" lean-forward="true" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
               <folding>
-                <marker date="1556324350796" expanded="true" signature="6:90" ph="..." />
-                <marker date="1556324350796" expanded="true" signature="110:3392" ph="{...}" />
-                <marker date="1556324350796" expanded="true" signature="164:3390" ph="{...}" />
-                <marker date="1556324350796" expanded="true" signature="312:534" ph="{...}" />
-                <marker date="1556324350796" expanded="true" signature="578:922" ph="{...}" />
-                <marker date="1556324350796" expanded="true" signature="973:1071" ph="{...}" />
-                <marker date="1556324350796" expanded="true" signature="1111:1206" ph="{...}" />
-                <marker date="1556324350796" expanded="true" signature="1255:1350" ph="{...}" />
-                <marker date="1556324350796" expanded="true" signature="1393:1489" ph="{...}" />
-                <marker date="1556324350796" expanded="true" signature="1502:3374" ph="/* if ball is inside vision then do things ... */" />
+                <marker date="1556324444020" expanded="true" signature="6:90" ph="..." />
+                <marker date="1556324444020" expanded="true" signature="110:3405" ph="{...}" />
+                <marker date="1556324444020" expanded="true" signature="164:3403" ph="{...}" />
+                <marker date="1556324444020" expanded="true" signature="312:534" ph="{...}" />
+                <marker date="1556324444020" expanded="true" signature="578:935" ph="{...}" />
+                <marker date="1556324444020" expanded="true" signature="986:1084" ph="{...}" />
+                <marker date="1556324444020" expanded="true" signature="1124:1219" ph="{...}" />
+                <marker date="1556324444020" expanded="true" signature="1268:1363" ph="{...}" />
+                <marker date="1556324444020" expanded="true" signature="1406:1502" ph="{...}" />
+                <marker date="1556324444020" expanded="true" signature="1515:3387" ph="/* if ball is inside vision then do things ... */" />
               </folding>
             </state>
           </provider>
@@ -111,8 +99,8 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/DebugScripts/FovDebugger.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Settings.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/DataModels/ObjectOfInterestVisionStatus.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Sensors/RobotVisionSensor.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Planners/RobotVisionPlanner.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Sensors/RobotVisionSensor.cs" />
       </list>
     </option>
   </component>
@@ -219,12 +207,12 @@
       <updated>1556051725483</updated>
       <workItem from="1556051729237" duration="292000" />
       <workItem from="1556101410685" duration="2263000" />
-      <workItem from="1556314366675" duration="10016000" />
+      <workItem from="1556314366675" duration="10293000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18313000" />
+    <option name="totallyTimeSpent" value="18590000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -466,25 +454,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Planners/RobotVisionPlanner.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="18" column="34" lean-forward="true" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
-          <folding>
-            <marker date="1556324350796" expanded="true" signature="6:90" ph="..." />
-            <marker date="1556324350796" expanded="true" signature="110:3392" ph="{...}" />
-            <marker date="1556324350796" expanded="true" signature="164:3390" ph="{...}" />
-            <marker date="1556324350796" expanded="true" signature="312:534" ph="{...}" />
-            <marker date="1556324350796" expanded="true" signature="578:922" ph="{...}" />
-            <marker date="1556324350796" expanded="true" signature="973:1071" ph="{...}" />
-            <marker date="1556324350796" expanded="true" signature="1111:1206" ph="{...}" />
-            <marker date="1556324350796" expanded="true" signature="1255:1350" ph="{...}" />
-            <marker date="1556324350796" expanded="true" signature="1393:1489" ph="{...}" />
-            <marker date="1556324350796" expanded="true" signature="1502:3374" ph="/* if ball is inside vision then do things ... */" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Settings.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="48">
@@ -506,26 +475,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Planners/RobotVisionPlanner.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="18" column="34" lean-forward="true" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
+          <folding>
+            <marker date="1556324444020" expanded="true" signature="6:90" ph="..." />
+            <marker date="1556324444020" expanded="true" signature="110:3405" ph="{...}" />
+            <marker date="1556324444020" expanded="true" signature="164:3403" ph="{...}" />
+            <marker date="1556324444020" expanded="true" signature="312:534" ph="{...}" />
+            <marker date="1556324444020" expanded="true" signature="578:935" ph="{...}" />
+            <marker date="1556324444020" expanded="true" signature="986:1084" ph="{...}" />
+            <marker date="1556324444020" expanded="true" signature="1124:1219" ph="{...}" />
+            <marker date="1556324444020" expanded="true" signature="1268:1363" ph="{...}" />
+            <marker date="1556324444020" expanded="true" signature="1406:1502" ph="{...}" />
+            <marker date="1556324444020" expanded="true" signature="1515:3387" ph="/* if ball is inside vision then do things ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Sensors/RobotVisionSensor.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="240">
+          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
           <folding>
-            <marker date="1556324111093" expanded="true" signature="6:179" ph="..." />
-            <marker date="1556324111093" expanded="true" signature="198:3516" ph="{...}" />
-            <marker date="1556324111093" expanded="true" signature="251:3514" ph="{...}" />
-            <marker date="1556324111093" expanded="true" signature="441:976" ph="{...}" />
-            <marker date="1556324111093" expanded="true" signature="464:705" ph="/* Initialize the list of items this robot is interested in with his visionsensor. ... */" />
-            <marker date="1556324111093" expanded="true" signature="791:965" ph="{...}" />
-            <marker date="1556324111093" expanded="true" signature="869:951" ph="{...}" />
-            <marker date="1556324111093" expanded="true" signature="1011:1066" ph="{...}" />
-            <marker date="1556324111093" expanded="true" signature="1076:1201" ph="/// Will loop through all objects of interest and update their status if needed. ... " />
-            <marker date="1556324111093" expanded="true" signature="1243:1880" ph="{...}" />
-            <marker date="1556324111093" expanded="true" signature="1341:1870" ph="{...}" />
-            <marker date="1556324111093" expanded="true" signature="1890:2090" ph="/// Checks whether the object is inside the robot's vision angle or not ... " />
-            <marker date="1556324111093" expanded="true" signature="2162:2763" ph="{...}" />
-            <marker date="1556324111093" expanded="true" signature="2773:3019" ph="/// Checks whether the object is inside the given max distance. ... " />
-            <marker date="1556324111093" expanded="true" signature="3107:3508" ph="{...}" />
+            <marker date="1556324635108" expanded="true" signature="6:179" ph="..." />
+            <marker date="1556324635108" expanded="true" signature="198:3498" ph="{...}" />
+            <marker date="1556324635108" expanded="true" signature="251:3496" ph="{...}" />
+            <marker date="1556324635108" expanded="true" signature="423:958" ph="{...}" />
+            <marker date="1556324635108" expanded="true" signature="446:687" ph="/* Initialize the list of items this robot is interested in with his visionsensor. ... */" />
+            <marker date="1556324635108" expanded="true" signature="773:947" ph="{...}" />
+            <marker date="1556324635108" expanded="true" signature="851:933" ph="{...}" />
+            <marker date="1556324635108" expanded="true" signature="993:1048" ph="{...}" />
+            <marker date="1556324635108" expanded="true" signature="1058:1183" ph="/// Will loop through all objects of interest and update their status if needed. ... " />
+            <marker date="1556324635108" expanded="true" signature="1225:1862" ph="{...}" />
+            <marker date="1556324635108" expanded="true" signature="1323:1852" ph="{...}" />
+            <marker date="1556324635108" expanded="true" signature="1872:2072" ph="/// Checks whether the object is inside the robot's vision angle or not ... " />
+            <marker date="1556324635108" expanded="true" signature="2144:2745" ph="{...}" />
+            <marker date="1556324635108" expanded="true" signature="2755:3001" ph="/// Checks whether the object is inside the given max distance. ... " />
+            <marker date="1556324635108" expanded="true" signature="3089:3490" ph="{...}" />
           </folding>
         </state>
       </provider>
