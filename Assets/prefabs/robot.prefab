@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8034128419642399303}
   - component: {fileID: 8034128419642399302}
+  - component: {fileID: 5728013141294679827}
   m_Layer: 0
-  m_Name: fov
+  m_Name: robotFieldOfView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,51 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1f085abdbadfc44a12910ce8df7247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 43
-  viewAngle: 26
-  ballWithinRange: 0
-  meshResolution: 0
-  ballInsideVision:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  ballNotInsideVision:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  ballInsideShootingRange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  ballNotInsideShootingRange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  goalInsideVision:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  goalNotInsideVision:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  goalInsideShootingRange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  goalNotInsideShootingRange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  visibleTargets: []
+  viewAngle: 34
+--- !u!114 &5728013141294679827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8034128419642399300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f97b43b2404b9a9097eacef65f93c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8034128420209532221
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +192,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac88b4d968448794c9f1dd3b4d375dc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BallInsideVision: 0
-  BallCloseVision: 0
-  GoalInsideVision: 0
-  GoalCloseVision: 0

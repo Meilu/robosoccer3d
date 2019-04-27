@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using DataModels;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,140 +10,82 @@ namespace Sensors
 {
     public class RobotVisionSensor : MonoBehaviour
     {
-        private GameObject _ballObject;
-        private int _objectsLayerMask; 
-        
-        public float viewRadius;
         [Range(0,360)]
         public float viewAngle;
-        public float ballWithinRange;
-        public float meshResolution;
-        
-        public UnityEvent ballInsideVision;
-        public UnityEvent ballNotInsideVision;
-        public UnityEvent ballInsideShootingRange;
-        public UnityEvent ballNotInsideShootingRange;
-        
-        public UnityEvent goalInsideVision;
-        public UnityEvent goalNotInsideVision;
-        public UnityEvent goalInsideShootingRange;
-        public UnityEvent goalNotInsideShootingRange;
 
-        [HideInInspector]
-        public List<Transform> visibleTargets = new List<Transform>();
-    
-        public RobotVisionSensor()
+        [HideInInspector] public IList<ObjectOfInterestVisionStatus> objectsOfInterestVisionStatus;
+        RobotVisionSensor()
         {
-            ballInsideVision = new UnityEvent();
-            ballNotInsideVision = new UnityEvent();
-            ballInsideShootingRange = new UnityEvent();
-            ballNotInsideShootingRange = new UnityEvent();
-
-            goalInsideVision = new UnityEvent();
-            goalNotInsideVision = new UnityEvent();
-            goalInsideShootingRange = new UnityEvent();
-            goalNotInsideShootingRange = new UnityEvent();
+            // Initialize the list of items this robot is interested in with his visionsensor.
+            // For now these are hardcoded, but in the future we may want to pass these dynamically because each robot may be interested in different objects.
+            objectsOfInterestVisionStatus = new List<ObjectOfInterestVisionStatus>() {         
+                new ObjectOfInterestVisionStatus()
+                {
+                    ObjectName = Settings.SoccerBallObjectName
+                }
+            };
         }
-
-        void Start() {
-            _objectsLayerMask = 1 << LayerMask.NameToLayer("objects");; 
-        }
-
         private void FixedUpdate()
         {
             FindVisibleTargets(); 
         }
 
-        IEnumerator FindTargetsWithDelay(float delay) {
-            while (true) {
-                yield return new WaitForSeconds (delay);
-                FindVisibleTargets ();
+        /// <summary>
+        /// Will loop through all objects of interest and update their status if needed.
+        /// </summary>
+        private void FindVisibleTargets()
+        {
+            foreach (var objectOfInterestVisionStatus in objectsOfInterestVisionStatus)
+            {
+                var gameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
+
+                // If object not found, don't continue this iteration but go to the next.
+                if (!gameObjectToFind)
+                    continue;
+                
+                objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(gameObjectToFind, 1.0f);
+                objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(gameObjectToFind);   
             }
         }
 
-        void FindVisibleTargets() {
-          //  visibleTargets.Clear ();
+        /// <summary>
+        /// Checks whether the object is inside the robot's vision angle or not
+        /// </summary>
+        /// <param name="objectToFind"></param>
+        /// <returns>bool</returns>
+        private bool IsObjectInsideVisionAngle(GameObject objectToFind)
+        {
+            if (!objectToFind)
+                return false;
 
-            var position = transform.parent.position;
-//            Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(position, viewRadius, _objectsLayerMask);
-//
-//            var poi = targetsInViewRadius.FirstOrDefault(x => x.transform.name == "soccerball" || x.transform.name == "leftGoalLine");
-
-            var soccerball = GameObject.Find("soccerball");
-            var leftGoalLine = GameObject.Find("leftGoalPost");
+            var currentTransform = transform;
             
-            if (!soccerball || !leftGoalLine)
-                return;
-        
-            Vector3 dirToSoccerball = (soccerball.transform.position - position).normalized;
-            Vector3 dirToLeftGoalLine = (leftGoalLine.transform.position - position).normalized;
-
-
-            if (Vector3.Angle(transform.forward, dirToSoccerball) < viewAngle / 2)
-            {
-                var distanceToBall = Vector3.Distance(soccerball.transform.position, position);
-
-                if (distanceToBall < 0.5)
-                {
-                    ballInsideShootingRange.Invoke();
-                }
-                else
-                {
-                    ballInsideVision.Invoke();
-                    ballNotInsideShootingRange.Invoke();
-                }
-            }
-            else
-            {
-                ballNotInsideVision.Invoke();
-            }
+            // Get current position of the robot.
+            var robotObjectPosition = currentTransform.parent.position;
             
-            if (Vector3.Angle(transform.forward, dirToLeftGoalLine) < viewAngle)
-            {
-                var distanceToGoal = Vector3.Distance(leftGoalLine.transform.position, position);
+            // Get the direction to the object
+            var directionToObject = (objectToFind.transform.position - robotObjectPosition);
 
-                if (distanceToGoal < 0.5)
-                {
-                    goalInsideShootingRange.Invoke();
-                }
-                else
-                {
-                    goalInsideVision.Invoke();
-                    goalNotInsideShootingRange.Invoke();
-                }
-            }
-            else
-            {
-                goalNotInsideVision.Invoke();
-            }
+            // Calculate the angle to the object and check if it's inside our viewAngle.
+            return Vector3.Angle(currentTransform.forward, directionToObject) < viewAngle / 2;
+        }
 
-        }
-        private void OnDrawGizmos()
+        /// <summary>
+        /// Checks whether the object is inside the given max distance.
+        /// </summary>
+        /// <param name="objectToFind">The object </param>
+        /// <param name="maxDistance"></param>
+        /// <returns></returns>
+        private bool IsObjectWithinDistance(GameObject objectToFind, float maxDistance)
         {
-            DrawFieldOfView();
+            if (!objectToFind)
+                return false;
+            
+            // Get current position of the robot.
+            var robotObjectPosition = transform.parent.position;
+            
+            // Check whether the object is within the given max distance.
+            return Vector3.Distance(objectToFind.transform.position, robotObjectPosition) < maxDistance;
         }
-        private void DrawFieldOfView()
-        {
-            float totalFOV = viewRadius;
-            float rayRange = 10.0f;
-            float halfFOV = viewAngle / 2.0f;
-            Quaternion leftRayRotation = Quaternion.AngleAxis( -halfFOV, Vector3.up );
-            Quaternion rightRayRotation = Quaternion.AngleAxis( halfFOV, Vector3.up );
-            Vector3 leftRayDirection = leftRayRotation * transform.forward;
-            Vector3 rightRayDirection = rightRayRotation * transform.forward;
-            Gizmos.DrawRay( transform.position, leftRayDirection * rayRange );
-            Gizmos.DrawRay( transform.position, rightRayDirection * rayRange );
-        }
-        
-        public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
-        {
-            if (!angleIsGlobal)
-            {
-                angleInDegrees += transform.parent.eulerAngles.z;
-            }
-
-            return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
-        }
-    
     }
 }

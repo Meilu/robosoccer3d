@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="$USER_HOME$/Library/Caches/Rider2018.3/extResources" t="IncludeRecursive" />
-    <e p="$USER_HOME$/Library/Caches/Rider2018.3/resharper-host/local/Transient/ReSharperHost/v183/SolutionCaches/_robosoccer3d.1783388596.00" t="ExcludeRecursive" />
-    <e p="$PROJECT_DIR$" t="IncludeRecursive">
-      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+    <e p="C:\Users\jurge\.Rider2018.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\jurge\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_RoboSoccer3D.-1984974539.00" t="ExcludeRecursive" />
+    <e p="C:\Users\jurge\Documents\unityprojects\RoboSoccer3D" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="ChooseRobotControls.cs" t="Include" />
@@ -15,12 +14,13 @@
           <e p="DataModels" t="Include">
             <e p="Ball.cs" t="Include" />
             <e p="Match.cs" t="Include" />
+            <e p="ObjectOfInterestVisionStatus.cs" t="Include" />
             <e p="Robot.cs" t="Include" />
             <e p="Stadium.cs" t="Include" />
             <e p="Team.cs" t="Include" />
           </e>
-          <e p="Editor" t="Include">
-            <e p="FovEditor.cs" t="Include" />
+          <e p="DebugScripts" t="Include">
+            <e p="FovDebugger.cs" t="Include" />
           </e>
           <e p="Enums.cs" t="Include" />
           <e p="EventManager.cs" t="Include" />
@@ -45,6 +45,7 @@
             <e p="ScheduleService.cs" t="Include" />
             <e p="TeamService.cs" t="Include" />
           </e>
+          <e p="Settings.cs" t="Include" />
           <e p="timer.cs" t="Include" />
         </e>
       </e>
