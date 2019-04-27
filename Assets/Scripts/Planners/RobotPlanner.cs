@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Specialized;
 using System.Linq;
 using Actuators;
@@ -16,38 +17,55 @@ namespace Planners
         {
             _robotVisionActuator = transform.GetComponent<RobotActuator>();
             _robotVisionSensor = transform.Find(Settings.RobotFieldOfViewObjectName).GetComponent<RobotVisionSensor>();
-        }
-        
-        private void FixedUpdate()
-        {
-            var ballObjectStatus = _robotVisionSensor.objectsOfInterestVisionStatus.FirstOrDefault(x => x.ObjectName == Settings.SoccerBallObjectName);
             
-            if (ballObjectStatus == null)
-                return;
+            this.InitializeObjectsOfInterestSubscriptions();
+        }
 
-            if (ballObjectStatus.IsInsideVisionAngle)
-                TriggerMoveForward();
+        private void InitializeObjectsOfInterestSubscriptions()
+        {
+            // Subscribe to the events of the objects of interest.
+            foreach (var objectOfInterestVisionStatus in _robotVisionSensor.objectsOfInterestVisionStatus)
+            {
+                objectOfInterestVisionStatus.IsInsideVisionAngleChangeEvent += ObjectInsideVisionChangeHandler;
+                objectOfInterestVisionStatus.IsWithinDistanceChangeEvent += ObjectWithinDistanceChangeEventHandler;
+            }
+        }
+
+        
+        /// <summary>
+        /// This function will be called whenever the property insidevision of an object we are interested is changed.
+        /// </summary>
+        /// <param name="sender">The object that was changed</param>
+        /// <param name="args">Any arguments</param>
+        private void ObjectInsideVisionChangeHandler(object sender, EventArgs args)
+        {
+            print("Object inside vision called");
+        }
+
+        private void ObjectWithinDistanceChangeEventHandler(object sender, EventArgs args)
+        {
+            print("Object within distance called");
         }
         
-        private void TriggerMoveForward()
-        {
-            _robotVisionActuator.TriggerAction(RobotMotorAction.MoveForward);
-        }
-
-        private void TriggerTurnLeft()
-        {
-            _robotVisionActuator.TriggerAction(RobotWheelAction.TurnLeft);
-        }
-        
-        private void TriggerTurnRight()
-        {
-            _robotVisionActuator.TriggerAction(RobotWheelAction.TurnLeft);
-        }
-
-        private void TriggerKickForward()
-        {
-            _robotVisionActuator.TriggerAction(RobotLegAction.KickForward);
-        }
+//        private void TriggerMoveForward()
+//        {
+//            _robotVisionActuator.TriggerAction(RobotMotorAction.MoveForward);
+//        }
+//
+//        private void TriggerTurnLeft()
+//        {
+//            _robotVisionActuator.TriggerAction(RobotWheelAction.TurnLeft);
+//        }
+//        
+//        private void TriggerTurnRight()
+//        {
+//            _robotVisionActuator.TriggerAction(RobotWheelAction.TurnLeft);
+//        }
+//
+//        private void TriggerKickForward()
+//        {
+//            _robotVisionActuator.TriggerAction(RobotLegAction.KickForward);
+//        }
 
         
 
