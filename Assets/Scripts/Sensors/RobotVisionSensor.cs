@@ -37,13 +37,13 @@ namespace Sensors
 
         private void FixedUpdate()
         {
-            FindVisibleTargets(); 
+            UpdateObjectsOfInterestStatuses(); 
         }
 
         /// <summary>
-        /// Will loop through all objects of interest and update their status if needed.
+        /// Will continuously check all properties of the objects of interest we are interested in and update their status.
         /// </summary>
-        private void FindVisibleTargets()
+        private void UpdateObjectsOfInterestStatuses()
         {
             foreach (var objectOfInterestVisionStatus in objectsOfInterestVisionStatus)
             {
@@ -51,8 +51,8 @@ namespace Sensors
                 if (!objectOfInterestVisionStatus.GameObjectToFind)
                     continue;
                 
-                objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, 1.0f);
-                objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectOfInterestVisionStatus.GameObjectToFind);   
+              objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, 1.0f);
+              objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectOfInterestVisionStatus.GameObjectToFind);   
             }
         }
 

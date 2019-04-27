@@ -9,7 +9,7 @@
         <e p="ChooseRobotControls.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Actuators" t="Include">
-            <e p="RobotVisionActuator.cs" t="Include" />
+            <e p="RobotActuator.cs" t="Include" />
           </e>
           <e p="DataModels" t="Include">
             <e p="Ball.cs" t="Include" />
@@ -32,7 +32,14 @@
             <e p="Team.cs" t="Include" />
           </e>
           <e p="Planners" t="Include">
-            <e p="RobotVisionPlanner.cs" t="Include" />
+            <e p="RobotPlanner.cs" t="Include" />
+          </e>
+          <e p="RobotActions" t="Include">
+            <e p="MoveBackwardAction.cs" t="Include" />
+            <e p="MoveForwardAction.cs" t="Include" />
+            <e p="RobotAction.cs" t="Include" />
+            <e p="TurnLeftAction.cs" t="Include" />
+            <e p="TurnRightAction.cs" t="Include" />
           </e>
           <e p="Sensors" t="Include">
             <e p="RobotVisionSensor.cs" t="Include" />

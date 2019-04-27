@@ -69,3 +69,9 @@ public enum TeamSide
     Home,
     Away
 }
+
+public enum RobotPropertyChangeHandlerType
+{
+    ObjectInsideVision,
+    ObjectWithinDistance
+}
