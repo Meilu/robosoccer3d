@@ -1,18 +1,20 @@
 using System.Collections.Specialized;
 using System.Linq;
+using Actuators;
 using Sensors;
 using UnityEngine;
 
 namespace Planners
 {
-    public class RobotVisionPlanner : MonoBehaviour
+    public class RobotPlanner : MonoBehaviour
     {
-        private RobotVisionActuator _robotVisionActuator;
+        private RobotActuator _robotVisionActuator;
         private RobotVisionSensor _robotVisionSensor;
         
+       
         void Start()
         {
-            _robotVisionActuator = transform.GetComponent<RobotVisionActuator>();
+            _robotVisionActuator = transform.GetComponent<RobotActuator>();
             _robotVisionSensor = transform.Find(Settings.RobotFieldOfViewObjectName).GetComponent<RobotVisionSensor>();
         }
         
@@ -25,7 +27,6 @@ namespace Planners
 
             if (ballObjectStatus.IsInsideVisionAngle)
                 TriggerMoveForward();
-            
         }
         
         private void TriggerMoveForward()
