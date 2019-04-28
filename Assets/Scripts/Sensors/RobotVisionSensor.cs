@@ -23,6 +23,7 @@ namespace Sensors
                 {
                     ObjectName = Settings.SoccerBallObjectName
                 },
+                // Add the other robots as a different object to the list :) so the robot can have their own status changes.
                 new ObjectOfInterestVisionStatus()
                 {
                     ObjectName = Settings.OtherRobots
@@ -35,12 +36,15 @@ namespace Sensors
             // After everything is started up, first loop through the objectstofind list and find and set all gameobjects needed for it (so we dont have to keep finding them in the update loop)
             foreach (var objectOfInterestVisionStatus in objectsOfInterestVisionStatus)
             {
+                // Find and save the gameobject. For now this supports only one gameobject. If this objectName is used for multiple gameobjects it will only check the first one.
+                // If you want to check multiple objects you have to give each object an unique name and add them to the list above on line 21.
                 objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
             }
         }
 
         private void FixedUpdate()
         {
+            // Constantly check the statuses of the object of interest list.
             UpdateObjectsOfInterestStatuses(); 
         }
 
@@ -55,6 +59,7 @@ namespace Sensors
                 if (!objectOfInterestVisionStatus.GameObjectToFind)
                     continue;
                 
+              // Update the distance and vision angle status of this object of interest.
               objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, 1.0f);
               objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectOfInterestVisionStatus.GameObjectToFind);   
             }
