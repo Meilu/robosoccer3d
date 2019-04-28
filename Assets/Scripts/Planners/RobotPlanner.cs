@@ -87,7 +87,7 @@ namespace Planners
             if (objectOfInterestVisionStatus.ObjectName == Settings.SoccerBallObjectName)
                 return DetermineRobotActionForSoccerBallChange(objectOfInterestVisionStatus);
 
-            if (objectOfInterestVisionStatus.RobotName == Settings.OtherRobots)
+            if (objectOfInterestVisionStatus.ObjectName == Settings.OtherRobots)
                 return DetermineRobotActionForRobotNameChange(objectOfInterestVisionStatus);
 
             return null;

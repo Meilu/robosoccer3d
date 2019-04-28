@@ -21,8 +21,11 @@ namespace Sensors
             objectsOfInterestVisionStatus = new List<ObjectOfInterestVisionStatus>() {
                 new ObjectOfInterestVisionStatus()
                 {
-                    ObjectName = Settings.SoccerBallObjectName,
-                    RobotName = Settings.OtherRobots
+                    ObjectName = Settings.SoccerBallObjectName
+                },
+                new ObjectOfInterestVisionStatus()
+                {
+                    ObjectName = Settings.OtherRobots
                 }
             };
         }
@@ -33,7 +36,6 @@ namespace Sensors
             foreach (var objectOfInterestVisionStatus in objectsOfInterestVisionStatus)
             {
                 objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
-                objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.RobotName);
             }
         }
 

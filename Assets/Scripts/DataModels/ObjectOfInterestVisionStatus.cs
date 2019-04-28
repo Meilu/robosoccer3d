@@ -7,7 +7,6 @@ namespace DataModels
     public class ObjectOfInterestVisionStatus
     {
         public string ObjectName;
-        public string RobotName;
 
         #region IsInsideVision definition
         public event EventHandler IsInsideVisionAngleChangeEvent;
