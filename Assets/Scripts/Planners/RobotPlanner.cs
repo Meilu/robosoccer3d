@@ -86,7 +86,10 @@ namespace Planners
             // All action logic related to the soccerball
             if (objectOfInterestVisionStatus.ObjectName == Settings.SoccerBallObjectName)
                 return DetermineRobotActionForSoccerBallChange(objectOfInterestVisionStatus);
-            
+
+            if (objectOfInterestVisionStatus.RobotName == Settings.OtherRobots)
+                return DetermineRobotActionForRobotNameChange(objectOfInterestVisionStatus);
+
             return null;
         }
 
@@ -102,18 +105,27 @@ namespace Planners
                 return new List<RobotAction>()
                 {
                     new MoveForwardAction(),
-                    new MoveBackwardAction(),
-                    new TurnLeftAction(),
-                    new MoveForwardAction(),
                     new TurnRightAction(),
-                    new MoveForwardAction(),
-                    new MoveBackwardAction()
+                };
+
+            return null;
+        }
+
+        private List<RobotAction> DetermineRobotActionForRobotNameChange(ObjectOfInterestVisionStatus objectOfInterestVisionStatus)
+        {
+            // If there are other robots within distance, move away from it.
+            if (objectOfInterestVisionStatus.IsInsideVisionAngle)
+                return new List<RobotAction>()
+                {
+                    new MoveBackwardAction(),
+                    new TurnLeftAction()
                 };
 
             return null;
         }
 
 
-        
+
+
     }
 }

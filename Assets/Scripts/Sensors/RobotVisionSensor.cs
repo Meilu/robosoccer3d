@@ -18,10 +18,11 @@ namespace Sensors
         {
             // Initialize the list of items this robot is interested in with his visionsensor.
             // For now these are hardcoded, but in the future we may want to pass these dynamically because each robot may be interested in different objects.
-            objectsOfInterestVisionStatus = new List<ObjectOfInterestVisionStatus>() {         
+            objectsOfInterestVisionStatus = new List<ObjectOfInterestVisionStatus>() {
                 new ObjectOfInterestVisionStatus()
                 {
-                    ObjectName = Settings.SoccerBallObjectName
+                    ObjectName = Settings.SoccerBallObjectName,
+                    RobotName = Settings.OtherRobots
                 }
             };
         }
@@ -32,6 +33,7 @@ namespace Sensors
             foreach (var objectOfInterestVisionStatus in objectsOfInterestVisionStatus)
             {
                 objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
+                objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.RobotName);
             }
         }
 
