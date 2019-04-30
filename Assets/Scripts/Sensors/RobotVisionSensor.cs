@@ -13,7 +13,7 @@ namespace Sensors
         [Range(0,360)]
         public float viewAngle;
 
-        [HideInInspector] public IList<ObjectOfInterestVisionStatus> objectsOfInterestVisionStatus;
+        [HideInInspector] public List<ObjectOfInterestVisionStatus> objectsOfInterestVisionStatus;
         RobotVisionSensor()
         {
             // Initialize the list of items this robot is interested in with his visionsensor.
@@ -60,7 +60,7 @@ namespace Sensors
                     continue;
                 
               // Update the distance and vision angle status of this object of interest.
-              objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, 1.0f);
+              objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, 1f);
               objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectOfInterestVisionStatus.GameObjectToFind);   
             }
         }

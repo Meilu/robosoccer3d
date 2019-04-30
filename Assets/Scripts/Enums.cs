@@ -36,6 +36,7 @@ public enum RobotMotorAction
     None,
     MoveForward,
     MoveBackward,
+    BoostForward,
     DoNothing
 }
 

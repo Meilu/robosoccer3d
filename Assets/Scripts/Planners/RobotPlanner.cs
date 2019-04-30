@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using Actuators;
 using DataModels;
-using RobotActions;
+using RobotActionStates;
 using Sensors;
 using UnityEngine;
 using Timer = System.Timers.Timer;
@@ -15,7 +15,7 @@ namespace Planners
     {
         private RobotActuator _robotVisionActuator;
         private RobotVisionSensor _robotVisionSensor;
-        private readonly Queue<RobotAction> _robotActionQueue = new Queue<RobotAction>();
+        private readonly IList<RobotActionState> _robotActionQueue = new List<RobotActionState>();
         
         void Start()
         {
@@ -26,17 +26,19 @@ namespace Planners
         }
 
         private void Update()
-        {
-            // First, check if there is not an action executing already
-            if (_robotVisionActuator.HasActiveRobotAction())
-                return;           
-            
+        {            
             // Check if there are items in the queue at this moment.
             if (!_robotActionQueue.Any())
                 return;
             
-            // There is an action available and no timer is currently running, take it from the queue and send it to the actuator :)
-            var robotActionToExecute = _robotActionQueue.Dequeue();
+            // Get the first robotactionstate ordered by the highest weight first.
+            var robotActionToExecute = _robotActionQueue.OrderByDescending(x => x.Weight).FirstOrDefault();
+            var activeRobotAction = _robotVisionActuator._activeRobotActionState;
+            
+            // Before sending the new action, make sure the current one is not more important (and also still true).
+            if (activeRobotAction != null && activeRobotAction.Weight > robotActionToExecute.Weight && IsVisionStillCurrent(activeRobotAction.VisionStatusOnCreate))
+                // The current vision is still current and also more important, dont continue.
+                return;
             
             // Execute the dequeued action.
             _robotVisionActuator.ExecuteRobotAction(robotActionToExecute);
@@ -54,78 +56,48 @@ namespace Planners
                 objectOfInterestVisionStatus.IsWithinDistanceChangeEvent += ObjectOfInterestPropertyChangeHandler;
             }
         }
-
+        
         /// <summary>
         /// This is the event handler that is called whenever a property of an object of interest changes.
         /// Here we will determine the action we need to take based on the new state of the visionstatus :)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
         private void ObjectOfInterestPropertyChangeHandler(object sender, EventArgs args)
         {
-            var objectOfInterestStatus = (ObjectOfInterestVisionStatus) sender;
-
-            // Check if we have new actions to add to the queue :)
-            var robotActionsToQueue = DetermineRobotActionType(objectOfInterestStatus);
+            // Check what state belongs to our current vision.
+            var robotActionStateForCurrentVision = DetermineRobotActionStateForCurrentVision();
             
-            // Add all of the new actions to the queue.
-            if (robotActionsToQueue != null && robotActionsToQueue.Any())
-            {
-                robotActionsToQueue.ForEach(x => _robotActionQueue.Enqueue(x));
-                
-            }
+            // Clear the current queue and add all new items based on the new vision.
+            _robotActionQueue.Clear();
+            robotActionStateForCurrentVision.ForEach(x => _robotActionQueue.Add(x));
         }
 
-        /// <summary>
-        /// This function will determine based on the object type what robotaction to create. 
-        /// </summary>
-        /// <param name="objectOfInterestVisionStatus"></param>
-        /// <returns></returns>
-        private List<RobotAction> DetermineRobotActionType(ObjectOfInterestVisionStatus objectOfInterestVisionStatus)
+        private List<RobotActionState> DetermineRobotActionStateForCurrentVision()
         {
-            // All action logic related to the soccerball
-            if (objectOfInterestVisionStatus.ObjectName == Settings.SoccerBallObjectName)
-                return DetermineRobotActionForSoccerBallChange(objectOfInterestVisionStatus);
+            IList<ObjectOfInterestVisionStatus> clonedList = new List<ObjectOfInterestVisionStatus>();
+            var actionStateList = new List<RobotActionState>();
+            
+            // Clone the current vision so that we can save it's state for any states created
+            _robotVisionSensor.objectsOfInterestVisionStatus.ForEach(x => clonedList.Add(x.Copy()));
+            
+            // Get the status of the soccerball. 
+            var soccerBallVisionStatus = clonedList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
+            
+            if (!soccerBallVisionStatus.IsInsideVisionAngle)
+                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
+            
+            if (soccerBallVisionStatus.IsInsideVisionAngle)
+                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
+            
+            if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
+                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 3));
 
-            if (objectOfInterestVisionStatus.ObjectName == Settings.OtherRobots)
-                return DetermineRobotActionForRobotNameChange(objectOfInterestVisionStatus);
-
-            return null;
+            return actionStateList;
         }
 
-        /// <summary>
-        /// This function contains all logic for creating a robotaction based on the current status of the soccerball object.
-        /// </summary>
-        /// <param name="objectOfInterestVisionStatus"></param>
-        /// <returns></returns>
-        private List<RobotAction> DetermineRobotActionForSoccerBallChange(ObjectOfInterestVisionStatus objectOfInterestVisionStatus)
+        private bool IsVisionStillCurrent(IList<ObjectOfInterestVisionStatus> visionStatus)
         {
-            // If the soccerBall is within distance, move towards it.
-            if (objectOfInterestVisionStatus.IsInsideVisionAngle)
-                return new List<RobotAction>()
-                {
-                    new MoveForwardAction(),
-                    new TurnRightAction(),
-                };
-
-            return null;
+            return _robotVisionSensor.objectsOfInterestVisionStatus.SequenceEqual(visionStatus);
         }
-
-        private List<RobotAction> DetermineRobotActionForRobotNameChange(ObjectOfInterestVisionStatus objectOfInterestVisionStatus)
-        {
-            // If there are other robots within distance, move away from it.
-            if (objectOfInterestVisionStatus.IsInsideVisionAngle)
-                return new List<RobotAction>()
-                {
-                    new MoveBackwardAction(),
-                    new TurnLeftAction()
-                };
-
-            return null;
-        }
-
-
-
 
     }
 }

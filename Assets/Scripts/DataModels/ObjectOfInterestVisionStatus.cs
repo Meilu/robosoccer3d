@@ -43,5 +43,16 @@ namespace DataModels
         }
         #endregion
         public GameObject GameObjectToFind;
+
+        public ObjectOfInterestVisionStatus Copy()
+        {
+            return new ObjectOfInterestVisionStatus()
+            {
+                ObjectName = ObjectName,
+                IsInsideVisionAngle = IsInsideVisionAngle,
+                IsWithinDistance = IsWithinDistance,
+                GameObjectToFind = GameObjectToFind,
+            };
+        }
     }
 }
