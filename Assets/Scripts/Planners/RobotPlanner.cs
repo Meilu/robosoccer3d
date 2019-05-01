@@ -78,6 +78,7 @@ namespace Planners
             
             // Clone the current vision so that we can save it's state for any states created
             _robotVisionSensor.objectsOfInterestVisionStatus.ForEach(x => clonedList.Add(x.Copy()));
+            var activeState = _robotVisionActuator._activeRobotActionState;
             
             // Get the status of the soccerball. 
             var soccerBallVisionStatus = clonedList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
@@ -87,6 +88,11 @@ namespace Planners
             
             if (soccerBallVisionStatus.IsInsideVisionAngle && !soccerBallVisionStatus.IsWithinDistance)
                 actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
+            
+            
+            if (soccerBallVisionStatus.IsWithinDistance)
+                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.None, 4));
+                
             
             if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
                 actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 3));

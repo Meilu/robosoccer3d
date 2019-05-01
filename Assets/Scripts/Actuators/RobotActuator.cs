@@ -57,6 +57,12 @@ namespace Actuators
                 case RobotMotorAction.BoostForward:
                     BoostForward();
                     break;
+                case RobotMotorAction.MoveLeft:
+                    MoveLeft();
+                    break;
+                case RobotMotorAction.MoveRight:
+                    MoveRight();
+                    break;
             }
             
             // Check what actions to execute based on the current active robot action..
@@ -69,6 +75,18 @@ namespace Actuators
                     TurnRight();
                     break;
             }
+        }
+
+        private void MoveRight()
+        {
+            print("move right");
+            _rigidbody.velocity = transform.right * 100.0f * Time.deltaTime;
+        }
+
+        private void MoveLeft()
+        {
+            print("move left");
+            _rigidbody.velocity = -transform.right * 100.0f * Time.deltaTime;
         }
 
         private void MoveForward()
