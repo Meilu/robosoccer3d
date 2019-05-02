@@ -4,9 +4,8 @@ using UnityEngine.Events;
 
 namespace DataModels
 {
-    public class ObjectOfInterestVisionStatus
+    public class ObjectOfInterestVisionStatus : ObjectOfInterestStatus<ObjectOfInterestVisionStatus>
     {
-        public string ObjectName;
 
         #region IsInsideVision definition
         public event EventHandler IsInsideVisionAngleChangeEvent;
@@ -42,9 +41,8 @@ namespace DataModels
             }
         }
         #endregion
-        public GameObject GameObjectToFind;
 
-        public ObjectOfInterestVisionStatus Copy()
+        public override ObjectOfInterestVisionStatus Copy()
         {
             return new ObjectOfInterestVisionStatus()
             {

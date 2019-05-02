@@ -78,3 +78,22 @@ public enum RobotPropertyChangeHandlerType
     ObjectInsideVision,
     ObjectWithinDistance
 }
+
+public enum ObjectMovementSpeed
+{
+    None,
+    Still,
+    Slow,
+    Medium,
+    Fast,
+    LightSpeed
+}
+
+public enum ObjectMovementDirection
+{
+    None,
+    Forward,
+    Backwards,
+    Left,
+    Right
+}

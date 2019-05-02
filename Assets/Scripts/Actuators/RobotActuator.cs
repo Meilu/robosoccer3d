@@ -79,13 +79,11 @@ namespace Actuators
 
         private void MoveRight()
         {
-            print("move right");
             _rigidbody.velocity = transform.right * 100.0f * Time.deltaTime;
         }
 
         private void MoveLeft()
         {
-            print("move left");
             _rigidbody.velocity = -transform.right * 100.0f * Time.deltaTime;
         }
 

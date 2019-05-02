@@ -59,6 +59,7 @@ namespace PhysReps
                     var robot = Instantiate(robotPrefab, transform, false);
 
                     robot.transform.localPosition = new Vector3(positionVector.Value.x, positionVector.Value.y, positionVector.Value.z);
+                    return;
                 }
             }
         }
