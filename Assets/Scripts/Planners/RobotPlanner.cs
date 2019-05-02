@@ -82,6 +82,7 @@ namespace Planners
             
             // Get the status of the soccerball. 
             var soccerBallVisionStatus = clonedList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
+            var HomeGoalLineVisionStatus = clonedList.First(x => x.ObjectName == Settings.HomeGoalLine);
             
             if (!soccerBallVisionStatus.IsInsideVisionAngle)
                 actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
@@ -97,6 +98,9 @@ namespace Planners
             if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
                 actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 3));
 
+            if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
+                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 5));
+            
             return actionStateList;
         }
 

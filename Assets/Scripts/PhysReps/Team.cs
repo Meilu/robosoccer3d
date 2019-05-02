@@ -28,29 +28,29 @@ namespace PhysReps
            var robotPrefabSize = robotPrefab.transform.GetComponent<BoxCollider>().size;
            var robotYAxisPosition = -0.1f;
            
-//            _formationsPositionsDictionary = new Dictionary<Formation, Dictionary<int, Vector3>>
-//            {
-//                {
-//
-//                    Formation.Offensive, new Dictionary<int, Vector3>
-//                    {
-//                        {1, new Vector3(colliderBounds.x - robotPrefabSize.x, robotYAxisPosition, 0)},
-//                        {2, new Vector3(robotPrefabSize.x / 2, robotYAxisPosition, colliderBounds.z / 2 - robotPrefabSize.x / 2)}, 
-//                        {3, new Vector3(robotPrefabSize.x / 2, robotYAxisPosition,   -(colliderBounds.z / 2 - robotPrefabSize.x / 2))}
-//                    }
-//                }
-//            };
-            
             _formationsPositionsDictionary = new Dictionary<Formation, Dictionary<int, Vector3>>
             {
                 {
 
                     Formation.Offensive, new Dictionary<int, Vector3>
                     {
-                        {1, new Vector3(colliderBounds.x - robotPrefabSize.x, robotYAxisPosition, 0)}
+                        {1, new Vector3(colliderBounds.x - robotPrefabSize.x, robotYAxisPosition, 0)},
+                        {2, new Vector3(robotPrefabSize.x / 2, robotYAxisPosition, colliderBounds.z / 2 - robotPrefabSize.x / 2)}, 
+                        {3, new Vector3(robotPrefabSize.x / 2, robotYAxisPosition,   -(colliderBounds.z / 2 - robotPrefabSize.x / 2))}
                     }
                 }
             };
+            
+//            _formationsPositionsDictionary = new Dictionary<Formation, Dictionary<int, Vector3>>
+//            {
+//                {
+//
+//                    Formation.Offensive, new Dictionary<int, Vector3>
+//                    {
+//                        {1, new Vector3(colliderBounds.x - robotPrefabSize.x, robotYAxisPosition, 0)}
+//                    }
+//                }
+//            };
             
             foreach (KeyValuePair<Formation, Dictionary<int, Vector3>> positions in _formationsPositionsDictionary)
             {

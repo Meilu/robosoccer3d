@@ -27,6 +27,14 @@ namespace Sensors
                 new ObjectOfInterestVisionStatus()
                 {
                     ObjectName = Settings.OtherRobots
+                },
+                new ObjectOfInterestVisionStatus()
+                {
+                    ObjectName = Settings.AwayGoalLine
+                },
+                new ObjectOfInterestVisionStatus()
+                {
+                    ObjectName = Settings.HomeGoalLine
                 }
             };
         }
