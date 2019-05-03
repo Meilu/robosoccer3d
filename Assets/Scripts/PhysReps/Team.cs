@@ -57,7 +57,9 @@ namespace PhysReps
                 foreach (KeyValuePair<int, Vector3> positionVector in positions.Value)
                 {
                     var robot = Instantiate(robotPrefab, transform, false);
-
+                    //why does this below not work?
+                    //var teamposition = robot.GetComponent<TeamPosition>;
+                    //teamposition = TeamPosition.Attacker;
                     robot.transform.localPosition = new Vector3(positionVector.Value.x, positionVector.Value.y, positionVector.Value.z);
                 }
             }
