@@ -69,7 +69,8 @@ public enum TeamPosition
 {
     Attacker,
     Defender,
-    Keeper
+    Keeper,
+    Lazy
 }
 
 public enum RobotPropertyChangeHandlerType
