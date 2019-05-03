@@ -64,6 +64,7 @@ public enum TeamSide
     Away
 }
 
+//Logical to make an enum of TeamPosition I think?
 public enum TeamPosition
 {
     Attacker,

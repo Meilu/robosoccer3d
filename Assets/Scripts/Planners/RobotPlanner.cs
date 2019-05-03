@@ -84,8 +84,10 @@ namespace Planners
             var soccerBallVisionStatus = clonedList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
             var HomeGoalLineVisionStatus = clonedList.First(x => x.ObjectName == Settings.HomeGoalLine);
 
-
+            //placeholder teamposition
             var TeamPosition = "defender";
+
+            //if it knows the teamposition of the robot then it will execute the right plan
             switch (TeamPosition)
             {
                 case "attacker":
@@ -98,6 +100,7 @@ namespace Planners
 
             return actionStateList;
 
+            //I don't think the code should be here but I don't know how to put it somewhere else, something teampositionplan script?
             void ExecuteAttackerPlan()
             {
                 if (!soccerBallVisionStatus.IsInsideVisionAngle)
@@ -127,17 +130,11 @@ namespace Planners
                 if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
                     actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.TurnRight, 4));
             }
-
         }
 
         private bool IsVisionStillCurrent(IList<ObjectOfInterestVisionStatus> visionStatus)
         {
             return _robotVisionSensor.objectsOfInterestVisionStatus.SequenceEqual(visionStatus);
         }
-
-        
-            
-
-
-        }
+    }
 }
