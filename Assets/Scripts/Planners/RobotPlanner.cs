@@ -83,20 +83,51 @@ namespace Planners
             // Get the status of the soccerball. 
             var soccerBallVisionStatus = clonedList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
             var HomeGoalLineVisionStatus = clonedList.First(x => x.ObjectName == Settings.HomeGoalLine);
-            
-            if (!soccerBallVisionStatus.IsInsideVisionAngle)
-                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
-            
-            if (soccerBallVisionStatus.IsInsideVisionAngle)
-                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
 
-            if (soccerBallVisionStatus.IsWithinDistance)
-                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.TurnRight, 3));
 
-            if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
-                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 4));
-            
+            var TeamPosition = "defender";
+            switch (TeamPosition)
+            {
+                case "attacker":
+                    ExecuteAttackerPlan();
+                    break;
+                case "defender":
+                    ExecuteDefenderPlan();
+                    break;
+            }
+
             return actionStateList;
+
+            void ExecuteAttackerPlan()
+            {
+                if (!soccerBallVisionStatus.IsInsideVisionAngle)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
+
+                if (soccerBallVisionStatus.IsInsideVisionAngle)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
+
+                if (soccerBallVisionStatus.IsWithinDistance)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.TurnRight, 3));
+
+                if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 4));
+            }
+
+            void ExecuteDefenderPlan()
+            {
+                if (!soccerBallVisionStatus.IsInsideVisionAngle)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
+
+                if (soccerBallVisionStatus.IsInsideVisionAngle)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
+
+                if (soccerBallVisionStatus.IsWithinDistance)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.TurnRight, 3));
+
+                if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.TurnRight, 4));
+            }
+
         }
 
         private bool IsVisionStillCurrent(IList<ObjectOfInterestVisionStatus> visionStatus)
@@ -104,5 +135,9 @@ namespace Planners
             return _robotVisionSensor.objectsOfInterestVisionStatus.SequenceEqual(visionStatus);
         }
 
-    }
+        
+            
+
+
+        }
 }

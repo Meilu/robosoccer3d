@@ -22,15 +22,6 @@ public enum EventType
     MatchFinished
 }
 
-//TO DO: to do something with this?
-public enum VisionTrigger
-{
-    ballInsideVision, 
-    ballInsideShootingRange, 
-    GoalInsideVision,
-    GoalsInsideShootingRange
-}
-
 public enum RobotMotorAction
 {
     None,
@@ -73,8 +64,24 @@ public enum TeamSide
     Away
 }
 
+public enum TeamPosition
+{
+    Attacker,
+    Defender,
+    Keeper
+}
+
 public enum RobotPropertyChangeHandlerType
 {
     ObjectInsideVision,
     ObjectWithinDistance
+}
+
+//TO DO: is dit hieronder wat hierboven beter wordt gedaan?
+public enum VisionTrigger
+{
+    ballInsideVision,
+    ballInsideShootingRange,
+    GoalInsideVision,
+    GoalsInsideShootingRange
 }
