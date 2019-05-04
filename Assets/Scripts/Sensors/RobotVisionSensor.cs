@@ -12,7 +12,8 @@ namespace Sensors
     {
         [Range(0,360)]
         public float viewAngle;
-        
+        public float maxDistance = 0.5f;
+
         RobotVisionSensor()
         {
             // Initialize the list of items this robot is interested in with his visionsensor.
@@ -55,9 +56,9 @@ namespace Sensors
                 // If object not found, don't continue this iteration but go to the next.
                 if (!objectOfInterestVisionStatus.GameObjectToFind)
                     continue;
-                
-              // Update the distance and vision angle status of this object of interest.
-              objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, 1f);
+  
+                // Update the distance and vision angle status of this object of interest.
+                objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, maxDistance);
               objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectOfInterestVisionStatus.GameObjectToFind);   
             }
         }
