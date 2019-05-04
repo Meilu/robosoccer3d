@@ -6,6 +6,5 @@ namespace DataModels
     {
         public string Name { get; set; }
         public IList<Robot> Players { get; set; }
-        public Stadium Stadium { get; set; }
     }
 }

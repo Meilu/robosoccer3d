@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using DataModels;
+using Planners;
 using UnityEngine;
 
 namespace PhysReps
@@ -6,65 +9,117 @@ namespace PhysReps
     
     public class Team : MonoBehaviour
     {
-        private IList<GameObject> players;
+        private IList<Robot> _robots;
         public GameObject robotPrefab;
-        public TeamSide teamSide; 
-        
-        enum Formation
-        {
-            Offensive,
-            Defensive,
-            Neutral
-        }
-
-        private Dictionary<Formation, Dictionary<int, Vector3>> _formationsPositionsDictionary;
+       
+        private IList<FormationPosition> _formationsPositions;
         
         private void Awake()
         {
-            // Get the bounds of the team area. We can calculate positions from these bounds so that they are not screensize dependent.
-            // If we want to have them on a specific side of the field we can simply flip this team object and they wil be on the other side. really easy.
-            var colliderBounds = GetComponent<BoxCollider>().bounds.size;
-
-           var robotPrefabSize = robotPrefab.transform.GetComponent<BoxCollider>().size;
-           var robotYAxisPosition = -0.1f;
-           
-            _formationsPositionsDictionary = new Dictionary<Formation, Dictionary<int, Vector3>>
+            InitializeFormationPositions();
+            
+            // Create some robots (for now hardcoded, but in the future the player will be able to set these from the ui and add any robot he wishes :))
+            _robots = new List<Robot>()
             {
+                new Robot()
                 {
-
-                    Formation.Offensive, new Dictionary<int, Vector3>
-                    {
-                        {1, new Vector3(colliderBounds.x - robotPrefabSize.x, robotYAxisPosition, 0)},
-                        {2, new Vector3(robotPrefabSize.x / 2, robotYAxisPosition, colliderBounds.z / 2 - robotPrefabSize.x / 2)}, 
-                        {3, new Vector3(robotPrefabSize.x / 2, robotYAxisPosition,   -(colliderBounds.z / 2 - robotPrefabSize.x / 2))}
-                    }
-                }
+                    Number = 1,
+                    Name = "Terstegen",
+                    Speed = 1f,
+                    AttackPower = 5f,
+                    DefensePower = 20f,
+                    TeamPosition =  TeamPosition.Keeper
+                },
+                new Robot()
+                {
+                    Number = 2,
+                    Name = "De Ligt",
+                    Speed = 2f,
+                    AttackPower = 10f,
+                    DefensePower = 10f,
+                    TeamPosition =  TeamPosition.Midfielder
+                },
+                new Robot()
+                {
+                    Number = 3,
+                    Name = "Ronaldo",
+                    Speed = 1f,
+                    AttackPower = 30f,
+                    DefensePower = 10f,
+                    TeamPosition =  TeamPosition.Attacker
+                },
             };
             
-//            _formationsPositionsDictionary = new Dictionary<Formation, Dictionary<int, Vector3>>
-//            {
-//                {
-//
-//                    Formation.Offensive, new Dictionary<int, Vector3>
-//                    {
-//                        {1, new Vector3(colliderBounds.x - robotPrefabSize.x, robotYAxisPosition, 0)}
-//                    }
-//                }
-//            };
             
-            foreach (KeyValuePair<Formation, Dictionary<int, Vector3>> positions in _formationsPositionsDictionary)
+            foreach (var robotModel in _robots)
             {
-                foreach (KeyValuePair<int, Vector3> positionVector in positions.Value)
+                // Get the position that belongs to this robot his squad number from the formationpositionslist
+                var positionVector = _formationsPositions.First(x => x.Number == robotModel.Number).CalculatedPosition;
+                
+                var robot = Instantiate(robotPrefab, transform, false);
+                
+                // Place the robot on the correct position based on the positionvector from the formationpositions list.
+                robot.transform.localPosition = new Vector3(positionVector.x, positionVector.y, positionVector.z);
+                
+                // Now, i think this is what you wanted... Here we can now save the position of the robotprefab based on the property of the model.
+                // Because i restructured the planners and made a different planner for every teamposition type, planners now need to be added dynamically here.
+                // And because each planner already is of a specific type there maybe there is no more need to save the position also. unless we want to offcourse it is possible. 
+                // If you do see a further purpose for it i can add it if you want.
+                switch (robotModel.TeamPosition)
                 {
-                    var robot = Instantiate(robotPrefab, transform, false);
-                    //why does this below not work?
-                    //var teamposition = robot.GetComponent<TeamPosition>;
-                    //teamposition = TeamPosition.Attacker;
-                    robot.transform.localPosition = new Vector3(positionVector.Value.x, positionVector.Value.y, positionVector.Value.z);
+                    case TeamPosition.Keeper:
+                        robot.AddComponent<KeeperPlanner>();
+                        break;
+                    case TeamPosition.Midfielder:
+                        robot.AddComponent<MidfielderPlanner>();
+                        break;
+                    case TeamPosition.Defender:
+                        robot.AddComponent<DefenderPlanner>();
+                        break;
+                    case TeamPosition.Attacker:
+                        robot.AddComponent<AttackerPlanner>();
+                        break;
                 }
+                
+                // TODO: we arent doing anything with the robotModel.attackspeed, defensespeed etc :)
+                // they will need to be saved in the prefab also if we want to do something with them. 
+                // This would be the place to save those in the prefab once we start needing them.
+                // The way to do that would be like you did earlier, have a component that can hold the properties. get it with getcomponent and then set its property.
+                
             }
         }
 
+        /// <summary>
+        /// Calculate all positions for every formation we support, based on the size of our scene and our prefabs.
+        /// </summary>
+        private void InitializeFormationPositions()
+        {   
+            // Get the bounds of the team area. We can calculate positions from these bounds so that they are not screensize dependent.
+            // If we want to have them on a specific side of the field we can simply flip this team object and they wil be on the other side. really easy.
+            var colliderBounds = GetComponent<BoxCollider>().bounds.size;
+            var robotPrefabSize = robotPrefab.transform.GetComponent<BoxCollider>().size;
+            var robotYAxisPosition = -0.1f;
+           
+            _formationsPositions = new List<FormationPosition>()
+            {
+                new FormationPosition()
+                {
+                    Number = 1,
+                    CalculatedPosition = new Vector3(colliderBounds.x - robotPrefabSize.x, robotYAxisPosition, 0)
+                },
+                new FormationPosition()
+                {
+                    Number = 2,
+                    CalculatedPosition = new Vector3(robotPrefabSize.x / 2, robotYAxisPosition, colliderBounds.z / 2 - robotPrefabSize.x / 2)
+                },
+                new FormationPosition()
+                {
+                    Number = 3,
+                    CalculatedPosition =  new Vector3(robotPrefabSize.x / 2, robotYAxisPosition,   -(colliderBounds.z / 2 - robotPrefabSize.x / 2))
+                }
+            };
+        }
+        
         // If there is a canvas inside the robot, we need to reverse its scale for the awayteam because else it is flipped (doesnt matter for now but leaving this function here)
         private void FlipModeCanvasRect(GameObject robot)
         {

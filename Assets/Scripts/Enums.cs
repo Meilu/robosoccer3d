@@ -69,6 +69,7 @@ public enum TeamPosition
 {
     Attacker,
     Defender,
+    Midfielder,
     Keeper,
     Lazy
 }
@@ -86,4 +87,10 @@ public enum VisionTrigger
     ballInsideShootingRange,
     GoalInsideVision,
     GoalsInsideShootingRange
+}
+enum Formation
+{
+    Offensive,
+    Defensive,
+    Neutral
 }
