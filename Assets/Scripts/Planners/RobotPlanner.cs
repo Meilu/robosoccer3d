@@ -106,7 +106,7 @@ namespace Planners
             IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList = new List<ObjectOfInterestVisionStatus>();
 
             // Create a copy of the status for all objects of interest for the vision.
-            _robotVisionSensor.objectsOfInterestVisionStatus.ForEach(x => currentVisionSensorStatusList.Add(x.Copy()));
+            _robotVisionSensor.objectsOfInterestStatus.ForEach(x => currentVisionSensorStatusList.Add(x.Copy()));
 
             return currentVisionSensorStatusList;
         }
