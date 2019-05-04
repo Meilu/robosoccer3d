@@ -11,15 +11,27 @@ using Timer = System.Timers.Timer;
 
 namespace Planners
 {
-    public class RobotPlanner : MonoBehaviour
+    // This class is marked abstract because it has an incomplete implementation by itself,
+    // this way we enforce that it can only be used by instantiating derived classes (defender, midfielder, attacker)
+    // Basically, this class is now only intended to provide the base functionality of creating a queue etc.
+    // the logic for what actions to take will now be determined in the derived classes.
+    // please check out a defenderplan and attackerplanner class for an example
+    public abstract class RobotPlanner : MonoBehaviour
     {
         private RobotActuator _robotVisionActuator;
         private RobotVisionSensor _robotVisionSensor;
         private RobotMovementSensor _robotMovementSensor;
         
         private readonly IList<RobotActionState> _robotActionQueue = new List<RobotActionState>();
-        public TeamPosition TeamPos;
-        
+
+        // This is an abstract function definition for the executeplan function.
+        // Abstract means it will not have an implementation in this base class,
+        // but tells us that any derived classes (defenderplanner, attackerplanner etc) are enforced to implement this method.
+        // I decided to make this function abstract and have the logic inside derived classes because this way we won't have one big file that contain all executeplan logic.
+        // Hope that makes sense. Please check out one of the derived classes (defenderplanner, attackerplanner) for the implementations.
+        protected abstract IList<RobotActionState> ExecutePlan(
+            IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList);
+
         void Start()
         {
             _robotVisionActuator = transform.GetComponent<RobotActuator>();
@@ -30,19 +42,23 @@ namespace Planners
         }
 
         private void Update()
-        {            
+        {
             // Check if there are items in the queue at this moment.
             if (!_robotActionQueue.Any())
                 return;
-            
+
             // Get the first robotactionstate ordered by the highest weight first.
             var robotActionToExecute = _robotActionQueue.OrderByDescending(x => x.Weight).First();
             var activeRobotAction = _robotVisionActuator._activeRobotActionState;
-            
+
             // Before sending the new action, make sure the current one is not more important (and also still true).
             if (activeRobotAction != null && activeRobotAction.Weight > robotActionToExecute.Weight && IsVisionStillCurrent(activeRobotAction.VisionStatusOnCreate))
                 // The current vision is still current and also more important, dont continue.
                 return;
+
+            // Save the state of the current vision on the action before we execute it :)
+            // This way we have a small history of the state he had before we transitioned to it's new state (maybe come in handy)
+            robotActionToExecute.VisionStatusOnCreate = GetCurrentVisionStatusList();
             
             // Execute the dequeued action.
             _robotVisionActuator.ExecuteRobotAction(robotActionToExecute);
@@ -60,7 +76,7 @@ namespace Planners
                 objectOfInterestVisionStatus.IsWithinDistanceChangeEvent += ObjectOfInterestPropertyChangeHandler;
             }
         }
-        
+
         /// <summary>
         /// This is the event handler that is called whenever a property of an object of interest changes.
         /// Here we will determine the action we need to take based on the new state of the visionstatus :)
@@ -68,85 +84,31 @@ namespace Planners
         private void ObjectOfInterestPropertyChangeHandler(object sender, EventArgs args)
         {
             // Check what state belongs to our current vision.
-            var robotActionStateForCurrentVision = DetermineRobotActionStateForCurrentVision();
-            
+            var robotActionStatesForCurrentVision = DetermineRobotActionStateForCurrentVision();
+
             // Clear the current queue and add all new items based on the new vision.
             _robotActionQueue.Clear();
-            robotActionStateForCurrentVision.ForEach(x => _robotActionQueue.Add(x));
-        }   
+            foreach (var robotActionState in robotActionStatesForCurrentVision)
+            {
+                _robotActionQueue.Add(robotActionState);
+            }
+        }
 
-        private List<RobotActionState> DetermineRobotActionStateForCurrentVision()
+        private IList<RobotActionState> DetermineRobotActionStateForCurrentVision()
         {
-            IList<ObjectOfInterestVisionStatus> clonedList = new List<ObjectOfInterestVisionStatus>();
-            var actionStateList = new List<RobotActionState>();
+            var currentVisionSensorStatusList = this.GetCurrentVisionStatusList();
             
-            // Clone the current vision so that we can save it's state for any states created
-            _robotVisionSensor.objectsOfInterestStatus.ForEach(x => clonedList.Add(x.Copy()));
-            var activeState = _robotVisionActuator._activeRobotActionState;
-            
-            // Get the status of the soccerball. 
-            var soccerBallVisionStatus = clonedList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
-            var HomeGoalLineVisionStatus = clonedList.First(x => x.ObjectName == Settings.HomeGoalLine);
+            return ExecutePlan(currentVisionSensorStatusList);
+        }
 
-            //if it knows the teamposition of the robot then it will execute the right plan
-            switch (TeamPos) 
-            {
-                case TeamPosition.Attacker:
-                    ExecuteAttackerPlan();
-                    break;
-                case TeamPosition.Defender:
-                    ExecuteDefenderPlan();
-                    break;
-                case TeamPosition.Lazy:
-                    ExecuteLazyPlan();
-                    break;
-            }
+        private IList<ObjectOfInterestVisionStatus> GetCurrentVisionStatusList()
+        {
+            IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList = new List<ObjectOfInterestVisionStatus>();
 
-            return actionStateList;
+            // Create a copy of the status for all objects of interest for the vision.
+            _robotVisionSensor.objectsOfInterestStatus.ForEach(x => currentVisionSensorStatusList.Add(x.Copy()));
 
-            //I don't think the code should be here but I don't know how to put it somewhere else, something teampositionplan script?
-            void ExecuteAttackerPlan()
-            {
-                if (!soccerBallVisionStatus.IsInsideVisionAngle)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
-
-                if (soccerBallVisionStatus.IsInsideVisionAngle)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
-
-                if (soccerBallVisionStatus.IsWithinDistance)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.TurnRight, 3));
-
-                if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 4));
-            }
-
-            void ExecuteDefenderPlan()
-            {
-                if (!soccerBallVisionStatus.IsInsideVisionAngle)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
-
-                if (soccerBallVisionStatus.IsInsideVisionAngle)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
-
-                if (soccerBallVisionStatus.IsWithinDistance)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.TurnRight, 3));
-
-                if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.TurnRight, 4));
-            }
-
-            void ExecuteLazyPlan()
-            {
-                if (!soccerBallVisionStatus.IsInsideVisionAngle)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.TurnLeft, 1));
-
-                if (soccerBallVisionStatus.IsInsideVisionAngle)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.TurnLeft, 1));
-
-                if (soccerBallVisionStatus.IsWithinDistance)
-                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveBackward, RobotWheelAction.None, 2));
-
-            }
+            return currentVisionSensorStatusList;
         }
         
         private bool IsVisionStillCurrent(IList<ObjectOfInterestVisionStatus> visionStatus)
