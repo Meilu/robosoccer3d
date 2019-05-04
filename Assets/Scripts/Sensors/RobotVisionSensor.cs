@@ -8,17 +8,16 @@ using UnityEngine.Events;
 
 namespace Sensors
 {
-    public class RobotVisionSensor : MonoBehaviour
+    public class RobotVisionSensor : RobotSensor<ObjectOfInterestVisionStatus>
     {
         [Range(0,360)]
         public float viewAngle;
-
-        [HideInInspector] public List<ObjectOfInterestVisionStatus> objectsOfInterestVisionStatus;
+        
         RobotVisionSensor()
         {
             // Initialize the list of items this robot is interested in with his visionsensor.
             // For now these are hardcoded, but in the future we may want to pass these dynamically because each robot may be interested in different objects.
-            objectsOfInterestVisionStatus = new List<ObjectOfInterestVisionStatus>() {
+            objectsOfInterestStatus = new List<ObjectOfInterestVisionStatus>() {
                 new ObjectOfInterestVisionStatus()
                 {
                     ObjectName = Settings.SoccerBallObjectName
@@ -38,30 +37,20 @@ namespace Sensors
                 }
             };
         }
-
+        
         private void Start()
         {
-            // After everything is started up, first loop through the objectstofind list and find and set all gameobjects needed for it (so we dont have to keep finding them in the update loop)
-            foreach (var objectOfInterestVisionStatus in objectsOfInterestVisionStatus)
+            foreach (var objectOfInterestVisionStatus in objectsOfInterestStatus)
             {
-                // Find and save the gameobject. For now this supports only one gameobject. If this objectName is used for multiple gameobjects it will only check the first one.
-                // If you want to check multiple objects you have to give each object an unique name and add them to the list above on line 21.
                 objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
             }
         }
-
-        private void FixedUpdate()
-        {
-            // Constantly check the statuses of the object of interest list.
-            UpdateObjectsOfInterestStatuses(); 
-        }
-
         /// <summary>
         /// Will continuously check all properties of the objects of interest we are interested in and update their status.
         /// </summary>
-        private void UpdateObjectsOfInterestStatuses()
+        protected override void UpdateObjectsOfInterestStatuses()
         {
-            foreach (var objectOfInterestVisionStatus in objectsOfInterestVisionStatus)
+            foreach (var objectOfInterestVisionStatus in objectsOfInterestStatus)
             {
                 // If object not found, don't continue this iteration but go to the next.
                 if (!objectOfInterestVisionStatus.GameObjectToFind)

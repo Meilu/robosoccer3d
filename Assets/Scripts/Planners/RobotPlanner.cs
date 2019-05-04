@@ -20,6 +20,8 @@ namespace Planners
     {
         private RobotActuator _robotVisionActuator;
         private RobotVisionSensor _robotVisionSensor;
+        private RobotMovementSensor _robotMovementSensor;
+        
         private readonly IList<RobotActionState> _robotActionQueue = new List<RobotActionState>();
 
         // This is an abstract function definition for the executeplan function.
@@ -34,7 +36,8 @@ namespace Planners
         {
             _robotVisionActuator = transform.GetComponent<RobotActuator>();
             _robotVisionSensor = transform.Find(Settings.RobotFieldOfViewObjectName).GetComponent<RobotVisionSensor>();
-
+            _robotMovementSensor = transform.Find(Settings.RobotMovementStatusObjectName).GetComponent<RobotMovementSensor>();
+            
             InitializeObjectsOfInterestSubscriptions();
         }
 
@@ -67,7 +70,7 @@ namespace Planners
         private void InitializeObjectsOfInterestSubscriptions()
         {
             // Subscribe to the events of the objects of interest.
-            foreach (var objectOfInterestVisionStatus in _robotVisionSensor.objectsOfInterestVisionStatus)
+            foreach (var objectOfInterestVisionStatus in _robotVisionSensor.objectsOfInterestStatus)
             {
                 objectOfInterestVisionStatus.IsInsideVisionAngleChangeEvent += ObjectOfInterestPropertyChangeHandler;
                 objectOfInterestVisionStatus.IsWithinDistanceChangeEvent += ObjectOfInterestPropertyChangeHandler;
@@ -110,7 +113,7 @@ namespace Planners
         
         private bool IsVisionStillCurrent(IList<ObjectOfInterestVisionStatus> visionStatus)
         {
-            return _robotVisionSensor.objectsOfInterestVisionStatus.SequenceEqual(visionStatus);
+            return _robotVisionSensor.objectsOfInterestStatus.SequenceEqual(visionStatus);
         }
     }
 }
