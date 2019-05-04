@@ -337,10 +337,10 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 1, g: 0.95493674, b: 0.43867922, a: 1}
+  m_Color: {r: 1, g: 0.75679195, b: 0, a: 1}
   m_Intensity: 0.65
   m_Range: 10
-  m_SpotAngle: 30
+  m_SpotAngle: 95.6
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -373,7 +373,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 170076733}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 2.16, y: 3, z: -1.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1706,6 +1706,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923776847536730295, guid: 6a96727162d36904286f925c1b5a5e77,
+        type: 3}
+      propertyPath: teamSide
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a96727162d36904286f925c1b5a5e77, type: 3}
