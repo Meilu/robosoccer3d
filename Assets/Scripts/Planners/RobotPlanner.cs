@@ -18,6 +18,7 @@ namespace Planners
         private RobotMovementSensor _robotMovementSensor;
         
         private readonly IList<RobotActionState> _robotActionQueue = new List<RobotActionState>();
+        public TeamPosition TeamPos;
         
         void Start()
         {
@@ -72,7 +73,7 @@ namespace Planners
             // Clear the current queue and add all new items based on the new vision.
             _robotActionQueue.Clear();
             robotActionStateForCurrentVision.ForEach(x => _robotActionQueue.Add(x));
-        }
+        }   
 
         private List<RobotActionState> DetermineRobotActionStateForCurrentVision()
         {
@@ -86,23 +87,66 @@ namespace Planners
             // Get the status of the soccerball. 
             var soccerBallVisionStatus = clonedList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
             var HomeGoalLineVisionStatus = clonedList.First(x => x.ObjectName == Settings.HomeGoalLine);
-            
-            if (!soccerBallVisionStatus.IsInsideVisionAngle)
-                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
-            
-            if (soccerBallVisionStatus.IsInsideVisionAngle && !soccerBallVisionStatus.IsWithinDistance)
-                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
-            
-            if (soccerBallVisionStatus.IsWithinDistance)
-                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.None, 4));
-                
-            if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
-                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 3));
 
-            if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
-                actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 5));
-            
+            //if it knows the teamposition of the robot then it will execute the right plan
+            switch (TeamPos) 
+            {
+                case TeamPosition.Attacker:
+                    ExecuteAttackerPlan();
+                    break;
+                case TeamPosition.Defender:
+                    ExecuteDefenderPlan();
+                    break;
+                case TeamPosition.Lazy:
+                    ExecuteLazyPlan();
+                    break;
+            }
+
             return actionStateList;
+
+            //I don't think the code should be here but I don't know how to put it somewhere else, something teampositionplan script?
+            void ExecuteAttackerPlan()
+            {
+                if (!soccerBallVisionStatus.IsInsideVisionAngle)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
+
+                if (soccerBallVisionStatus.IsInsideVisionAngle)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
+
+                if (soccerBallVisionStatus.IsWithinDistance)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.TurnRight, 3));
+
+                if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 4));
+            }
+
+            void ExecuteDefenderPlan()
+            {
+                if (!soccerBallVisionStatus.IsInsideVisionAngle)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
+
+                if (soccerBallVisionStatus.IsInsideVisionAngle)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
+
+                if (soccerBallVisionStatus.IsWithinDistance)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.TurnRight, 3));
+
+                if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.TurnRight, 4));
+            }
+
+            void ExecuteLazyPlan()
+            {
+                if (!soccerBallVisionStatus.IsInsideVisionAngle)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.TurnLeft, 1));
+
+                if (soccerBallVisionStatus.IsInsideVisionAngle)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.TurnLeft, 1));
+
+                if (soccerBallVisionStatus.IsWithinDistance)
+                    actionStateList.Add(new RobotActionState(clonedList, RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveBackward, RobotWheelAction.None, 2));
+
+            }
         }
         
         private bool IsVisionStillCurrent(IList<ObjectOfInterestVisionStatus> visionStatus)
