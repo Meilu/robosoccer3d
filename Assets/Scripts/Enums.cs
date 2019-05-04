@@ -79,6 +79,25 @@ public enum RobotPropertyChangeHandlerType
     ObjectWithinDistance
 }
 
+public enum ObjectMovementSpeed
+{
+    None,
+    Still,
+    Slow,
+    Medium,
+    Fast,
+    LightSpeed
+}
+
+public enum ObjectMovementDirection
+{
+    None,
+    Forward,
+    Backwards,
+    Left,
+    Right
+}
+
 //TO DO: is dit hieronder wat hierboven beter wordt gedaan?
 public enum VisionTrigger
 {
