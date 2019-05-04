@@ -10,7 +10,9 @@ namespace Planners
         protected override IList<RobotActionState> ExecutePlan(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
         {
             var actionStateList = new List<RobotActionState>();
-            var soccerBallVisionStatus = currentVisionSensorStatusList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
+            var soccerBallVisionStatus = GetSoccerBallVisionStatus(currentVisionSensorStatusList);
+            var ownGoalVisionStatus = GetOwnGoalVisionStatus(currentVisionSensorStatusList);
+            var awayGoalVisionStatus = GetOwnGoalVisionStatus(currentVisionSensorStatusList);
 
             if (!soccerBallVisionStatus.IsInsideVisionAngle)
                 actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
@@ -20,10 +22,14 @@ namespace Planners
     
             if (soccerBallVisionStatus.IsWithinDistance)
                 actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.TurnRight, 3));
-    
-//            if (HomeGoalLineVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
-//                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.TurnRight, 4));
+
+            if (ownGoalVisionStatus.IsInsideVisionAngle)
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.None, 4));
+
+            if (awayGoalVisionStatus.IsInsideVisionAngle)
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.None, 4));
             
+
             return actionStateList;
         }
     }

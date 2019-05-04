@@ -89,9 +89,9 @@ namespace Sensors
         /// Checks whether the object is inside the given max distance.
         /// </summary>
         /// <param name="objectToFind">The object </param>
-        /// <param name="maxDistance"></param>
+        /// <param name="maxDistanceToCheck"></param>
         /// <returns></returns>
-        private bool IsObjectWithinDistance(GameObject objectToFind, float maxDistance)
+        private bool IsObjectWithinDistance(GameObject objectToFind, float maxDistanceToCheck)
         {
             if (!objectToFind)
                 return false;
@@ -100,7 +100,7 @@ namespace Sensors
             var robotObjectPosition = transform.parent.position;
             
             // Check whether the object is within the given max distance.
-            return Vector3.Distance(objectToFind.transform.position, robotObjectPosition) < maxDistance;
+            return Vector3.Distance(objectToFind.transform.position, robotObjectPosition) < maxDistanceToCheck;
         }
     }
 }
