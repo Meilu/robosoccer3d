@@ -61,6 +61,7 @@ namespace PhysReps
                     //var teamposition = robot.GetComponent<TeamPosition>;
                     //teamposition = TeamPosition.Attacker;
                     robot.transform.localPosition = new Vector3(positionVector.Value.x, positionVector.Value.y, positionVector.Value.z);
+                    return;
                 }
             }
         }

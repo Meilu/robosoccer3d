@@ -15,6 +15,8 @@ namespace Planners
     {
         private RobotActuator _robotVisionActuator;
         private RobotVisionSensor _robotVisionSensor;
+        private RobotMovementSensor _robotMovementSensor;
+        
         private readonly IList<RobotActionState> _robotActionQueue = new List<RobotActionState>();
         public TeamPosition TeamPos;
         
@@ -22,6 +24,7 @@ namespace Planners
         {
             _robotVisionActuator = transform.GetComponent<RobotActuator>();
             _robotVisionSensor = transform.Find(Settings.RobotFieldOfViewObjectName).GetComponent<RobotVisionSensor>();
+            _robotMovementSensor = transform.Find(Settings.RobotMovementStatusObjectName).GetComponent<RobotMovementSensor>();
             
             InitializeObjectsOfInterestSubscriptions();
         }
@@ -33,7 +36,7 @@ namespace Planners
                 return;
             
             // Get the first robotactionstate ordered by the highest weight first.
-            var robotActionToExecute = _robotActionQueue.OrderByDescending(x => x.Weight).FirstOrDefault();
+            var robotActionToExecute = _robotActionQueue.OrderByDescending(x => x.Weight).First();
             var activeRobotAction = _robotVisionActuator._activeRobotActionState;
             
             // Before sending the new action, make sure the current one is not more important (and also still true).
@@ -51,7 +54,7 @@ namespace Planners
         private void InitializeObjectsOfInterestSubscriptions()
         {
             // Subscribe to the events of the objects of interest.
-            foreach (var objectOfInterestVisionStatus in _robotVisionSensor.objectsOfInterestVisionStatus)
+            foreach (var objectOfInterestVisionStatus in _robotVisionSensor.objectsOfInterestStatus)
             {
                 objectOfInterestVisionStatus.IsInsideVisionAngleChangeEvent += ObjectOfInterestPropertyChangeHandler;
                 objectOfInterestVisionStatus.IsWithinDistanceChangeEvent += ObjectOfInterestPropertyChangeHandler;
@@ -78,7 +81,7 @@ namespace Planners
             var actionStateList = new List<RobotActionState>();
             
             // Clone the current vision so that we can save it's state for any states created
-            _robotVisionSensor.objectsOfInterestVisionStatus.ForEach(x => clonedList.Add(x.Copy()));
+            _robotVisionSensor.objectsOfInterestStatus.ForEach(x => clonedList.Add(x.Copy()));
             var activeState = _robotVisionActuator._activeRobotActionState;
             
             // Get the status of the soccerball. 
@@ -145,10 +148,10 @@ namespace Planners
 
             }
         }
-
+        
         private bool IsVisionStillCurrent(IList<ObjectOfInterestVisionStatus> visionStatus)
         {
-            return _robotVisionSensor.objectsOfInterestVisionStatus.SequenceEqual(visionStatus);
+            return _robotVisionSensor.objectsOfInterestStatus.SequenceEqual(visionStatus);
         }
     }
 }
