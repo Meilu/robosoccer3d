@@ -79,37 +79,37 @@ namespace Actuators
 
         private void MoveRight()
         {      
-            _rigidbody.velocity = transform.right * 90.0f * Time.deltaTime;
+            _rigidbody.velocity = transform.right * 100.0f * Time.deltaTime;
         }
 
         private void MoveLeft()
         {
-            _rigidbody.velocity = -transform.right * 90.0f * Time.deltaTime;
+            _rigidbody.velocity = -transform.right * 100.0f * Time.deltaTime;
         }
 
         private void MoveForward()
         {
-            _rigidbody.velocity = transform.forward * 90.0f * Time.deltaTime;
+            _rigidbody.velocity = transform.forward * 100.0f * Time.deltaTime;
         }
         
         private void BoostForward()
         {
-            _rigidbody.velocity = transform.forward * 150.0f * Time.deltaTime;
+            _rigidbody.velocity = transform.forward * 120.0f * Time.deltaTime;
         }
 
         private void MoveBackward()
         {
-            _rigidbody.velocity = -transform.forward * 90.0f * Time.deltaTime;
+            _rigidbody.velocity = -transform.forward * 100.0f * Time.deltaTime;
         }
 
         private void TurnRight()
         {
-            transform.Rotate(Vector3.up * (100.0f * Time.deltaTime));
+            transform.Rotate(Vector3.up * (120.0f * Time.deltaTime));
         }
 
         private void TurnLeft()
         {
-            transform.Rotate(Vector3.up * (-100.0f * Time.deltaTime));
+            transform.Rotate(Vector3.up * (-120.0f * Time.deltaTime));
         }
         
         private void KickForward()
