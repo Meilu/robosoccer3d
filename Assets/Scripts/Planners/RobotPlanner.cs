@@ -39,6 +39,9 @@ namespace Planners
             _robotMovementSensor = transform.Find(Settings.RobotMovementStatusObjectName).GetComponent<RobotMovementSensor>();
             
             InitializeObjectsOfInterestSubscriptions();
+            
+            // Always start with a default action :)
+            DetermineRobotActionForCurrentSensors();
         }
 
         private void Update()
@@ -83,6 +86,11 @@ namespace Planners
         /// </summary>
         private void ObjectOfInterestPropertyChangeHandler(object sender, EventArgs args)
         {
+            DetermineRobotActionForCurrentSensors();
+        }
+
+        private void DetermineRobotActionForCurrentSensors()
+        {
             // Check what state belongs to our current vision.
             var robotActionStatesForCurrentVision = DetermineRobotActionStateForCurrentVision();
 
@@ -93,10 +101,10 @@ namespace Planners
                 _robotActionQueue.Add(robotActionState);
             }
         }
-
+        
         private IList<RobotActionState> DetermineRobotActionStateForCurrentVision()
         {
-            var currentVisionSensorStatusList = this.GetCurrentVisionStatusList();
+            var currentVisionSensorStatusList = GetCurrentVisionStatusList();
             
             return ExecutePlan(currentVisionSensorStatusList);
         }
