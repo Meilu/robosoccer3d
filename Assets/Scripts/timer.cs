@@ -46,11 +46,11 @@ public class timer : MonoBehaviour
 
         string minutesDisplay = "0";
         string secondsDisplay = "0";
-        if(minutes < 10) {
-            minutesDisplay = "0" + minutes;
+        if(minutes < 100) {
+            minutesDisplay = ""+ minutes;
         }
-        if(seconds < 10) {
-            secondsDisplay = "0" + Mathf.RoundToInt(seconds).ToString();
+        if(seconds < 100) {
+            secondsDisplay = "" + Mathf.RoundToInt(seconds).ToString();
         }
 
         _textComponent.text = minutesDisplay + ":" + secondsDisplay;
