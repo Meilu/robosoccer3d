@@ -16,17 +16,30 @@ namespace Planners
             
             if (!soccerBallVisionStatus.IsInsideVisionAngle)
                 actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
-            
-            if (soccerBallVisionStatus.IsInsideVisionAngle)
-                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
-            
-            if (soccerBallVisionStatus.IsWithinDistance)
-                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveLeft, RobotWheelAction.TurnRight, 3));
 
-            if (ownGoalVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
+            if (soccerBallVisionStatus.IsInsideVisionAngle && !soccerBallVisionStatus.IsWithinDistance)
+            {
+                print("ball not within distance but in angle");
+
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
+            }
+
+            // Look for the goal when we have the ball and it's not in our vision.
+            if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance && !awayGoalVisionStatus.IsInsideVisionAngle)
+            {
+                print("goal not inside vision and have ball");
+
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnRight, 1));
+            }
+
+            // Move towards the goal when it's in our vision and we have the ball
+            if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance && awayGoalVisionStatus.IsInsideVisionAngle)
+            {
+                print("goal inside vision and have ball");
+
                 actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 4));
-                
-            
+            }
+
             return actionStateList;
         }
     }

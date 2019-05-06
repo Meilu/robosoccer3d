@@ -28,26 +28,8 @@ namespace PhysReps
                     Speed = 1f,
                     AttackPower = 5f,
                     DefensePower = 20f,
-                    TeamPosition =  TeamPosition.Keeper
-                },
-                new Robot()
-                {
-                    Number = 2,
-                    Name = "De Ligt",
-                    Speed = 2f,
-                    AttackPower = 10f,
-                    DefensePower = 10f,
-                    TeamPosition =  TeamPosition.Midfielder
-                },
-                new Robot()
-                {
-                    Number = 3,
-                    Name = "Ronaldo",
-                    Speed = 1f,
-                    AttackPower = 30f,
-                    DefensePower = 10f,
                     TeamPosition =  TeamPosition.Attacker
-                },
+                }
             };
             
             
