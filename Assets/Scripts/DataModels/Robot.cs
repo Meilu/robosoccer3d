@@ -10,7 +10,6 @@ namespace DataModels
         // I have implemented it in the team class now. Robot prefabs will now be created based on the settings of a list of this class
         // Check out team.cs :)
         public TeamPosition TeamPosition { get; set; }
-
         public float AttackPower { get; set; }
         public float DefensePower { get; set; }
         public float Speed { get; set; }

@@ -7,6 +7,7 @@ using DataModels;
 using RobotActionStates;
 using Sensors;
 using UnityEngine;
+using Team = PhysReps.Team;
 using Timer = System.Timers.Timer;
 
 namespace Planners
@@ -22,8 +23,11 @@ namespace Planners
         private RobotVisionSensor _robotVisionSensor;
         private RobotMovementSensor _robotMovementSensor;
         
+        // This holds the properties for this robot from the robotmodel. We can read the attack/defense speed etc from this model.
+        public Robot RobotModel { get; set; }
+        
         private readonly IList<RobotActionState> _robotActionQueue = new List<RobotActionState>();
-
+        
         // This is an abstract function definition for the executeplan function.
         // Abstract means it will not have an implementation in this base class,
         // but tells us that any derived classes (defenderplanner, attackerplanner etc) are enforced to implement this method.
@@ -123,5 +127,37 @@ namespace Planners
         {
             return _robotVisionSensor.objectsOfInterestStatus.SequenceEqual(visionStatus);
         }
+
+        /// <summary>
+        /// // Gets the teamside property that has been set on the parent this robot was added to so we know what teamside this robot belongs to.
+        /// </summary>
+        /// <returns></returns>
+        protected TeamSide GetTeamSide()
+        {
+            return transform.parent.GetComponent<Team>().teamSide;
+        }
+
+        protected string GetOwnGoalName()
+        {
+            return GetTeamSide() == TeamSide.Home ? Settings.HomeGoalLine : Settings.AwayGoalLine;
+        }
+        
+        protected string GetAwayGoalName()
+        {
+            return GetTeamSide() == TeamSide.Home ? Settings.AwayGoalLine : Settings.HomeGoalLine;
+        }
+        protected ObjectOfInterestVisionStatus GetOwnGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
+        {
+            return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetOwnGoalName());
+        }
+        protected ObjectOfInterestVisionStatus GetAwayGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
+        {
+            return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetAwayGoalName());
+        }
+        protected ObjectOfInterestVisionStatus GetSoccerBallVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
+        {
+            return currentVisionSensorStatusList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
+        }
+        
     }
 }

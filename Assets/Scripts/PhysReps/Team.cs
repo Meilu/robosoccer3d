@@ -11,7 +11,7 @@ namespace PhysReps
     {
         private IList<Robot> _robots;
         public GameObject robotPrefab;
-       
+        public TeamSide teamSide;
         private IList<FormationPosition> _formationsPositions;
         
         private void Awake()
@@ -65,30 +65,36 @@ namespace PhysReps
                 // Because i restructured the planners and made a different planner for every teamposition type, planners now need to be added dynamically here.
                 // And because each planner already is of a specific type there maybe there is no more need to save the position also. unless we want to offcourse it is possible. 
                 // If you do see a further purpose for it i can add it if you want.
-                switch (robotModel.TeamPosition)
-                {
-                    case TeamPosition.Keeper:
-                        robot.AddComponent<KeeperPlanner>();
-                        break;
-                    case TeamPosition.Midfielder:
-                        robot.AddComponent<MidfielderPlanner>();
-                        break;
-                    case TeamPosition.Defender:
-                        robot.AddComponent<DefenderPlanner>();
-                        break;
-                    case TeamPosition.Attacker:
-                        robot.AddComponent<AttackerPlanner>();
-                        break;
-                }
+
+                RobotPlanner plannerComponent = AddPlannerComponent(robotModel, robot);
                 
+                // Save all of the properties of the robotmodel onto the prefab, so we can access them during the game if needed:)
+                plannerComponent.RobotModel = robotModel;
+
                 // TODO: we arent doing anything with the robotModel.attackspeed, defensespeed etc :)
                 // they will need to be saved in the prefab also if we want to do something with them. 
                 // This would be the place to save those in the prefab once we start needing them.
                 // The way to do that would be like you did earlier, have a component that can hold the properties. get it with getcomponent and then set its property.
-                
             }
         }
 
+        private RobotPlanner AddPlannerComponent(Robot robotModel, GameObject robotObject)
+        {
+            switch (robotModel.TeamPosition)
+            {
+                case TeamPosition.Keeper:
+                    return robotObject.AddComponent<KeeperPlanner>();
+                case TeamPosition.Midfielder:
+                   return robotObject.AddComponent<MidfielderPlanner>();
+                case TeamPosition.Defender:
+                    return robotObject.AddComponent<DefenderPlanner>();
+                case TeamPosition.Attacker:
+                    return robotObject.AddComponent<AttackerPlanner>();
+                default:
+                    return null;
+            }
+        }
+        
         /// <summary>
         /// Calculate all positions for every formation we support, based on the size of our scene and our prefabs.
         /// </summary>
