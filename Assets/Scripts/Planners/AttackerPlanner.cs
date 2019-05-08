@@ -13,9 +13,12 @@ namespace Planners
             var soccerBallVisionStatus = GetSoccerBallVisionStatus(currentVisionSensorStatusList);
             var ownGoalVisionStatus = GetOwnGoalVisionStatus(currentVisionSensorStatusList);
             var awayGoalVisionStatus = GetAwayGoalVisionStatus(currentVisionSensorStatusList);
-            
+
             if (!soccerBallVisionStatus.IsInsideVisionAngle)
+            {
+                print("Can't see ball");
                 actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
+            }
 
             if (soccerBallVisionStatus.IsInsideVisionAngle && !soccerBallVisionStatus.IsWithinDistance)
             {
@@ -25,15 +28,15 @@ namespace Planners
             }
 
             // Look for the goal when we have the ball and it's not in our vision.
-            if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance && !awayGoalVisionStatus.IsInsideVisionAngle)
+            if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
             {
                 print("goal not inside vision and have ball");
 
-                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnRight, 1));
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnRight, 3));
             }
 
             // Move towards the goal when it's in our vision and we have the ball
-            if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance && awayGoalVisionStatus.IsInsideVisionAngle)
+            if (soccerBallVisionStatus.IsWithinDistance && awayGoalVisionStatus.IsInsideVisionAngle)
             {
                 print("goal inside vision and have ball");
 
