@@ -326,7 +326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8034128419642399303}
   - component: {fileID: 8034128419642399302}
-  - component: {fileID: 5728013141294679827}
+  - component: {fileID: 2965592130540930576}
   m_Layer: 0
   m_Name: robotFieldOfView
   m_TagString: Untagged
@@ -360,9 +360,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1f085abdbadfc44a12910ce8df7247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewAngle: 37.8
+  viewAngle: 24
   maxDistance: 0.3
---- !u!114 &5728013141294679827
+--- !u!114 &2965592130540930576
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

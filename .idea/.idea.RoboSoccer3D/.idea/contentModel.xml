@@ -12,13 +12,11 @@
             <e p="RobotActuator.cs" t="Include" />
           </e>
           <e p="DataModels" t="Include">
-            <e p="Ball.cs" t="Include" />
-            <e p="Match.cs" t="Include" />
+            <e p="FormationPosition.cs" t="Include" />
             <e p="ObjectOfInterestMovementStatus.cs" t="Include" />
             <e p="ObjectOfInterestStatus.cs" t="Include" />
             <e p="ObjectOfInterestVisionStatus.cs" t="Include" />
             <e p="Robot.cs" t="Include" />
-            <e p="Stadium.cs" t="Include" />
             <e p="Team.cs" t="Include" />
           </e>
           <e p="DebugScripts" t="Include">
@@ -34,6 +32,11 @@
             <e p="Team.cs" t="Include" />
           </e>
           <e p="Planners" t="Include">
+            <e p="AttackerPlanner.cs" t="Include" />
+            <e p="DefenderPlanner.cs" t="Include" />
+            <e p="KeeperPlanner.cs" t="Include" />
+            <e p="LazyPlanner.cs" t="Include" />
+            <e p="MidfielderPlanner.cs" t="Include" />
             <e p="RobotPlanner.cs" t="Include" />
           </e>
           <e p="RobotActionStates" t="Include">

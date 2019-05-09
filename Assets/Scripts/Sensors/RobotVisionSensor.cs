@@ -10,7 +10,7 @@ namespace Sensors
 {
     public class RobotVisionSensor : RobotSensor<ObjectOfInterestVisionStatus>
     {
-        [Range(0,360)]
+        [UnityEngine.Range(0,360)]
         public float viewAngle;
         public float maxDistance = 0.5f;
 
@@ -80,10 +80,42 @@ namespace Sensors
             
             // Get the direction to the object
             var directionToObject = (objectToFind.transform.position - robotObjectPosition);
-
+            
             // Calculate the angle to the object and check if it's inside our viewAngle.
-            return Vector3.Angle(currentTransform.forward, directionToObject) < viewAngle / 2;
+            var isInAngle = Vector3.Angle(currentTransform.forward, directionToObject) < viewAngle / 2;
+
+            // If the object is already inside of our viewangle, just return immediately, else check with raycasts.
+            if (isInAngle)
+                return true;
+            
+            Vector3 rayPosition = new Vector3(robotObjectPosition.x, currentTransform.parent.position.y, robotObjectPosition.z);
+            Vector3 leftRayRotation = Quaternion.AngleAxis(-viewAngle, currentTransform.parent.up) * currentTransform.parent.forward;
+            Vector3 rightRayRotation = Quaternion.AngleAxis(viewAngle, currentTransform.parent.up) * currentTransform.parent.forward;
+
+            var rays = new List<Ray>()
+            {
+                new Ray(rayPosition, transform.forward),
+                new Ray(rayPosition, leftRayRotation),
+                new Ray(rayPosition, rightRayRotation)
+            };
+
+            foreach (var ray in rays)
+            {
+                if (!Physics.Raycast(ray, out var hit))
+                    continue;
+                
+                // If this collider hit the object we were looking for
+                if (hit.collider.name == objectToFind.name)
+                {
+                    print(objectToFind.name + " found with raycast");
+                    return true;
+                }
+            }
+
+            // The raycasts also did not return any hits for the object we were looking for, so return false.
+            return false;
         }
+     
 
         /// <summary>
         /// Checks whether the object is inside the given max distance.
