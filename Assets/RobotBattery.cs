@@ -10,22 +10,23 @@ public class RobotBattery : MonoBehaviour
     private float BatteryPercentage = 1.0f;
     private const float drain = 0.2f;
     private const float recharge = 0.1f;
-    private Image _BatteryImage; 
-
-    //stub
-    public bool Boost = true;
+    private Image _BatteryImage;
+    private RobotMotorAction _RobotMotorAction;
+    private bool Boost = false;
     
-
-
     // Start is called before the first frame update
     void Start()
     {
         _BatteryImage = GetComponent<Image>();
+        _RobotMotorAction = GetComponentInParent<RobotMotorAction>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //This shit is supposed to check whether the robot is boosting or not....
+        Boost = (_RobotMotorAction == RobotMotorAction.BoostForward) ? true : false;
+
         if (Boost && BatteryPercentage > 0.01)
         {
             BatteryPercentage -= drain * Time.deltaTime;
