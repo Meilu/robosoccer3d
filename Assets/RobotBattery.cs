@@ -21,7 +21,7 @@ public class RobotBattery : MonoBehaviour
     public Color BatteryEmptyColor;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _RobotActuator = GetComponentInParent<RobotActuator>();
         _BatteryColor = gameObject.GetComponent<Renderer>().material.color = BatteryFullColor;
@@ -30,8 +30,11 @@ public class RobotBattery : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_RobotActuator._activeRobotActionState == null)
+            return;
+        
         //Checks whether Robot is boosting. For now only boosting drains the battery
-        Boost = (_RobotActuator._activeRobotActionState.MotorAction == RobotMotorAction.BoostForward) ? true : false;
+        Boost = _RobotActuator._activeRobotActionState.MotorAction == RobotMotorAction.BoostForward;
 
         //Gradually changes it's battery color. 
         _BatteryColor = gameObject.GetComponent<Renderer>().material.color = Color.Lerp(BatteryEmptyColor, BatteryFullColor, BatteryPercentage);
