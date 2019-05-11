@@ -28,24 +28,6 @@ namespace PhysReps
                     Speed = 1f,
                     AttackPower = 5f,
                     DefensePower = 20f,
-                    TeamPosition =  TeamPosition.Defender
-                },
-                new Robot()
-                {
-                    Number = 2,
-                    Name = "Beta",
-                    Speed = 1f,
-                    AttackPower = 5f,
-                    DefensePower = 20f,
-                    TeamPosition =  TeamPosition.Attacker
-                },
-                new Robot()
-                {
-                    Number = 3,
-                    Name = "Gamma",
-                    Speed = 1f,
-                    AttackPower = 5f,
-                    DefensePower = 20f,
                     TeamPosition =  TeamPosition.Attacker
                 }
             };
@@ -104,7 +86,7 @@ namespace PhysReps
             // If we want to have them on a specific side of the field we can simply flip this team object and they wil be on the other side. really easy.
             var colliderBounds = GetComponent<BoxCollider>().bounds.size;
             var robotPrefabSize = robotPrefab.transform.GetComponent<BoxCollider>().size;
-            var robotYAxisPosition = -0.1f;
+            var robotYAxisPosition = -0.4f;
            
             _formationsPositions = new List<FormationPosition>()
             {

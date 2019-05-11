@@ -3,6 +3,7 @@ using System.Timers;
 using RobotActionStates;
 using UnityEngine;
 using DataModels;
+using Planners;
 
 namespace Actuators
 {
@@ -13,11 +14,14 @@ namespace Actuators
         private Rigidbody _rigidbody;
         private Timer _actionExecuteTimer;
         private Robot _robot;
-        private Collision collision;
 
+        private Animator _frontLegsAnimator;
+        
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _robot = GetComponent<RobotPlanner>().RobotModel;
+            _frontLegsAnimator = transform.Find("frontLegs").GetComponent<Animator>();
             
             // Dont allow the robot to be rotate by the physics engine.
             _rigidbody.freezeRotation = true;
@@ -30,7 +34,7 @@ namespace Actuators
         
         public void ExecuteRobotAction(RobotActionState robotActionState)
         {
-            
+
             _activeRobotActionState = robotActionState;
         }
 
@@ -84,7 +88,7 @@ namespace Actuators
             switch (_activeRobotActionState.LegAction)
             {
                 case RobotLegAction.KickForward:
-                    KickForward(collision);
+                    KickForward();
                     break;  
             }
         }
@@ -127,11 +131,14 @@ namespace Actuators
         }
         
         //leg motor
-        private void KickForward(Collision collision)
+        private void KickForward()
         {
-
-             Vector3 direction = (collision.transform.position - transform.position).normalized;
-            _rigidbody.AddForce(-direction * _robot.AttackPower, ForceMode.Impulse);
+//            // Make sure we are not animating already.
+//            if (!_frontLegsAnimator.GetCurrentAnimatorStateInfo(0).IsName("KickAnimation"))
+//                return;
+            
+          //  print("kicking forward");
+            _frontLegsAnimator.Play("kickFrontLegsForward");
         }
         
         public static void DumpToConsole(object obj)
