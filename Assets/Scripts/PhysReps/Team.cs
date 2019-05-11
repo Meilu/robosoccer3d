@@ -24,7 +24,25 @@ namespace PhysReps
                 new Robot()
                 {
                     Number = 1,
-                    Name = "Terstegen",
+                    Name = "Alpha",
+                    Speed = 1f,
+                    AttackPower = 5f,
+                    DefensePower = 20f,
+                    TeamPosition =  TeamPosition.Defender
+                },
+                new Robot()
+                {
+                    Number = 2,
+                    Name = "Beta",
+                    Speed = 1f,
+                    AttackPower = 5f,
+                    DefensePower = 20f,
+                    TeamPosition =  TeamPosition.Attacker
+                },
+                new Robot()
+                {
+                    Number = 3,
+                    Name = "Gamma",
                     Speed = 1f,
                     AttackPower = 5f,
                     DefensePower = 20f,

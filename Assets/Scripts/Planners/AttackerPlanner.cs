@@ -16,13 +16,13 @@ namespace Planners
 
             if (!soccerBallVisionStatus.IsInsideVisionAngle)
             {
-                print("Can't see ball");
+                //print("Can't see ball");
                 actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));
             }
 
             if (soccerBallVisionStatus.IsInsideVisionAngle && !soccerBallVisionStatus.IsWithinDistance)
             {
-                print("ball not within distance but in angle");
+                //print("ball not within distance but in angle");
 
                 actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
             }
@@ -30,7 +30,7 @@ namespace Planners
             // Look for the goal when we have the ball and it's not in our vision.
             if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance)
             {
-                print("goal not inside vision and have ball");
+               // print("goal not inside vision and have ball");
 
                 actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnRight, 3));
             }
@@ -38,9 +38,9 @@ namespace Planners
             // Move towards the goal when it's in our vision and we have the ball
             if (soccerBallVisionStatus.IsWithinDistance && awayGoalVisionStatus.IsInsideVisionAngle)
             {
-                print("goal inside vision and have ball");
+               // print("goal inside vision and have ball");
 
-                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.BoostForward, RobotWheelAction.None, 4));
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.KickForward, RobotMotorAction.BoostForward, RobotWheelAction.None, 4));
             }
 
             return actionStateList;
