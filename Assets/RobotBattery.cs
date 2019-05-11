@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Actuators;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,29 +9,38 @@ public class RobotBattery : MonoBehaviour
 {
     public bool BatteryEmpty = false;
     private float BatteryPercentage = 1.0f;
-    private const float drain = 0.2f;
+    private const float drain = 0.3f;
     private const float recharge = 0.1f;
-    private Image _BatteryImage;
     private RobotMotorAction _RobotMotorAction;
-    private bool Boost = false;
+    private RobotActuator _RobotActuator;
+    private bool Boost = true;
+    private Color _BatteryColor;
+
+    //Made the colors public so we can tweak a bit and see what looks good
+    public Color BatteryFullColor;
+    public Color BatteryEmptyColor;
     
     // Start is called before the first frame update
     void Start()
     {
-        _BatteryImage = GetComponent<Image>();
-        _RobotMotorAction = GetComponentInParent<RobotMotorAction>();
+        _RobotActuator = GetComponentInParent<RobotActuator>();
+        _BatteryColor = gameObject.GetComponent<Renderer>().material.color = BatteryFullColor;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //This shit is supposed to check whether the robot is boosting or not....
-        Boost = (_RobotMotorAction == RobotMotorAction.BoostForward) ? true : false;
+        //Checks whether Robot is boosting. For now only boosting drains the battery
+        Boost = (_RobotActuator._activeRobotActionState.MotorAction == RobotMotorAction.BoostForward) ? true : false;
+
+        //Gradually changes it's battery color. 
+        _BatteryColor = gameObject.GetComponent<Renderer>().material.color = Color.Lerp(BatteryEmptyColor, BatteryFullColor, BatteryPercentage);
 
         if (Boost && BatteryPercentage > 0.01)
         {
             BatteryPercentage -= drain * Time.deltaTime;
         }
+
         else if (BatteryPercentage < 1)
         {
             BatteryPercentage += recharge * Time.deltaTime;
@@ -38,10 +48,9 @@ public class RobotBattery : MonoBehaviour
 
         if (BatteryPercentage < 0.01)
         {
+            //Maybe make this into an event so other scripts can access it easier
             BatteryEmpty = true;
         }
         else BatteryEmpty = false;
-
-       _BatteryImage.fillAmount = BatteryPercentage;
     }
 }
