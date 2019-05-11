@@ -17,7 +17,7 @@ namespace DebugScripts
             RobotVisionSensor robotVisionSensor = GetComponent<RobotVisionSensor>();
         
             float rayRange = 10.0f;
-            float halfFOV = robotVisionSensor.viewAngle / 2.0f;
+            float halfFOV = robotVisionSensor.viewAngle;
         
             Quaternion leftRayRotation = Quaternion.AngleAxis( -halfFOV, Vector3.up );
             Quaternion rightRayRotation = Quaternion.AngleAxis( halfFOV, Vector3.up );

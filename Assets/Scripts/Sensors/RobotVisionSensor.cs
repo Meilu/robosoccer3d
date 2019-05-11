@@ -12,7 +12,7 @@ namespace Sensors
     {
         [UnityEngine.Range(0,360)]
         public float viewAngle;
-        public float maxDistance = 0.5f;
+        public float maxDistance = 1.0f;
 
         RobotVisionSensor()
         {
@@ -58,7 +58,7 @@ namespace Sensors
                     continue;
   
                 // Update the distance and vision angle status of this object of interest.
-                objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, maxDistance);
+              objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, maxDistance);
               objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectOfInterestVisionStatus.GameObjectToFind);   
             }
         }
@@ -82,16 +82,29 @@ namespace Sensors
             var directionToObject = (objectToFind.transform.position - robotObjectPosition);
             
             // Calculate the angle to the object and check if it's inside our viewAngle.
-            var isInAngle = Vector3.Angle(currentTransform.forward, directionToObject) < viewAngle / 2;
+            var isInAngle = Vector3.Angle(currentTransform.forward, directionToObject) < viewAngle;
 
-            // If the object is already inside of our viewangle, just return immediately, else check with raycasts.
+            // If the object is already inside of our viewangle, just return immediately.
             if (isInAngle)
                 return true;
-            
-            Vector3 rayPosition = new Vector3(robotObjectPosition.x, currentTransform.parent.position.y, robotObjectPosition.z);
-            Vector3 leftRayRotation = Quaternion.AngleAxis(-viewAngle, currentTransform.parent.up) * currentTransform.parent.forward;
-            Vector3 rightRayRotation = Quaternion.AngleAxis(viewAngle, currentTransform.parent.up) * currentTransform.parent.forward;
 
+            if (!IsObjectWithinDistance(objectToFind, 1.0f))
+                return false;
+
+            if (!IsRobotFacingObjectToFind(objectToFind, robotObjectPosition, currentTransform))
+                return false;
+            
+            // Some object can be quite large and the geometric center will not be inside our angle, even though a part of the object could still be in our vision.
+            // We can double check with raycasts if this is the case, but only if we are facing this object and the object is close to us.
+            return IsObjectInsideRaycastAngle(objectToFind, robotObjectPosition, currentTransform);
+        }
+
+        private bool IsObjectInsideRaycastAngle(GameObject objectToFind, Vector3 robotObjectPosition, Transform currentTransform)
+        {
+            Vector3 rayPosition = new Vector3(robotObjectPosition.x, currentTransform.position.y, robotObjectPosition.z);
+            Vector3 leftRayRotation = Quaternion.AngleAxis(-viewAngle, currentTransform.up) * currentTransform.forward;
+            Vector3 rightRayRotation = Quaternion.AngleAxis(viewAngle, currentTransform.up) * currentTransform.forward;
+            
             var rays = new List<Ray>()
             {
                 new Ray(rayPosition, transform.forward),
@@ -105,17 +118,25 @@ namespace Sensors
                     continue;
                 
                 // If this collider hit the object we were looking for
-                if (hit.collider.name == objectToFind.name)
-                {
-                    print(objectToFind.name + " found with raycast");
-                    return true;
-                }
+                if (hit.collider.name != objectToFind.name)
+                    continue;
+                
+                return true;
             }
 
-            // The raycasts also did not return any hits for the object we were looking for, so return false.
             return false;
         }
-     
+
+        private bool IsRobotFacingObjectToFind(GameObject objectToFind, Vector3 robotObjectPosition, Transform currentTransform)
+        {
+            Vector3 rayPosition = new Vector3(robotObjectPosition.x, currentTransform.position.y, robotObjectPosition.z);
+            var forwardRay = new Ray(rayPosition, transform.forward);
+            
+            if (Physics.Raycast(forwardRay, out var hit))
+                return hit.collider.name == objectToFind.name;
+            
+            return false;
+        }
 
         /// <summary>
         /// Checks whether the object is inside the given max distance.
