@@ -158,6 +158,11 @@ namespace Planners
         {
             return currentVisionSensorStatusList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
         }
+        protected ObjectOfInterestVisionStatus GetOtherRobotsVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
+        {
+            return currentVisionSensorStatusList.First(x => x.ObjectName == Settings.OtherRobots);
+        }
         
+
     }
 }
