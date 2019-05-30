@@ -29,6 +29,24 @@ namespace PhysReps
                     AttackPower = 5f,
                     DefensePower = 20f,
                     TeamPosition =  TeamPosition.Attacker
+                },
+                new Robot()
+                {
+                    Number = 2,
+                    Name = "Beta",
+                    Speed = 1f,
+                    AttackPower = 5f,
+                    DefensePower = 20f,
+                    TeamPosition =  TeamPosition.Attacker
+                },
+                new Robot()
+                {
+                    Number = 3,
+                    Name = "Gamma",
+                    Speed = 1f,
+                    AttackPower = 5f,
+                    DefensePower = 20f,
+                    TeamPosition =  TeamPosition.Attacker
                 }
             };
             
