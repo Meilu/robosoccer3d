@@ -30,11 +30,11 @@ public class RobotBattery : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_RobotActuator._activeRobotActionState == null)
+        if (_RobotActuator.activeRobotActionState == null)
             return;
         
         //Checks whether Robot is boosting. For now only boosting drains the battery
-        Boost = _RobotActuator._activeRobotActionState.MotorAction == RobotMotorAction.BoostForward;
+        Boost = _RobotActuator.activeRobotActionState.MotorAction == RobotMotorAction.BoostForward;
 
         //Gradually changes it's battery color. 
         _BatteryColor = gameObject.GetComponent<Renderer>().material.color = Color.Lerp(BatteryEmptyColor, BatteryFullColor, BatteryPercentage);

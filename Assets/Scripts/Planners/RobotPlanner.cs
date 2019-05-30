@@ -12,11 +12,6 @@ using Timer = System.Timers.Timer;
 
 namespace Planners
 {
-    // This class is marked abstract because it has an incomplete implementation by itself,
-    // this way we enforce that it can only be used by instantiating derived classes (defender, midfielder, attacker)
-    // Basically, this class is now only intended to provide the base functionality of creating a queue etc.
-    // the logic for what actions to take will now be determined in the derived classes.
-    // please check out a defenderplan and attackerplanner class for an example
     public abstract class RobotPlanner : MonoBehaviour
     {
         private RobotActuator _robotVisionActuator;
@@ -43,8 +38,6 @@ namespace Planners
             _robotMovementSensor = transform.Find(Settings.RobotMovementStatusObjectName).GetComponent<RobotMovementSensor>();
             
             InitializeObjectsOfInterestSubscriptions();
-            
-            // Always start with a default action :)
             DetermineRobotActionForCurrentSensors();
         }
 
@@ -56,7 +49,7 @@ namespace Planners
 
             // Get the first robotactionstate ordered by the highest weight first.
             var robotActionToExecute = _robotActionQueue.OrderByDescending(x => x.Weight).First();
-            var activeRobotAction = _robotVisionActuator._activeRobotActionState;
+            var activeRobotAction = _robotVisionActuator.activeRobotActionState;
 
             // Before sending the new action, make sure the current one is not more important (and also still true).
             if (activeRobotAction != null && activeRobotAction.Weight > robotActionToExecute.Weight && IsVisionStillCurrent(activeRobotAction.VisionStatusOnCreate))
@@ -100,6 +93,7 @@ namespace Planners
 
             // Clear the current queue and add all new items based on the new vision.
             _robotActionQueue.Clear();
+            
             foreach (var robotActionState in robotActionStatesForCurrentVision)
             {
                 _robotActionQueue.Add(robotActionState);
@@ -117,7 +111,6 @@ namespace Planners
         {
             IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList = new List<ObjectOfInterestVisionStatus>();
 
-            // Create a copy of the status for all objects of interest for the vision.
             _robotVisionSensor.objectsOfInterestStatus.ForEach(x => currentVisionSensorStatusList.Add(x.Copy()));
 
             return currentVisionSensorStatusList;
@@ -128,21 +121,17 @@ namespace Planners
             return _robotVisionSensor.objectsOfInterestStatus.SequenceEqual(visionStatus);
         }
 
-        /// <summary>
-        /// // Gets the teamside property that has been set on the parent this robot was added to so we know what teamside this robot belongs to.
-        /// </summary>
-        /// <returns></returns>
-        protected TeamSide GetTeamSide()
+        private TeamSide GetTeamSide()
         {
             return transform.parent.GetComponent<Team>().teamSide;
         }
 
-        protected string GetOwnGoalName()
+        private string GetOwnGoalName()
         {
             return GetTeamSide() == TeamSide.Home ? Settings.HomeGoalLine : Settings.AwayGoalLine;
         }
-        
-        protected string GetAwayGoalName()
+
+        private string GetAwayGoalName()
         {
             return GetTeamSide() == TeamSide.Home ? Settings.AwayGoalLine : Settings.HomeGoalLine;
         }
@@ -157,12 +146,6 @@ namespace Planners
         protected ObjectOfInterestVisionStatus GetSoccerBallVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
         {
             return currentVisionSensorStatusList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
-        }
-        protected ObjectOfInterestVisionStatus GetOtherRobotsVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
-        {
-            return currentVisionSensorStatusList.First(x => x.ObjectName == Settings.OtherRobots);
-        }
-        
-
+        }  
     }
 }
