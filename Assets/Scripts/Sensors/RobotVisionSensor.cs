@@ -12,7 +12,6 @@ namespace Sensors
     {
         [UnityEngine.Range(0,360)]
         public float viewAngle;
-        public float maxDistance = 1.0f;
 
         RobotVisionSensor()
         {
@@ -21,16 +20,13 @@ namespace Sensors
             objectsOfInterestStatus = new List<ObjectOfInterestVisionStatus>() {
                 new ObjectOfInterestVisionStatus()
                 {
-                    ObjectName = Settings.SoccerBallObjectName
-                },
-                // Add the other robots as a different object to the list :) so the robot can have their own status changes.
-                new ObjectOfInterestVisionStatus()
-                {
-                    ObjectName = Settings.OtherRobots
+                    ObjectName = Settings.SoccerBallObjectName,
+                    MinimunDistance = 0.3f
                 },
                 new ObjectOfInterestVisionStatus()
                 {
-                    ObjectName = Settings.AwayGoalLine
+                    ObjectName = Settings.AwayGoalLine,
+                    MinimunDistance = 2.0f
                 },
                 new ObjectOfInterestVisionStatus()
                 {
@@ -58,7 +54,7 @@ namespace Sensors
                     continue;
   
                 // Update the distance and vision angle status of this object of interest.
-              objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, maxDistance);
+              objectOfInterestVisionStatus.IsWithinDistance = IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind, objectOfInterestVisionStatus.MinimunDistance);
               objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectOfInterestVisionStatus.GameObjectToFind);   
             }
         }

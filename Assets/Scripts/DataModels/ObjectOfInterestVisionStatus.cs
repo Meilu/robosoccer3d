@@ -42,6 +42,7 @@ namespace DataModels
         }
         #endregion
 
+        public float MinimunDistance;
         public override ObjectOfInterestVisionStatus Copy()
         {
             return new ObjectOfInterestVisionStatus()

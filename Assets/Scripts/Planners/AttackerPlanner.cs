@@ -23,15 +23,20 @@ namespace Planners
             {
                 actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 2));
             }
-            
+           
             if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance && !awayGoalVisionStatus.IsInsideVisionAngle)
             {
-                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 3));
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnRight, 3));
             }
             
             if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance && awayGoalVisionStatus.IsInsideVisionAngle)
             {
-                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.KickForward, RobotMotorAction.None, RobotWheelAction.None, 4));
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.MoveForward, RobotWheelAction.None, 4));
+            }
+            
+            if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance && awayGoalVisionStatus.IsInsideVisionAngle && awayGoalVisionStatus.IsWithinDistance)
+            {
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.KickForward, RobotMotorAction.None, RobotWheelAction.None, 5));
             }
 
             return actionStateList;

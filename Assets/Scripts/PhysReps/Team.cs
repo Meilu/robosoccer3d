@@ -29,24 +29,6 @@ namespace PhysReps
                     AttackPower = 5f,
                     DefensePower = 20f,
                     TeamPosition =  TeamPosition.Attacker
-                },
-                new Robot()
-                {
-                    Number = 2,
-                    Name = "Beta",
-                    Speed = 1f,
-                    AttackPower = 5f,
-                    DefensePower = 20f,
-                    TeamPosition =  TeamPosition.Attacker
-                },
-                new Robot()
-                {
-                    Number = 3,
-                    Name = "Gamma",
-                    Speed = 1f,
-                    AttackPower = 5f,
-                    DefensePower = 20f,
-                    TeamPosition =  TeamPosition.Attacker
                 }
             };
             
@@ -70,11 +52,6 @@ namespace PhysReps
                 
                 // Save all of the properties of the robotmodel onto the prefab, so we can access them during the game if needed:)
                 plannerComponent.RobotModel = robotModel;
-
-                // TODO: we arent doing anything with the robotModel.attackspeed, defensespeed etc :)
-                // they will need to be saved in the prefab also if we want to do something with them. 
-                // This would be the place to save those in the prefab once we start needing them.
-                // The way to do that would be like you did earlier, have a component that can hold the properties. get it with getcomponent and then set its property.
             }
         }
 
@@ -124,14 +101,6 @@ namespace PhysReps
                     CalculatedPosition =  new Vector3(robotPrefabSize.x / 2, robotYAxisPosition,   -(colliderBounds.z / 2 - robotPrefabSize.x / 2))
                 }
             };
-        }
-        
-        // If there is a canvas inside the robot, we need to reverse its scale for the awayteam because else it is flipped (doesnt matter for now but leaving this function here)
-        private void FlipModeCanvasRect(GameObject robot)
-        {
-            var rectTransform = robot.transform.Find("modeCanvas").GetComponent<RectTransform>();
-            var localScale = rectTransform.localScale;
-            rectTransform.localScale = new Vector3(-localScale.x, localScale.y, localScale.z);
         }
     }
 }

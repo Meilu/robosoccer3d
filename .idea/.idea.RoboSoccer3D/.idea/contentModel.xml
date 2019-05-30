@@ -6,6 +6,7 @@
     <e p="C:\Users\jurge\Documents\unityprojects\RoboSoccer3D" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="CameraController.cs" t="Include" />
         <e p="ChooseRobotControls.cs" t="Include" />
         <e p="MoveLegs.cs" t="Include" />
         <e p="RobotBattery.cs" t="Include" />
