@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.49641287, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -139,7 +139,7 @@ Transform:
   m_GameObject: {fileID: 26923379}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 7.16, y: 12.42481, z: 0.07497108}
-  m_LocalScale: {x: 0.10453497, y: 1, z: 8.56916}
+  m_LocalScale: {x: 0.10453497, y: 10, z: 8.56916}
   m_Children: []
   m_Father: {fileID: 1718702115}
   m_RootOrder: 0
@@ -284,7 +284,7 @@ Transform:
   m_GameObject: {fileID: 145346090}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -10.35, y: 12.42481, z: 0.07497108}
-  m_LocalScale: {x: 0.10453497, y: 1, z: 8.56916}
+  m_LocalScale: {x: 0.10453497, y: 10, z: 8.56916}
   m_Children: []
   m_Father: {fileID: 1718702115}
   m_RootOrder: 1
@@ -584,7 +584,7 @@ Transform:
   m_GameObject: {fileID: 259685864}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -1.62, y: 12.42481, z: -4.3610287}
-  m_LocalScale: {x: 0.10453503, y: 1, z: 17.510612}
+  m_LocalScale: {x: 0.10453503, y: 10, z: 17.510612}
   m_Children: []
   m_Father: {fileID: 1718702115}
   m_RootOrder: 3
@@ -808,6 +808,7 @@ GameObject:
   - component: {fileID: 534669905}
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
+  - component: {fileID: 534669906}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -873,12 +874,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0.33542013, y: -0, z: -0, w: 0.9420687}
-  m_LocalPosition: {x: 0.196, y: 7.25, z: -7.38}
+  m_LocalPosition: {x: 1.4465001, y: 6.322, z: -6.242}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 39.196003, y: 0, z: 0}
+--- !u!114 &534669906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abf8ee7ee60340648ab4ece25e76c4ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoccerBall: {fileID: 1856009274}
 --- !u!1 &637754876
 GameObject:
   m_ObjectHideFlags: 0
@@ -1567,7 +1581,7 @@ Transform:
   m_GameObject: {fileID: 1234778772}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -1.6, y: 12.42481, z: 4.33}
-  m_LocalScale: {x: 0.10453503, y: 1, z: 17.510612}
+  m_LocalScale: {x: 0.10453503, y: 10, z: 17.510612}
   m_Children: []
   m_Father: {fileID: 1718702115}
   m_RootOrder: 2
@@ -2558,7 +2572,7 @@ Transform:
   m_GameObject: {fileID: 1856009274}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.27, y: 1.006, z: -0.02}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
