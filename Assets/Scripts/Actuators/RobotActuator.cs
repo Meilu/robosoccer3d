@@ -4,57 +4,37 @@ using RobotActionStates;
 using UnityEngine;
 using DataModels;
 using Planners;
+using UnityEngine.Serialization;
 
 namespace Actuators
 {
     public class RobotActuator : MonoBehaviour
     {
-        public RobotActionState _activeRobotActionState;
+        public RobotActionState activeRobotActionState;
 
-        private Rigidbody _rigidbody;
-        private Timer _actionExecuteTimer;
-        private Robot _robot;
-
+        private Rigidbody _rigidBody;
         private Animator _frontLegsAnimator;
         
         private void Start()
         {
-            _rigidbody = GetComponent<Rigidbody>();
-            _robot = GetComponent<RobotPlanner>().RobotModel;
+            _rigidBody = GetComponent<Rigidbody>();
             _frontLegsAnimator = transform.Find("frontLegs").GetComponent<Animator>();
             
             // Dont allow the robot to be rotate by the physics engine.
-            _rigidbody.freezeRotation = true;
-        }
-
-        public bool HasActiveRobotAction()
-        {
-            return _actionExecuteTimer != null && _actionExecuteTimer.Enabled;
+            _rigidBody.freezeRotation = true;
         }
         
         public void ExecuteRobotAction(RobotActionState robotActionState)
         {
-
-            _activeRobotActionState = robotActionState;
-        }
-
-        /// <summary>
-        /// Checks wether the given robotaction state is more important than the one that is currently active.
-        /// </summary>
-        /// <param name="robotActionState"></param>
-        /// <returns></returns>
-        private bool ShouldExecuteRobotActionState(RobotActionState robotActionState)
-        {
-            return _activeRobotActionState == null || robotActionState.Weight > _activeRobotActionState.Weight;
+            activeRobotActionState = robotActionState;
         }
         
         private void FixedUpdate()
         {
-            if (_activeRobotActionState == null)
+            if (activeRobotActionState == null)
                 return;
             
-            // Check what actions to execute based on the current active robot action..
-            switch (_activeRobotActionState.MotorAction)
+            switch (activeRobotActionState.MotorAction)
             {
                 case RobotMotorAction.MoveForward:
                     MoveForward();
@@ -73,8 +53,7 @@ namespace Actuators
                     break;
             }
             
-            // Check what actions to execute based on the current active robot action..
-            switch (_activeRobotActionState.WheelAction)
+            switch (activeRobotActionState.WheelAction)
             {
                 case RobotWheelAction.TurnLeft:
                     TurnLeft();
@@ -84,8 +63,7 @@ namespace Actuators
                     break;
             }
 
-            // Check what actions to execute based on the current active robot action..
-            switch (_activeRobotActionState.LegAction)
+            switch (activeRobotActionState.LegAction)
             {
                 case RobotLegAction.KickForward:
                     KickForward();
@@ -96,30 +74,27 @@ namespace Actuators
         //move motors
         private void MoveRight()
         {      
-            _rigidbody.velocity = transform.right * 100.0f * Time.deltaTime;
+            _rigidBody.velocity = transform.right * 100.0f * Time.deltaTime;
         }
 
         private void MoveLeft()
         {
-            _rigidbody.velocity = -transform.right * 100.0f * Time.deltaTime;
+            _rigidBody.velocity = -transform.right * 100.0f * Time.deltaTime;
         }
 
         private void MoveForward()
         {
-            _rigidbody.velocity = transform.forward * 100.0f * Time.deltaTime;
+            _rigidBody.velocity = transform.forward * 100.0f * Time.deltaTime;
         }
         
         private void BoostForward()
         {
-            _rigidbody.velocity = transform.forward * 120.0f * Time.deltaTime;
+            _rigidBody.velocity = transform.forward * 120.0f * Time.deltaTime;
         }
-
         private void MoveBackward()
         {
-            _rigidbody.velocity = -transform.forward * 100.0f * Time.deltaTime;
+            _rigidBody.velocity = -transform.forward * 100.0f * Time.deltaTime;
         }
-
-        //wheel motors
         private void TurnRight()
         {
             transform.Rotate(Vector3.up * (120.0f * Time.deltaTime));
@@ -130,21 +105,9 @@ namespace Actuators
             transform.Rotate(Vector3.up * (-120.0f * Time.deltaTime));
         }
         
-        //leg motor
         private void KickForward()
         {
-//            // Make sure we are not animating already.
-//            if (!_frontLegsAnimator.GetCurrentAnimatorStateInfo(0).IsName("KickAnimation"))
-//                return;
-            
-          //  print("kicking forward");
             _frontLegsAnimator.Play("kickFrontLegsForward");
-        }
-        
-        public static void DumpToConsole(object obj)
-        {
-            var output = JsonUtility.ToJson(obj, true);
-            Debug.Log(output);
         }
     }
 }
