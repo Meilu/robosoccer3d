@@ -2,6 +2,8 @@
 using System.Timers;
 using RobotActionStates;
 using UnityEngine;
+using DataModels;
+using Planners;
 
 namespace Actuators
 {
@@ -10,10 +12,16 @@ namespace Actuators
         public RobotActionState _activeRobotActionState;
 
         private Rigidbody _rigidbody;
-        private Timer _actionExecuteTimer; 
+        private Timer _actionExecuteTimer;
+        private Robot _robot;
+
+        private Animator _frontLegsAnimator;
+        
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _robot = GetComponent<RobotPlanner>().RobotModel;
+            _frontLegsAnimator = transform.Find("frontLegs").GetComponent<Animator>();
             
             // Dont allow the robot to be rotate by the physics engine.
             _rigidbody.freezeRotation = true;
@@ -26,7 +34,7 @@ namespace Actuators
         
         public void ExecuteRobotAction(RobotActionState robotActionState)
         {
-            
+
             _activeRobotActionState = robotActionState;
         }
 
@@ -75,8 +83,17 @@ namespace Actuators
                     TurnRight();
                     break;
             }
+
+            // Check what actions to execute based on the current active robot action..
+            switch (_activeRobotActionState.LegAction)
+            {
+                case RobotLegAction.KickForward:
+                    KickForward();
+                    break;  
+            }
         }
 
+        //move motors
         private void MoveRight()
         {      
             _rigidbody.velocity = transform.right * 100.0f * Time.deltaTime;
@@ -102,6 +119,7 @@ namespace Actuators
             _rigidbody.velocity = -transform.forward * 100.0f * Time.deltaTime;
         }
 
+        //wheel motors
         private void TurnRight()
         {
             transform.Rotate(Vector3.up * (120.0f * Time.deltaTime));
@@ -112,9 +130,15 @@ namespace Actuators
             transform.Rotate(Vector3.up * (-120.0f * Time.deltaTime));
         }
         
+        //leg motor
         private void KickForward()
         {
-            _rigidbody.velocity = Vector3.zero;
+//            // Make sure we are not animating already.
+//            if (!_frontLegsAnimator.GetCurrentAnimatorStateInfo(0).IsName("KickAnimation"))
+//                return;
+            
+          //  print("kicking forward");
+            _frontLegsAnimator.Play("kickFrontLegsForward");
         }
         
         public static void DumpToConsole(object obj)
