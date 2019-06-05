@@ -10,7 +10,8 @@ namespace Planners
         protected override IList<RobotActionState> ExecutePlan(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
         {
             var actionStateList = new List<RobotActionState>();
-            var soccerBallVisionStatus = GetSoccerBallVisionStatus(currentVisionSensorStatusList);
+            var soccerBallVisionStatus = GetObjectVistionStatus(currentVisionSensorStatusList, Settings.SoccerBallObjectName);
+            var ownGoalVisionStatus = GetObjectVistionStatus(currentVisionSensorStatusList, GetOwnGoalName());
             var ownGoalVisionStatus = GetOwnGoalVisionStatus(currentVisionSensorStatusList);
             var awayGoalVisionStatus = GetAwayGoalVisionStatus(currentVisionSensorStatusList);
             
@@ -36,9 +37,16 @@ namespace Planners
             
             if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance && awayGoalVisionStatus.IsInsideVisionAngle && awayGoalVisionStatus.IsWithinDistance)
             {
-                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.KickForward, RobotMotorAction.None, RobotWheelAction.None, 5));
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.KickForward, RobotMotorAction.None, RobotWheelAction.None, 6));
             }
 
+
+//            if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance && hasOpponentNearBy() && teamMateWithinPassingDistance() && noOpponentBetweenTeamMate())
+//            {
+//                
+//            }
+                
+                
             return actionStateList;
         }
     }

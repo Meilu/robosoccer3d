@@ -39,6 +39,11 @@ namespace Planners
             
             InitializeObjectsOfInterestSubscriptions();
             DetermineRobotActionForCurrentSensors();
+            
+            r soccerBallVisionStatus = GetObjectVistionStatus(currentVisionSensorStatusList, Settings.SoccerBallObjectName);
+            var ownGoalVisionStatus = GetObjectVistionStatus(currentVisionSensorStatusList, GetOwnGoalName());
+            var ownGoalVisionStatus = GetOwnGoalVisionStatus(currentVisionSensorStatusList);
+            var awayGoalVisionStatus = GetAwayGoalVisionStatus(currentVisionSensorStatusList);
         }
 
         private void Update()
@@ -126,26 +131,33 @@ namespace Planners
             return transform.parent.GetComponent<Team>().teamSide;
         }
 
-        private string GetOwnGoalName()
+        protected string GetOwnGoalName()
         {
             return GetTeamSide() == TeamSide.Home ? Settings.HomeGoalLine : Settings.AwayGoalLine;
         }
 
-        private string GetAwayGoalName()
+        protected string GetAwayGoalName()
         {
             return GetTeamSide() == TeamSide.Home ? Settings.AwayGoalLine : Settings.HomeGoalLine;
         }
-        protected ObjectOfInterestVisionStatus GetOwnGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
+
+        protected ObjectOfInterestVisionStatus GetObjectVistionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList, string objectName)
         {
-            return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetOwnGoalName());
+            return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == objectName);
+
         }
-        protected ObjectOfInterestVisionStatus GetAwayGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
-        {
-            return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetAwayGoalName());
-        }
-        protected ObjectOfInterestVisionStatus GetSoccerBallVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
-        {
-            return currentVisionSensorStatusList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
-        }  
+        
+//        protected ObjectOfInterestVisionStatus GetOwnGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
+//        {
+//            return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetOwnGoalName());
+//        }
+//        protected ObjectOfInterestVisionStatus GetAwayGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
+//        {
+//            return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetAwayGoalName());
+//        }
+//        protected ObjectOfInterestVisionStatus GetSoccerBallVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
+//        {
+//            return currentVisionSensorStatusList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
+//        }  
     }
 }

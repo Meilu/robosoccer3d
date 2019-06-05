@@ -10,8 +10,8 @@ namespace Planners
         protected override IList<RobotActionState> ExecutePlan(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
         {
             var actionStateList = new List<RobotActionState>();
-            var soccerBallVisionStatus = GetSoccerBallVisionStatus(currentVisionSensorStatusList);
-            var ownGoalVisionStatus = GetOwnGoalVisionStatus(currentVisionSensorStatusList);
+            var soccerBallVisionStatus = GetObjectVistionStatus(currentVisionSensorStatusList, Settings.SoccerBallObjectName);
+            var ownGoalVisionStatus = GetObjectVistionStatus(currentVisionSensorStatusList, GetOwnGoalName());
             var awayGoalVisionStatus = GetAwayGoalVisionStatus(currentVisionSensorStatusList);
 
             if (!soccerBallVisionStatus.IsInsideVisionAngle)

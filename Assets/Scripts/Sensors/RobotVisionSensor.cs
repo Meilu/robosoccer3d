@@ -15,6 +15,7 @@ namespace Sensors
 
         RobotVisionSensor()
         {
+           
             // Initialize the list of items this robot is interested in with his visionsensor.
             // For now these are hardcoded, but in the future we may want to pass these dynamically because each robot may be interested in different objects.
             objectsOfInterestStatus = new List<ObjectOfInterestVisionStatus>() {
@@ -26,21 +27,42 @@ namespace Sensors
                 new ObjectOfInterestVisionStatus()
                 {
                     ObjectName = Settings.AwayGoalLine,
-                    MinimunDistance = 2.0f
+                    MinimunDistance = 3.0f
                 },
                 new ObjectOfInterestVisionStatus()
                 {
                     ObjectName = Settings.HomeGoalLine
                 }
             };
+           
         }
         
         private void Start()
         {
+            // Get a list of all other robots on the field (excluding this one)
+            var otherRobots = GameObject.FindGameObjectsWithTag("robot");
+            
+            foreach (var otherRobot in otherRobots)
+            {
+                if (otherRobot.Equals(transform.parent.gameObject))
+                    continue;
+                
+                objectsOfInterestStatus.Add(new ObjectOfInterestVisionStatus()
+                {
+                    ObjectName = otherRobot.name,
+                    GameObjectToFind = otherRobot
+                });
+            }
+            
+            
             foreach (var objectOfInterestVisionStatus in objectsOfInterestStatus)
             {
+                if (objectOfInterestVisionStatus.GameObjectToFind != null)
+                    continue;
+                
                 objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
             }
+            
         }
         /// <summary>
         /// Will continuously check all properties of the objects of interest we are interested in and update their status.
