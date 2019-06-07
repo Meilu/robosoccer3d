@@ -136,10 +136,12 @@ namespace Planners
         {
             return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetOwnGoalName());
         }
+        
         protected ObjectOfInterestVisionStatus GetAwayGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
         {
             return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetAwayGoalName());
         }
+        
         protected ObjectOfInterestVisionStatus GetSoccerBallVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
         {
             return currentVisionSensorStatusList.First(x => x.ObjectName == Settings.SoccerBallObjectName);

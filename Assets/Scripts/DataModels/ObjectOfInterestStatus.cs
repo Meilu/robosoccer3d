@@ -8,8 +8,5 @@ namespace DataModels
         public abstract T Copy();
         public GameObject GameObjectToFind;
         public string ObjectName;
-        
-        [CanBeNull]
-        public string TagName;
     }
 }

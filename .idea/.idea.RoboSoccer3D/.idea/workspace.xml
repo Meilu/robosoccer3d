@@ -4,15 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/Assets/Scripts/Planners/AttackerPlanner.cs" line="16" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="55bbbb05-eed4-4bbc-be24-f34b6298118d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RoboSoccer3D/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RoboSoccer3D/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataModels/ObjectOfInterestStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataModels/ObjectOfInterestStatus.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Planners/AttackerPlanner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Planners/AttackerPlanner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Planners/KeeperPlanner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Planners/KeeperPlanner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Planners/RobotPlanner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Planners/RobotPlanner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Sensors/RobotVisionSensor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Sensors/RobotVisionSensor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Settings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Settings.cs" afterDir="false" />
-    </list>
+    <list default="true" id="55bbbb05-eed4-4bbc-be24-f34b6298118d" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,35 +16,35 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Sensors/RobotVisionSensor.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="46" column="52" selection-start-line="46" selection-start-column="52" selection-end-line="46" selection-end-column="52" />
+            <state relative-caret-position="195">
+              <caret line="19" column="70" lean-forward="true" selection-start-line="19" selection-start-column="70" selection-end-line="19" selection-end-column="70" />
               <folding>
-                <marker date="1559932506000" expanded="false" signature="6:179" ph="..." />
-                <marker date="1559932506000" expanded="true" signature="198:7717" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="279:7715" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="381:1299" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="416:657" ph="/* Initialize the list of items this robot is interested in with his visionsensor. ... */" />
-                <marker date="1559932506000" expanded="true" signature="737:1276" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="806:932" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="1001:1119" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="1188:1262" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="1337:1756" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="1429:1582" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="1846:2594" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="2168:2540" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="2450:2524" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="2621:2781" ph="/// Will continuously check all properties of the objects of interest we are interested in and update their statu ... " />
-                <marker date="1559932506000" expanded="true" signature="2847:3580" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="2939:3570" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="3590:3790" ph="/// Checks whether the object is inside the robot's vision angle or not ... " />
-                <marker date="1559932506000" expanded="true" signature="3862:5263" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="4863:5153" ph="/* Some object can be quite large and the geometric center will not be inside our angle, even though a part of th ... */" />
-                <marker date="1559932506000" expanded="true" signature="5394:6428" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="5831:6013" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="6053:6391" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="6558:6943" ph="{...}" />
-                <marker date="1559932506000" expanded="true" signature="6953:7206" ph="/// Checks whether the object is inside the given max distance. ... " />
-                <marker date="1559932506000" expanded="true" signature="7301:7709" ph="{...}" />
+                <marker date="1559932668000" expanded="false" signature="6:179" ph="..." />
+                <marker date="1559932668000" expanded="true" signature="198:7883" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="279:7881" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="381:1275" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="404:645" ph="/* Initialize the list of items this robot is interested in with his visionsensor. ... */" />
+                <marker date="1559932668000" expanded="true" signature="725:1264" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="794:920" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="989:1107" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="1176:1250" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="1313:1931" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="1405:1558" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="2021:2769" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="2343:2715" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="2625:2699" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="2787:2947" ph="/// Will continuously check all properties of the objects of interest we are interested in and update their statu ... " />
+                <marker date="1559932668000" expanded="true" signature="3013:3746" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="3105:3736" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="3756:3956" ph="/// Checks whether the object is inside the robot's vision angle or not ... " />
+                <marker date="1559932668000" expanded="true" signature="4028:5429" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="5029:5319" ph="/* Some object can be quite large and the geometric center will not be inside our angle, even though a part of th ... */" />
+                <marker date="1559932668000" expanded="true" signature="5560:6594" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="5997:6179" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="6219:6557" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="6724:7109" ph="{...}" />
+                <marker date="1559932668000" expanded="true" signature="7119:7372" ph="/// Checks whether the object is inside the given max distance. ... " />
+                <marker date="1559932668000" expanded="true" signature="7467:7875" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -353,12 +345,12 @@
       <workItem from="1559243215427" duration="1920000" />
       <workItem from="1559246816591" duration="3077000" />
       <workItem from="1559642213999" duration="3374000" />
-      <workItem from="1559931552687" duration="935000" />
+      <workItem from="1559931552687" duration="1213000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70396000" />
+    <option name="totallyTimeSpent" value="70674000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -781,35 +773,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Sensors/RobotVisionSensor.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="46" column="52" selection-start-line="46" selection-start-column="52" selection-end-line="46" selection-end-column="52" />
+        <state relative-caret-position="195">
+          <caret line="19" column="70" lean-forward="true" selection-start-line="19" selection-start-column="70" selection-end-line="19" selection-end-column="70" />
           <folding>
-            <marker date="1559932506000" expanded="false" signature="6:179" ph="..." />
-            <marker date="1559932506000" expanded="true" signature="198:7717" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="279:7715" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="381:1299" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="416:657" ph="/* Initialize the list of items this robot is interested in with his visionsensor. ... */" />
-            <marker date="1559932506000" expanded="true" signature="737:1276" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="806:932" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="1001:1119" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="1188:1262" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="1337:1756" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="1429:1582" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="1846:2594" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="2168:2540" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="2450:2524" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="2621:2781" ph="/// Will continuously check all properties of the objects of interest we are interested in and update their statu ... " />
-            <marker date="1559932506000" expanded="true" signature="2847:3580" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="2939:3570" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="3590:3790" ph="/// Checks whether the object is inside the robot's vision angle or not ... " />
-            <marker date="1559932506000" expanded="true" signature="3862:5263" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="4863:5153" ph="/* Some object can be quite large and the geometric center will not be inside our angle, even though a part of th ... */" />
-            <marker date="1559932506000" expanded="true" signature="5394:6428" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="5831:6013" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="6053:6391" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="6558:6943" ph="{...}" />
-            <marker date="1559932506000" expanded="true" signature="6953:7206" ph="/// Checks whether the object is inside the given max distance. ... " />
-            <marker date="1559932506000" expanded="true" signature="7301:7709" ph="{...}" />
+            <marker date="1559932668000" expanded="false" signature="6:179" ph="..." />
+            <marker date="1559932668000" expanded="true" signature="198:7883" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="279:7881" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="381:1275" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="404:645" ph="/* Initialize the list of items this robot is interested in with his visionsensor. ... */" />
+            <marker date="1559932668000" expanded="true" signature="725:1264" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="794:920" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="989:1107" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="1176:1250" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="1313:1931" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="1405:1558" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="2021:2769" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="2343:2715" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="2625:2699" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="2787:2947" ph="/// Will continuously check all properties of the objects of interest we are interested in and update their statu ... " />
+            <marker date="1559932668000" expanded="true" signature="3013:3746" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="3105:3736" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="3756:3956" ph="/// Checks whether the object is inside the robot's vision angle or not ... " />
+            <marker date="1559932668000" expanded="true" signature="4028:5429" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="5029:5319" ph="/* Some object can be quite large and the geometric center will not be inside our angle, even though a part of th ... */" />
+            <marker date="1559932668000" expanded="true" signature="5560:6594" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="5997:6179" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="6219:6557" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="6724:7109" ph="{...}" />
+            <marker date="1559932668000" expanded="true" signature="7119:7372" ph="/// Checks whether the object is inside the given max distance. ... " />
+            <marker date="1559932668000" expanded="true" signature="7467:7875" ph="{...}" />
           </folding>
         </state>
       </provider>
