@@ -11,8 +11,8 @@ namespace Planners
         {
             var actionStateList = new List<RobotActionState>();
             var soccerBallVisionStatus = GetSoccerBallVisionStatus(currentVisionSensorStatusList);
-            var ownGoalVisionStatus = GetOwnGoalVisionStatus(currentVisionSensorStatusList);
             var awayGoalVisionStatus = GetAwayGoalVisionStatus(currentVisionSensorStatusList);
+            var ownGoalVisionStatus = GetOwnGoalVisionStatus(currentVisionSensorStatusList);
 
             if (!soccerBallVisionStatus.IsInsideVisionAngle)
                 actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.None, RobotMotorAction.None, RobotWheelAction.TurnLeft, 1));

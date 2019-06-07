@@ -11,7 +11,6 @@ namespace Planners
         {
             var actionStateList = new List<RobotActionState>();
             var soccerBallVisionStatus = GetSoccerBallVisionStatus(currentVisionSensorStatusList);
-            var ownGoalVisionStatus = GetOwnGoalVisionStatus(currentVisionSensorStatusList);
             var awayGoalVisionStatus = GetAwayGoalVisionStatus(currentVisionSensorStatusList);
             
             if (!soccerBallVisionStatus.IsInsideVisionAngle)
@@ -36,9 +35,9 @@ namespace Planners
             
             if (soccerBallVisionStatus.IsInsideVisionAngle && soccerBallVisionStatus.IsWithinDistance && awayGoalVisionStatus.IsInsideVisionAngle && awayGoalVisionStatus.IsWithinDistance)
             {
-                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.KickForward, RobotMotorAction.None, RobotWheelAction.None, 5));
+                actionStateList.Add(new RobotActionState(RobotArmAction.None, RobotLegAction.KickForward, RobotMotorAction.None, RobotWheelAction.None, 6));
             }
-
+                
             return actionStateList;
         }
     }

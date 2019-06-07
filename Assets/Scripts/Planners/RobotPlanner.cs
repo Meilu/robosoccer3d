@@ -23,11 +23,6 @@ namespace Planners
         
         private readonly IList<RobotActionState> _robotActionQueue = new List<RobotActionState>();
         
-        // This is an abstract function definition for the executeplan function.
-        // Abstract means it will not have an implementation in this base class,
-        // but tells us that any derived classes (defenderplanner, attackerplanner etc) are enforced to implement this method.
-        // I decided to make this function abstract and have the logic inside derived classes because this way we won't have one big file that contain all executeplan logic.
-        // Hope that makes sense. Please check out one of the derived classes (defenderplanner, attackerplanner) for the implementations.
         protected abstract IList<RobotActionState> ExecutePlan(
             IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList);
 
@@ -39,6 +34,7 @@ namespace Planners
             
             InitializeObjectsOfInterestSubscriptions();
             DetermineRobotActionForCurrentSensors();
+    
         }
 
         private void Update()
@@ -126,23 +122,26 @@ namespace Planners
             return transform.parent.GetComponent<Team>().teamSide;
         }
 
-        private string GetOwnGoalName()
+        protected string GetOwnGoalName()
         {
             return GetTeamSide() == TeamSide.Home ? Settings.HomeGoalLine : Settings.AwayGoalLine;
         }
 
-        private string GetAwayGoalName()
+        protected string GetAwayGoalName()
         {
             return GetTeamSide() == TeamSide.Home ? Settings.AwayGoalLine : Settings.HomeGoalLine;
         }
+        
         protected ObjectOfInterestVisionStatus GetOwnGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
         {
             return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetOwnGoalName());
         }
+        
         protected ObjectOfInterestVisionStatus GetAwayGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
         {
             return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetAwayGoalName());
         }
+        
         protected ObjectOfInterestVisionStatus GetSoccerBallVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
         {
             return currentVisionSensorStatusList.First(x => x.ObjectName == Settings.SoccerBallObjectName);

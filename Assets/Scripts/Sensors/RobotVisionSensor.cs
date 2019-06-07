@@ -26,7 +26,7 @@ namespace Sensors
                 new ObjectOfInterestVisionStatus()
                 {
                     ObjectName = Settings.AwayGoalLine,
-                    MinimunDistance = 2.0f
+                    MinimunDistance = 3.0f
                 },
                 new ObjectOfInterestVisionStatus()
                 {
@@ -38,10 +38,39 @@ namespace Sensors
         private void Start()
         {
             foreach (var objectOfInterestVisionStatus in objectsOfInterestStatus)
-            {
+            {   
                 objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
             }
+            
+            // Find all other robots by their tag name.
+            var otherRobotsByTag = GetObjectsOfInterestByTag(Settings.OtherRobotsTagName);
+            
+            // Merge them with our existing list so that their vision status will be updated.
+            objectsOfInterestStatus = objectsOfInterestStatus.Union(otherRobotsByTag).ToList();
         }
+
+        private List<ObjectOfInterestVisionStatus> GetObjectsOfInterestByTag(string tag)
+        {
+            // Get a list of all gameobjects on the field with a specific tag
+            var gameObjectsByTag = GameObject.FindGameObjectsWithTag(tag);
+
+            var objectsOfInterestByTag = new List<ObjectOfInterestVisionStatus>();
+            
+            foreach (var gameObjectByTag in gameObjectsByTag)
+            {
+                // Make sure we cannot add ourselves
+                if (gameObjectByTag.Equals(transform.parent.gameObject))
+                    continue;
+                
+                objectsOfInterestByTag.Add(new ObjectOfInterestVisionStatus()
+                {
+                    GameObjectToFind = gameObjectByTag
+                });
+            }
+
+            return objectsOfInterestByTag;
+        }
+        
         /// <summary>
         /// Will continuously check all properties of the objects of interest we are interested in and update their status.
         /// </summary>
