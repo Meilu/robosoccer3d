@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Actuators;
 using DataModels;
+using PhysReps;
 using RobotActionStates;
 using Sensors;
 using UnityEngine;
@@ -34,7 +35,6 @@ namespace Planners
             
             InitializeObjectsOfInterestSubscriptions();
             DetermineRobotActionForCurrentSensors();
-    
         }
 
         private void Update()
@@ -119,7 +119,7 @@ namespace Planners
 
         private TeamSide GetTeamSide()
         {
-            return transform.parent.GetComponent<Team>().teamSide;
+            return transform.parent.GetComponent<TeamBehaviour>().teamSide;
         }
 
         protected string GetOwnGoalName()
