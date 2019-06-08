@@ -9,7 +9,7 @@ public class ShowRobotName : MonoBehaviour
 {
     private RectTransform _RobotNameTransform;
     private RobotPlanner _robotPlanner;
- //  private TextMeshProUGUI RobotTextName;
+//  private TextMeshProUGUI RobotTextName;
 
     // Start is called before the first frame update
     void Start()
