@@ -33,7 +33,7 @@
             <e p="RobotBattery.cs" t="Include" />
             <e p="RobotCollider.cs" t="Include" />
             <e p="ShowRobotName.cs" t="Include" />
-            <e p="Team.cs" t="Include" />
+            <e p="TeamBehaviour.cs" t="Include" />
           </e>
           <e p="Planners" t="Include">
             <e p="AttackerPlanner.cs" t="Include" />
@@ -46,12 +46,17 @@
           <e p="RobotActionStates" t="Include">
             <e p="RobotActionState.cs" t="Include" />
           </e>
+          <e p="SciptsAssembly.asmdef" t="Include" />
           <e p="Sensors" t="Include">
             <e p="RobotMovementSensor.cs" t="Include" />
             <e p="RobotSensor.cs" t="Include" />
             <e p="RobotVisionSensor.cs" t="Include" />
           </e>
           <e p="Settings.cs" t="Include" />
+          <e p="Tests" t="Include">
+            <e p="TeamTests.cs" t="Include" />
+            <e p="Tests.asmdef" t="Include" />
+          </e>
           <e p="timer.cs" t="Include" />
         </e>
         <e p="TextMesh Pro" t="Include">
@@ -84,9 +89,11 @@
       <e p="obj" t="ExcludeRecursive" />
       <e p="packages" t="ExcludeRecursive" />
       <e p="RoboSoccer3D.sln" t="IncludeFlat" />
+      <e p="ScriptsAssembly.csproj" t="IncludeRecursive" />
       <e p="Temp" t="ExcludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
       </e>
+      <e p="Tests.csproj" t="IncludeRecursive" />
     </e>
   </component>
 </project>
