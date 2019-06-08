@@ -48,12 +48,14 @@
           <e p="SciptsAssembly.asmdef" t="Include" />
           <e p="Sensors" t="Include">
             <e p="RobotMovementSensor.cs" t="Include" />
-            <e p="RobotSensor.cs" t="Include" />
-            <e p="RobotVisionSensor.cs" t="Include" />
+            <e p="RobotSensorBehaviour.cs" t="Include" />
+            <e p="RobotVisionSensorBehaviour.cs" t="Include" />
           </e>
           <e p="Settings.cs" t="Include" />
           <e p="Tests" t="Include">
             <e p="BallTests.cs" t="Include" />
+            <e p="RobotSensorTests.cs" t="Include" />
+            <e p="RobotVisionSensorTests.cs" t="Include" />
             <e p="TeamTests.cs" t="Include" />
             <e p="Tests.asmdef" t="Include" />
           </e>

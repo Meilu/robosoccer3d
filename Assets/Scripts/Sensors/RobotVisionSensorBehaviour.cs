@@ -8,13 +8,14 @@ using UnityEngine.Events;
 
 namespace Sensors
 {
-    public class RobotVisionSensor : RobotSensor<ObjectOfInterestVisionStatus>
+    public class  RobotVisionSensorBehaviour: RobotSensorBehaviour<ObjectOfInterestVisionStatus>
     {
         [UnityEngine.Range(0,360)]
         public float viewAngle;
 
-        RobotVisionSensor()
+        RobotVisionSensorBehaviour()
         {
+            RobotSensor = new RobotVisionSensor();
             // Initialize the list of items this robot is interested in with his visionsensor.
             // For now these are hardcoded, but in the future we may want to pass these dynamically because each robot may be interested in different objects.
             objectsOfInterestStatus = new List<ObjectOfInterestVisionStatus>() {
@@ -181,4 +182,13 @@ namespace Sensors
             return Vector3.Distance(objectToFind.transform.position, robotObjectPosition) < maxDistanceToCheck;
         }
     }
+
+    public class RobotVisionSensor : RobotSensor<ObjectOfInterestVisionStatus>
+    {
+        public override void UpdateObjectsOfInterestStatuses()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
 }
