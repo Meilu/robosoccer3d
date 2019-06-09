@@ -6,18 +6,16 @@ namespace Sensors
 {
     public abstract class RobotSensorBehaviour<T> : MonoBehaviour
     {
-        protected abstract RobotSensor<T> RobotSensor { get; set; }
+        protected abstract void UpdateObjectsOfInterestStatuses();
 
         private void FixedUpdate()
         {
-            RobotSensor.UpdateObjectsOfInterestStatuses();
+            UpdateObjectsOfInterestStatuses();
         }
     }
 
-    public abstract class RobotSensor<T>
+    public abstract class RobotSensor
     {
-        [HideInInspector] public List<T> ObjectsOfInterestStatus;
-
-        public abstract void UpdateObjectsOfInterestStatuses();
+        
     }
 }

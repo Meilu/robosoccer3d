@@ -13,27 +13,11 @@ namespace Sensors
         [UnityEngine.Range(0,360)]
         public float viewAngle;
 
+        private RobotVisionSensor RobotVisionSensor { get; set; }
+
         RobotVisionSensorBehaviour()
         {
-            RobotSensor = new RobotVisionSensor();
-            // Initialize the list of items this robot is interested in with his visionsensor.
-            // For now these are hardcoded, but in the future we may want to pass these dynamically because each robot may be interested in different objects.
-            objectsOfInterestStatus = new List<ObjectOfInterestVisionStatus>() {
-                new ObjectOfInterestVisionStatus()
-                {
-                    ObjectName = Settings.SoccerBallObjectName,
-                    MinimunDistance = 0.3f
-                },
-                new ObjectOfInterestVisionStatus()
-                {
-                    ObjectName = Settings.AwayGoalLine,
-                    MinimunDistance = 3.0f
-                },
-                new ObjectOfInterestVisionStatus()
-                {
-                    ObjectName = Settings.HomeGoalLine
-                }
-            };
+            RobotVisionSensor = new RobotVisionSensor();
         }
         
         private void Start()
@@ -48,28 +32,6 @@ namespace Sensors
             
             // Merge them with our existing list so that their vision status will be updated.
             objectsOfInterestStatus = objectsOfInterestStatus.Union(otherRobotsByTag).ToList();
-        }
-
-        private List<ObjectOfInterestVisionStatus> GetObjectsOfInterestByTag(string tag)
-        {
-            // Get a list of all gameobjects on the field with a specific tag
-            var gameObjectsByTag = GameObject.FindGameObjectsWithTag(tag);
-
-            var objectsOfInterestByTag = new List<ObjectOfInterestVisionStatus>();
-            
-            foreach (var gameObjectByTag in gameObjectsByTag)
-            {
-                // Make sure we cannot add ourselves
-                if (gameObjectByTag.Equals(transform.parent.gameObject))
-                    continue;
-                
-                objectsOfInterestByTag.Add(new ObjectOfInterestVisionStatus()
-                {
-                    GameObjectToFind = gameObjectByTag
-                });
-            }
-
-            return objectsOfInterestByTag;
         }
         
         /// <summary>
@@ -183,12 +145,41 @@ namespace Sensors
         }
     }
 
-    public class RobotVisionSensor : RobotSensor<ObjectOfInterestVisionStatus>
+    public class RobotVisionSensor : RobotSensor
     {
-        public override void UpdateObjectsOfInterestStatuses()
+
+        private List<ObjectOfInterestVisionStatus> _objectOfInterestVisionStatuses;
+
+        public RobotVisionSensor()
         {
-            throw new System.NotImplementedException();
+            _objectOfInterestVisionStatuses = new List<ObjectOfInterestVisionStatus>() {
+                new ObjectOfInterestVisionStatus()
+                {
+                    ObjectName = Settings.SoccerBallObjectName,
+                    MinimunDistance = 0.3f
+                },
+                new ObjectOfInterestVisionStatus()
+                {
+                    ObjectName = Settings.AwayGoalLine,
+                    MinimunDistance = 3.0f
+                },
+                new ObjectOfInterestVisionStatus()
+                {
+                    ObjectName = Settings.HomeGoalLine
+                }
+            };
         }
+        public IEnumerable<ObjectOfInterestVisionStatus> CreateObjectOfInterestForGameObjects(GameObject[] gameObjects)
+        {
+            foreach (var gameObjectByTag in gameObjects)
+            {
+                yield return new ObjectOfInterestVisionStatus()
+                {
+                    GameObjectToFind = gameObjectByTag
+                };
+            }
+        }
+
     }
 
 }
