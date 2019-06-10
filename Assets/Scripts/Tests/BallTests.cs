@@ -19,43 +19,12 @@ namespace Tests
         [Test]
         public void IsHitByFrontLegs_ColliderIsFrontLegs_ReturnsTrue()
         {
-            var isHit = _ball.IsHitByFrontLegs("frontLegs");
+            // Hier kan je de isHitByFrontLegs functie testen van het ball object. (_ball.isHitByFrontLegs())
             
-            Assert.IsTrue(isHit);
+            // met Assert.IsTrue(resultaathier) verwacht die dat de functie true gaat returnen, dus hoe kan je de IsHitByFrontLegs functie uitvoeren zodat die true returned?
+            // kijk ook in team.cs voor meer voorbeelden
         }
         
-        [Test]
-        public void IsHitByFrontLegs_ColliderIsNotFrontLegs_ReturnsFalse()
-        {
-            var isHit = _ball.IsHitByFrontLegs("backlegs");
-            
-            Assert.IsFalse(isHit);
-        }
-        
-        [Test]
-        public void GetBallShootingDirectionWithForce_CurrentRobotPosition_CorrectDirectionCalculated()
-        {
-            var robotPosition = new Vector3()
-            {
-                x = 2,
-                y = 2,
-                z = 2
-            };
-            
-            var ballPosition = new Vector3()
-            {
-                x = 1,
-                y = 1,
-                z = 1
-            };
-
-            _ball.ShootingForce = 0.2f;
-            
-            var shootingDirection = _ball.GetBallShootingDirectionWithForce(robotPosition, ballPosition);
-            var expected = new Vector3(-0.115470052f, -0.115470052f, -0.115470052f);
-            
-            Assert.AreEqual(shootingDirection, expected);
-        }
-        
+        // TODO: ook een functie maken om het false pad van de ishitbyfrontlegs functie te testen, zelfde testie als hierboven maar hoe ga je hem false laten returnen en false asserten? 
     }
 }
