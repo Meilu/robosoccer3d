@@ -40,33 +40,22 @@ namespace PhysReps
         public void ShowBatteryPercentage(GameObject batteryObject)
         {
             // Get new percentage
-            BatteryPercentage = GetBatteryPercentage(CheckIfRobotIsBoosting());
+            BatteryPercentage = GetBatteryPercentage(CheckIfRobotIsBoosting(), BatteryPercentage);
 
             // Get color based on the new percentage
-            BatteryColor = GetBatteryColor();
+            BatteryColor = GetBatteryColor(BatteryPercentage);
 
             // Update the renderer with the new color 
             SetBatteryColor(batteryObject);
         }
 
-        public float BatteryDrain(float currentBatteryPercentage)
-        {
-            return currentBatteryPercentage - this._drain * Time.deltaTime;
-        }
-
-        public float BatteryCharge(float currentBatteryPercentage)
-        {
-            return currentBatteryPercentage + this._recharge * Time.deltaTime;
-        }
-
-        public float GetBatteryPercentage(bool Boost)
+        public float GetBatteryPercentage(bool Boost, float currentBatteryPercentage)
         {
             if (Boost && BatteryPercentage > 0.01)
-                return  BatteryDrain(BatteryPercentage);
+                return currentBatteryPercentage - this._drain * Time.deltaTime;
             if (BatteryPercentage < 1)
-                return BatteryCharge(BatteryPercentage);
-
-            return 0;
+                return currentBatteryPercentage + this._recharge * Time.deltaTime;
+            else return 0;
         }
 
         //TO DO: event gooien
@@ -75,12 +64,12 @@ namespace PhysReps
             return BatteryPercentage < 0.01;
         }
 
-        public Color GetBatteryColor()
+        public Color GetBatteryColor(float currentBatteryPercentage)
         {
             Color BatteryFullColor = Color.blue;
             Color BatteryEmptyColor = Color.red;
 
-            return  Color.Lerp(BatteryEmptyColor, BatteryFullColor, BatteryPercentage);
+            return  Color.Lerp(BatteryEmptyColor, BatteryFullColor, currentBatteryPercentage);
         }
 
         public bool CheckIfRobotIsBoosting()
