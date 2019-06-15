@@ -1,13 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DataModels;
-using System.Linq;
-using Actuators;
-using UnityEngine;
+﻿using Actuators;
+using NSubstitute;
 using NUnit.Framework;
-using UnityEditor;
-using RobotBattery = PhysReps.RobotBattery;
-using RobotActionStates;
+using PhysReps;
 
 namespace Tests
 {
@@ -15,141 +9,116 @@ namespace Tests
     public class RobotBatteryTests
     {
         private RobotBattery _robotBattery;
-        private RobotActuator _robotActuator;
+        private IRobotActuator _robotActuator;
+        private ITimer _timer;
+
 
         [SetUp]
         public void Init()
         {
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/robot.prefab");
-            var _robot = GameObject.Instantiate(prefab, new Vector3(0, 0, 10), new Quaternion(0, 180, 0, 0));
+            // With substitute.for we create a mock for the IRobotActuator interface.
+            _robotActuator = Substitute.For<IRobotActuator>();
 
-            _robotActuator = _robot.GetComponentInParent<RobotActuator>();
-            _robotBattery = new RobotBattery(_robotActuator);
-       
-        }
+            // Because we cannot use time inside unit tests, we need to mock the timer class also
+            _timer = Substitute.For<ITimer>();
 
-       //// [Test]
-       // public void ShowBatteryPercentage_FullBatteryColor()
-       // {
-
-       //     Color batteryColor = Color.red;
-
-       //     float BatteryPercentage = 1;
-
-       //    // _robotBattery.ShowBatteryPercentage(_robotBattery);
-       //    // Assert.IsTrue(batteryObject.GetComponent<Renderer>().material.color == batteryColor);
-       // }
-
-       // [Test]
-       // public void BatteryDrain_ReturnsLowerFloat()
-       // {
-       //     float batteryPercentage = 0.5f;
-
-       //     float outCome = _robotBattery.BatteryDrain(batteryPercentage);
-       //     Assert.IsTrue(outCome < batteryPercentage);
-       // }
-
-       // [Test]
-       // public void BatteryDrain_cantDrainMore()
-       // {
-       //     float batteryPercentage = 0;
-
-       //     float outCome = _robotBattery.BatteryDrain(batteryPercentage);
-       //     Assert.IsTrue(outCome == batteryPercentage);
-       // }
-
-       // [Test]
-       // public void BatteryCharge__ReturnsHigherFloat()
-       // {
-       //     float batteryPercentage = 0.5f;
-
-       //     float outCome = _robotBattery.BatteryCharge(batteryPercentage);
-       //     Assert.IsTrue(outCome < batteryPercentage);
-       // }
-
-       // [Test]
-       // public void BatteryCharge__cantChargeMore()
-       // {
-       //     float batteryPercentage = 1f;
-
-       //     float outCome = _robotBattery.BatteryCharge(batteryPercentage);
-       //     Assert.IsTrue(outCome == batteryPercentage);
-       // }
-
-   
-        [Test]
-        public void GetBatteryPercentage__ifNotBoostBatteryCharges()
-        {
-            bool Boost = false;
-            float batteryPercentage = 0.5f;
-
-            float outCome = _robotBattery.GetBatteryPercentage(Boost, batteryPercentage);
-            Assert.IsTrue(outCome < batteryPercentage);
+            // Then we can pass this mock to the robotbattery so that it is not depended on the robotactuator and the timer itself.
+            _robotBattery = new RobotBattery(_robotActuator, _timer);
         }
 
         [Test]
-        public void GetBatteryPercentage__ifBoostButBatteryEmptyNoDrain()
+        public void CalculateBatteryPercentage_BatteryIsEmptyNoTimer_RechargeTimerStarted()
         {
-            bool Boost = true;
-            float batteryPercentage = 0;
+            // Setup
+            _robotBattery.BatteryPercentage = 0.01f;
 
-            float outCome = _robotBattery.GetBatteryPercentage(Boost, batteryPercentage);
-            Assert.IsTrue(outCome < batteryPercentage);
-        }
-        
-       // [Test]
-       // public void GetBatteryColor_ReturnBatteryEmptyColor()
-       // {
-       //     Color BatteryFullColor = Color.blue;
-       //     Color BatteryEmptyColor = Color.red;
+            // Set the return value of the enable property to 'false' on the timer mock.
+            // This way our first if is triggered (battery is empty and timer is not enabled)
+            _timer.Enabled.Returns<bool>(false);
 
-       //     float batteryPercentage = 0;
-
-       //     Assert.IsTrue(_robotBattery.GetBatteryColor(batteryPercentage) == Color.red);
-       // }
-        
-       // [Test]
-       // public void GetBatteryColor_ReturnBatteryFullColor()
-       // {
-       //     Color BatteryFullColor = Color.blue;
-       //     Color BatteryEmptyColor = Color.red;
-
-       //     float batteryPercentage = 1;
-
-       //     Assert.IsFalse(_robotBattery.GetBatteryColor(batteryPercentage) == Color.red);
-       // }
-
-        [Test]
-        public void GetBatteryPercentage_SlightlyDrainedPercentage_()
-        {
-            var batteryPercentage = 0.2f;
-            var outCome = _robotBattery.GetBatteryPercentage(true, batteryPercentage);
-            Assert.IsTrue(outCome < batteryPercentage);
-        }
+            //Act
+            var result = _robotBattery.CalculateBatteryPercentage();
 
 
-        [Test]
-        public void RobotIsBoosting_returnsTrue()
-        {
-            _robotActuator.activeRobotActionState = new RobotActionState(RobotArmAction.DoNothing,
-                                                                        RobotLegAction.DoNothing,
-                                                                        RobotMotorAction.BoostForward,
-                                                                        RobotWheelAction.DoNothing,
-                                                                        0);
-            Assert.IsTrue(_robotBattery.CheckIfRobotIsBoosting());
+            // Now check if the startimeout on the timer has been called with any amount in seconds.
+            // We could also hardcode 2 seconds here, than it will check if this function will always be called
+            // with 2 seconds, but that's a bit too strict i think. Any number is fine.
+            _timer.Received().StartTimeout(Arg.Any<int>());
         }
 
         [Test]
-        public void RobotIsNotBoosting_returnsfalse()
+        public void CalculateBatteryPercentage_IsNotBoostingNotFull_RechargeAmountAdded()
         {
-            _robotActuator.activeRobotActionState = new RobotActionState(RobotArmAction.DoNothing,
-                                                                        RobotLegAction.DoNothing,
-                                                                        RobotMotorAction.DoNothing,
-                                                                        RobotWheelAction.DoNothing,
-                                                                        0);
-            Assert.IsFalse(_robotBattery.CheckIfRobotIsBoosting());
+            // Setup
+            _robotBattery.BatteryPercentage = 0.12f;
+            _robotActuator.IsBoosting.Returns<bool>(false);
+
+            //Act
+            var result = _robotBattery.CalculateBatteryPercentage();
+
+            // Assert
+            // Hardcode the expected value.
+            var expected = 0.22f;
+            Assert.AreEqual(result, expected, 0.001);
         }
 
+        [Test]
+        public void CalculateBatteryPercentage_BatteryDepletedTimeoutEnabled_RechargeAmountAdded()
+        {
+            // Setup
+            _robotBattery.BatteryPercentage = 0.12f;
+            _robotActuator.IsBoosting.Returns<bool>(true);
+            _timer.Enabled.Returns<bool>(true);
+
+            //Act
+            var result = _robotBattery.CalculateBatteryPercentage();
+
+            // Assert
+            var expected = 0.22f;
+            Assert.AreEqual(result, expected, 0.001);
+        }
+
+        [Test]
+        public void CalculateBatteryPercentage_NotEmptyIsBoostingNoTimeout_DrainAmountRemoved()
+        {
+            // Setup
+            _robotBattery.BatteryPercentage = 0.9f;
+            _robotActuator.IsBoosting.Returns<bool>(true);
+            _timer.Enabled.Returns<bool>(false);
+
+            //Act
+            var result = _robotBattery.CalculateBatteryPercentage();
+
+            // Assert
+            var expected = 0.6f;
+            Assert.AreEqual(result, expected, 0.001);
+        }
+
+        [Test]
+        public void CalculateBatteryPercentage_BatteryEmpty_ReturnsFalse()
+        {
+            // Setup
+            _robotBattery.BatteryPercentage = 0.01f;
+
+            //Act
+            var result = _robotBattery.IsBatteryEmpty;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void CalculateBatteryPercentage_BatteryFull_ReturnsFalse()
+        {
+            // Setup
+            _robotBattery.BatteryPercentage = 0.5f;
+
+            //Act
+            var result = _robotBattery.IsBatteryFull;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
     }
 }
 

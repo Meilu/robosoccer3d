@@ -1,17 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class timer : MonoBehaviour
 {
-    private Text _textComponent;
+    // private Text _textComponent;
 
     public float matchDuration;
     // Start is called before the first frame update
     void Start()
     {
-        _textComponent = GetComponent<Text>();
+     //   _textComponent = GetComponent<Text>();
         InvokeRepeating("decreaseMatchDuration", 1.0f, 1.0f);
     }
 
@@ -20,7 +19,7 @@ public class timer : MonoBehaviour
     {
         if (matchDuration == 0)
         {
-            _textComponent.text = "finished";
+       //     _textComponent.text = "finished";
         }
     }
 
@@ -53,6 +52,6 @@ public class timer : MonoBehaviour
             secondsDisplay = "" + Mathf.RoundToInt(seconds).ToString();
         }
 
-        _textComponent.text = minutesDisplay + ":" + secondsDisplay;
+       //  _textComponent.text = minutesDisplay + ":" + secondsDisplay;
     }
 }

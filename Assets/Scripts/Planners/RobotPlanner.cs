@@ -45,7 +45,7 @@ namespace Planners
 
             // Get the first robotactionstate ordered by the highest weight first.
             var robotActionToExecute = _robotActionQueue.OrderByDescending(x => x.Weight).First();
-            var activeRobotAction = _robotVisionActuator.activeRobotActionState;
+            var activeRobotAction = _robotVisionActuator.ActiveRobotActionState;
 
             // Before sending the new action, make sure the current one is not more important (and also still true).
             if (activeRobotAction != null && activeRobotAction.Weight > robotActionToExecute.Weight && IsVisionStillCurrent(activeRobotAction.VisionStatusOnCreate))
