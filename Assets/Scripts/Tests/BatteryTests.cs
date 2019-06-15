@@ -1,13 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DataModels;
-using System.Linq;
-using Actuators;
-using UnityEngine;
+﻿using Actuators;
+
 using NUnit.Framework;
-using UnityEditor;
 using RobotBattery = PhysReps.RobotBattery;
-using RobotActionStates;
 
 namespace Tests
 {
@@ -15,19 +9,32 @@ namespace Tests
     public class RobotBatteryTests
     {
         private RobotBattery _robotBattery;
-        private RobotActuator _robotActuator;
+        private IRobotActuator _robotActuator;
 
         [SetUp]
         public void Init()
         {
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/robot.prefab");
-            var _robot = GameObject.Instantiate(prefab, new Vector3(0, 0, 10), new Quaternion(0, 180, 0, 0));
-
-            _robotActuator = _robot.GetComponentInParent<RobotActuator>();
+            // With substitute.for we create a mock for the IRobotActuator interface.
+            
+            // Then we can pass this mock to the robotbattery so that it is not depended on the robotactuator itself.
             _robotBattery = new RobotBattery(_robotActuator);
        
         }
 
+        [Test]
+        public void GetBatteryPercentage_BatteryIsEmptyNoTimer_RechargeTimerStarted()
+        {
+            // Setup
+            _robotBattery.BatteryPercentage = 0.01f;
+            
+            //Act
+            var result = _robotBattery.CalculateBatteryPercentage();
+            
+            // Assert
+          //  Assert.IsTrue();
+        }
+
+   
        //// [Test]
        // public void ShowBatteryPercentage_FullBatteryColor()
        // {
@@ -75,27 +82,6 @@ namespace Tests
        //     float outCome = _robotBattery.BatteryCharge(batteryPercentage);
        //     Assert.IsTrue(outCome == batteryPercentage);
        // }
-
-   
-        [Test]
-        public void GetBatteryPercentage__ifNotBoostBatteryCharges()
-        {
-            bool Boost = false;
-            float batteryPercentage = 0.5f;
-
-            float outCome = _robotBattery.GetBatteryPercentage(Boost, batteryPercentage);
-            Assert.IsTrue(outCome < batteryPercentage);
-        }
-
-        [Test]
-        public void GetBatteryPercentage__ifBoostButBatteryEmptyNoDrain()
-        {
-            bool Boost = true;
-            float batteryPercentage = 0;
-
-            float outCome = _robotBattery.GetBatteryPercentage(Boost, batteryPercentage);
-            Assert.IsTrue(outCome < batteryPercentage);
-        }
         
        // [Test]
        // public void GetBatteryColor_ReturnBatteryEmptyColor()
@@ -118,37 +104,37 @@ namespace Tests
 
        //     Assert.IsFalse(_robotBattery.GetBatteryColor(batteryPercentage) == Color.red);
        // }
+//   
+//        [Test]
+//        public void GetBatteryPercentage__ifNotBoostBatteryCharges()
+//        {
+//            bool Boost = false;
+//            float batteryPercentage = 0.5f;
+//
+//            float outCome = _robotBattery.GetBatteryPercentage(Boost, batteryPercentage);
+//            Assert.IsTrue(outCome < batteryPercentage);
+//        }
+//
+//        [Test]
+//        public void GetBatteryPercentage__ifBoostButBatteryEmptyNoDrain()
+//        {
+//            bool Boost = true;
+//            float batteryPercentage = 0;
+//
+//            float outCome = _robotBattery.GetBatteryPercentage(Boost, batteryPercentage);
+//            Assert.IsTrue(outCome < batteryPercentage);
+//        }
+//
+//
+//        [Test]
+//        public void GetBatteryPercentage_SlightlyDrainedPercentage_()
+//        {
+//            var batteryPercentage = 0.2f;
+//            var outCome = _robotBattery.GetBatteryPercentage(true, batteryPercentage);
+//            Assert.IsTrue(outCome < batteryPercentage);
+//        }
 
-        [Test]
-        public void GetBatteryPercentage_SlightlyDrainedPercentage_()
-        {
-            var batteryPercentage = 0.2f;
-            var outCome = _robotBattery.GetBatteryPercentage(true, batteryPercentage);
-            Assert.IsTrue(outCome < batteryPercentage);
-        }
-
-
-        [Test]
-        public void RobotIsBoosting_returnsTrue()
-        {
-            _robotActuator.activeRobotActionState = new RobotActionState(RobotArmAction.DoNothing,
-                                                                        RobotLegAction.DoNothing,
-                                                                        RobotMotorAction.BoostForward,
-                                                                        RobotWheelAction.DoNothing,
-                                                                        0);
-            Assert.IsTrue(_robotBattery.CheckIfRobotIsBoosting());
-        }
-
-        [Test]
-        public void RobotIsNotBoosting_returnsfalse()
-        {
-            _robotActuator.activeRobotActionState = new RobotActionState(RobotArmAction.DoNothing,
-                                                                        RobotLegAction.DoNothing,
-                                                                        RobotMotorAction.DoNothing,
-                                                                        RobotWheelAction.DoNothing,
-                                                                        0);
-            Assert.IsFalse(_robotBattery.CheckIfRobotIsBoosting());
-        }
+    
 
     }
 }

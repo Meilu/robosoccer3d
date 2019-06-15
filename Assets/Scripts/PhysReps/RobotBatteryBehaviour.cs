@@ -1,4 +1,5 @@
-﻿using Actuators;
+﻿using System.Timers;
+using Actuators;
 using UnityEngine;
 
 namespace PhysReps
@@ -7,82 +8,78 @@ namespace PhysReps
     public class RobotBatteryBehaviour : MonoBehaviour
     {
         private RobotBattery _robotBattery;
-
-        // Start is called before the first frame update
+        private Renderer _batteryRenderer;
         void Awake()
         {
-            // heb je maar 1 keer nodig
             var robotActuator = GetComponentInParent<RobotActuator>();
             _robotBattery = new RobotBattery(robotActuator);
+            _batteryRenderer = gameObject.GetComponent<Renderer>();
         }
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
-            _robotBattery.ShowBatteryPercentage(gameObject);
+            _robotBattery.UpdateBatteryPercentage();
+            
+            var batteryColor = _robotBattery.GetBatteryColor();
+            _batteryRenderer.material.color = batteryColor;
         }
     }
 
     public class RobotBattery
     {   
-        private float BatteryPercentage = 1.0f;
-        private float _drain = 0.3f;
-        private float _recharge = 0.1f;
+        
+        private float _drainAmountEachTick = 0.3f;
+        private float _rechargeAmountEachTick = 0.1f;
+        private Color _batteryFullColor = Color.blue;
+        private Color _batteryEmptyColor = Color.red;
 
-        public RobotActuator _RobotActuator;
-        public Color BatteryColor;
+        private Timer BatteryDepletedTimeoutTimer;
+        private IRobotActuator _robotActuator;
 
-        public RobotBattery(RobotActuator robotActuator)
+        public float BatteryPercentage = 0.0f;
+        public bool IsBatteryEmpty => BatteryPercentage < 0.1f;
+        public RobotBattery(IRobotActuator robotActuator)
         {
-            _RobotActuator = robotActuator;
+            _robotActuator = robotActuator;
         }
 
-        public void ShowBatteryPercentage(GameObject batteryObject)
+        public void UpdateBatteryPercentage()
         {
-            // Get new percentage
-            BatteryPercentage = GetBatteryPercentage(CheckIfRobotIsBoosting(), BatteryPercentage);
-
-            // Get color based on the new percentage
-            BatteryColor = GetBatteryColor(BatteryPercentage);
-
-            // Update the renderer with the new color 
-            SetBatteryColor(batteryObject);
+            BatteryPercentage = CalculateBatteryPercentage();
         }
 
-        public float GetBatteryPercentage(bool Boost, float currentBatteryPercentage)
+        public float CalculateBatteryPercentage()
         {
-            if (Boost && BatteryPercentage > 0.01)
-                return currentBatteryPercentage - this._drain * Time.deltaTime;
-            if (BatteryPercentage < 1)
-                return currentBatteryPercentage + this._recharge * Time.deltaTime;
-            else return 0;
+            // When our battery ran out, start a small recharge timeout 
+            if (IsBatteryEmpty && !BatteryDepletedTimeoutTimer.Enabled)
+                StartDepletedTimeout();
+            
+            // Recharge when we are not boosting or when the recharge timer is running
+            if ((!_robotActuator.IsBoosting && BatteryPercentage < 1) || BatteryDepletedTimeoutTimer.Enabled)
+                return BatteryPercentage + _rechargeAmountEachTick;
+            
+            // If boosting with enough battery left, drain battery while we can.
+            if (_robotActuator.IsBoosting && !IsBatteryEmpty)
+                return BatteryPercentage - _drainAmountEachTick;
+
+            return 0;
         }
 
-        //TO DO: event gooien
-        public bool CheckIfBatteryIsEmpty()
+        public void StartDepletedTimeout()
         {
-            return BatteryPercentage < 0.01;
+            if (BatteryDepletedTimeoutTimer.Enabled)
+                return;
+
+            BatteryDepletedTimeoutTimer = new Timer(2000)
+            {
+                Enabled = true
+            };
         }
-
-        public Color GetBatteryColor(float currentBatteryPercentage)
+               
+        public Color GetBatteryColor()
         {
-            Color BatteryFullColor = Color.blue;
-            Color BatteryEmptyColor = Color.red;
-
-            return  Color.Lerp(BatteryEmptyColor, BatteryFullColor, currentBatteryPercentage);
-        }
-
-        public bool CheckIfRobotIsBoosting()
-        {
-            if (_RobotActuator.activeRobotActionState == null)
-                return false;
-
-            return _RobotActuator.activeRobotActionState.MotorAction == RobotMotorAction.BoostForward;
-        }
-
-        public void SetBatteryColor(GameObject batteryObject)
-        {
-            batteryObject.GetComponent<Renderer>().material.color = BatteryColor;
+            return Color.Lerp(_batteryEmptyColor, _batteryFullColor, BatteryPercentage);
         }
     }
 }

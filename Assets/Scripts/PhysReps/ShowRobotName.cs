@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DataModels;
 using Planners;
-using UnityEngine.UI;
 
 public class ShowRobotName : MonoBehaviour
 {

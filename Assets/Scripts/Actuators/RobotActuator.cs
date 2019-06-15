@@ -8,9 +8,10 @@ using UnityEngine.Serialization;
 
 namespace Actuators
 {
-    public class RobotActuator : MonoBehaviour
+    public class RobotActuator : MonoBehaviour, IRobotActuator
     {
-        public RobotActionState activeRobotActionState;
+        public RobotActionState ActiveRobotActionState { get; internal set; }
+        public bool IsBoosting => ActiveRobotActionState != null && ActiveRobotActionState.MotorAction == RobotMotorAction.BoostForward;
 
         private Rigidbody _rigidBody;
         private Animator _frontLegsAnimator;
@@ -26,15 +27,15 @@ namespace Actuators
         
         public void ExecuteRobotAction(RobotActionState robotActionState)
         {
-            activeRobotActionState = robotActionState;
+            ActiveRobotActionState = robotActionState;
         }
         
         private void FixedUpdate()
         {
-            if (activeRobotActionState == null)
+            if (ActiveRobotActionState == null)
                 return;
             
-            switch (activeRobotActionState.MotorAction)
+            switch (ActiveRobotActionState.MotorAction)
             {
                 case RobotMotorAction.MoveForward:
                     MoveForward();
@@ -53,7 +54,7 @@ namespace Actuators
                     break;
             }
             
-            switch (activeRobotActionState.WheelAction)
+            switch (ActiveRobotActionState.WheelAction)
             {
                 case RobotWheelAction.TurnLeft:
                     TurnLeft();
@@ -63,7 +64,7 @@ namespace Actuators
                     break;
             }
 
-            switch (activeRobotActionState.LegAction)
+            switch (ActiveRobotActionState.LegAction)
             {
                 case RobotLegAction.KickForward:
                     KickForward();
@@ -72,40 +73,42 @@ namespace Actuators
         }
 
         //move motors
-        private void MoveRight()
+        public void MoveRight()
         {      
             _rigidBody.velocity = transform.right * 100.0f * Time.deltaTime;
         }
 
-        private void MoveLeft()
+        public void MoveLeft()
         {
             _rigidBody.velocity = -transform.right * 100.0f * Time.deltaTime;
         }
 
-        private void MoveForward()
+        public void MoveForward()
         {
             _rigidBody.velocity = transform.forward * 100.0f * Time.deltaTime;
         }
-        
-        private void BoostForward()
+
+        public void BoostForward()
         {
             _rigidBody.velocity = transform.forward * 120.0f * Time.deltaTime;
         }
-        private void MoveBackward()
+
+        public void MoveBackward()
         {
             _rigidBody.velocity = -transform.forward * 100.0f * Time.deltaTime;
         }
-        private void TurnRight()
+
+        public void TurnRight()
         {
             transform.Rotate(Vector3.up * (120.0f * Time.deltaTime));
         }
 
-        private void TurnLeft()
+        public void TurnLeft()
         {
             transform.Rotate(Vector3.up * (-120.0f * Time.deltaTime));
         }
-        
-        private void KickForward()
+
+        public void KickForward()
         {
             _frontLegsAnimator.Play("kickFrontLegsForward");
         }

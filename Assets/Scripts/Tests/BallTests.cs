@@ -1,7 +1,6 @@
 using NUnit.Framework;
 using PhysReps;
 using UnityEngine;
-using NUnit.Framework;
 using Ball = PhysReps.Ball;
 
 namespace Tests
