@@ -20,13 +20,10 @@ namespace Tests
         public void Init()
         {
             _team = new Team();
-            
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/robot.prefab");
-            _robot = GameObject.Instantiate(prefab, new Vector3(0, 0, 10), new Quaternion(0, 180, 0, 0));
-            
+            _robot = new GameObject("robot");
         }
         [Test]
-        public void AddKeeperPlannerComponentToRobot_ValidTeamPosition_ComponentAdded()
+        public void AddPlannerComponentToRobot_ValidTeamPosition_KeeperComponentAdded()
         {
             _team.AddPlannerComponentToRobot(TeamPosition.Keeper, _robot);
             
@@ -34,7 +31,7 @@ namespace Tests
         }
         
         [Test]
-        public void AddAttackerPlannerComponentToRobot_ValidTeamPosition_ComponentAdded()
+        public void AddPlannerComponentToRobot_ValidTeamPosition_AttackerComponentAdded()
         {
             _team.AddPlannerComponentToRobot(TeamPosition.Attacker, _robot);
             
@@ -42,7 +39,7 @@ namespace Tests
         }
         
         [Test]
-        public void AddMidfielderPlannerComponentToRobot_ValidTeamPosition_ComponentAdded()
+        public void AddPlannerComponentToRobot_ValidTeamPosition_MidfielderComponentAdded()
         {
             _team.AddPlannerComponentToRobot(TeamPosition.Midfielder, _robot);
             
@@ -50,7 +47,7 @@ namespace Tests
         }
         
         [Test]
-        public void AddDefenderPlannerComponentToRobot_ValidTeamPosition_ComponentAdded()
+        public void AddPlannerComponentToRobot_ValidTeamPosition_DefenderComponentAdded()
         {
             _team.AddPlannerComponentToRobot(TeamPosition.Defender, _robot);
             
@@ -58,7 +55,7 @@ namespace Tests
         }
         
         [Test]
-        public void AddDefenderPlannerComponentToRobot_InValidTeamPosition_ComponentNotAdded()
+        public void AddPlannerComponentToRobot_InValidTeamPosition_DefenderComponentNotAdded()
         {
             _team.AddPlannerComponentToRobot(TeamPosition.Midfielder, _robot);
             
