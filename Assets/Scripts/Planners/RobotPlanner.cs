@@ -16,10 +16,8 @@ namespace Planners
     public abstract class RobotPlanner : MonoBehaviour
     {
         private RobotActuator _robotVisionActuator;
-        private RobotVisionSensor _robotVisionSensor;
-        private RobotMovementSensor _robotMovementSensor;
+        private RobotVisionSensorBehaviour _robotVisionSensor;
         
-        // This holds the properties for this robot from the robotmodel. We can read the attack/defense speed etc from this model.
         public Robot RobotModel { get; set; }
         
         private readonly IList<RobotActionState> _robotActionQueue = new List<RobotActionState>();
@@ -30,8 +28,7 @@ namespace Planners
         void Start()
         {
             _robotVisionActuator = transform.GetComponent<RobotActuator>();
-            _robotVisionSensor = transform.Find(Settings.RobotFieldOfViewObjectName).GetComponent<RobotVisionSensor>();
-            _robotMovementSensor = transform.Find(Settings.RobotMovementStatusObjectName).GetComponent<RobotMovementSensor>();
+            _robotVisionSensor = transform.Find(Settings.RobotFieldOfViewObjectName).GetComponent<RobotVisionSensorBehaviour>();
             
             InitializeObjectsOfInterestSubscriptions();
             DetermineRobotActionForCurrentSensors();
@@ -66,7 +63,7 @@ namespace Planners
         private void InitializeObjectsOfInterestSubscriptions()
         {
             // Subscribe to the events of the objects of interest.
-            foreach (var objectOfInterestVisionStatus in _robotVisionSensor.objectsOfInterestStatus)
+            foreach (var objectOfInterestVisionStatus in _robotVisionSensor.objectOfInterestVisionStatuses)
             {
                 objectOfInterestVisionStatus.IsInsideVisionAngleChangeEvent += ObjectOfInterestPropertyChangeHandler;
                 objectOfInterestVisionStatus.IsWithinDistanceChangeEvent += ObjectOfInterestPropertyChangeHandler;
@@ -107,14 +104,14 @@ namespace Planners
         {
             IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList = new List<ObjectOfInterestVisionStatus>();
 
-            _robotVisionSensor.objectsOfInterestStatus.ForEach(x => currentVisionSensorStatusList.Add(x.Copy()));
+            _robotVisionSensor.objectOfInterestVisionStatuses.ForEach(x => currentVisionSensorStatusList.Add(x.Copy()));
 
             return currentVisionSensorStatusList;
         }
         
         private bool IsVisionStillCurrent(IList<ObjectOfInterestVisionStatus> visionStatus)
         {
-            return _robotVisionSensor.objectsOfInterestStatus.SequenceEqual(visionStatus);
+            return _robotVisionSensor.objectOfInterestVisionStatuses.SequenceEqual(visionStatus);
         }
 
         private TeamSide GetTeamSide()

@@ -14,7 +14,7 @@ namespace DebugScripts
         
         private void DrawFieldOfView()
         {
-            RobotVisionSensor robotVisionSensor = GetComponent<RobotVisionSensor>();
+            var robotVisionSensor = GetComponent<RobotVisionSensorBehaviour>();
         
             float rayRange = 10.0f;
             float halfFOV = robotVisionSensor.viewAngle;
