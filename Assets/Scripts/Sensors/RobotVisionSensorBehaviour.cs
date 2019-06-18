@@ -5,6 +5,7 @@ using System.Linq;
 using DataModels;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Sensors
 {
@@ -12,16 +13,16 @@ namespace Sensors
     {
         public float viewAngle;
 
-        private RobotVisionSensor RobotVisionSensor { get; set; }
-        private List<ObjectOfInterestVisionStatus> _objectOfInterestVisionStatusses;
+        private RobotVisionSensor _robotVisionSensor { get; }
+        public List<ObjectOfInterestVisionStatus> objectOfInterestVisionStatuses;
         RobotVisionSensorBehaviour()
         {
-            RobotVisionSensor = new RobotVisionSensor(viewAngle);
+            _robotVisionSensor = new RobotVisionSensor();
         }
         
         private void Start()
         {
-            var tempObjectOfInterestStatusses = new List<ObjectOfInterestVisionStatus>() {
+            var tempObjectOfInterestStatuses = new List<ObjectOfInterestVisionStatus>() {
                 new ObjectOfInterestVisionStatus()
                 {
                     ObjectName = Settings.SoccerBallObjectName,
@@ -37,17 +38,17 @@ namespace Sensors
                     ObjectName = Settings.HomeGoalLine
                 }
             };
-
-            foreach (var objectOfInterestVisionStatus in tempObjectOfInterestStatusses)
+            
+            foreach (var objectOfInterestVisionStatus in tempObjectOfInterestStatuses)
             {   
                 objectOfInterestVisionStatus.GameObjectToFind = GameObject.Find(objectOfInterestVisionStatus.ObjectName);
             }
             
             // Find all other robots by their tag name.
-            var otherRobotsByTag = RobotVisionSensor.CreateObjectOfInterestForGameObjects(GameObject.FindGameObjectsWithTag(Settings.OtherRobotsTagName));
+            var otherRobotsByTag = _robotVisionSensor.CreateObjectOfInterestForGameObjects(GameObject.FindGameObjectsWithTag(Settings.OtherRobotsTagName));
 
-            // Merge lists together.
-            _objectOfInterestVisionStatusses = tempObjectOfInterestStatusses.Union(otherRobotsByTag).ToList();
+            // Merge both temporary lists together.
+            objectOfInterestVisionStatuses = tempObjectOfInterestStatuses.Union(otherRobotsByTag).ToList();
         }
         
         /// <summary>
@@ -55,24 +56,28 @@ namespace Sensors
         /// </summary>
         protected override void UpdateObjectsOfInterestStatuses()
         {
-            foreach (var objectOfInterestVisionStatus in _objectOfInterestVisionStatusses)
+            foreach (var objectOfInterestVisionStatus in objectOfInterestVisionStatuses)
             {
                 // If object not found, don't continue this iteration but go to the next.
                 if (!objectOfInterestVisionStatus.GameObjectToFind)
                     continue;
-  
+
+                var objectPosition = objectOfInterestVisionStatus.GameObjectToFind.transform.position;
+                var position = transform.position;
+                
                 // Update the distance and vision angle status of this object of interest.
-                objectOfInterestVisionStatus.IsWithinDistance = RobotVisionSensor.IsObjectWithinDistance(objectOfInterestVisionStatus.GameObjectToFind.transform.position, transform.position, objectOfInterestVisionStatus.MinimunDistance);
-                objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectOfInterestVisionStatus.GameObjectToFind.transform.position, objectOfInterestVisionStatus.ObjectName, transform.position, transform.up, transform.forward);
+                objectOfInterestVisionStatus.IsWithinDistance = _robotVisionSensor.IsObjectWithinDistance(objectPosition, position, objectOfInterestVisionStatus.MinimunDistance);
+                objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectPosition, objectOfInterestVisionStatus.ObjectName, position, transform.up, transform.forward);
             }
         }
 
         private bool IsObjectInsideVisionAngle(Vector3 objectToFindPosition, string objectToFindName, Vector3 fromPosition, Vector3 upPointingVector, Vector3 forwardPointingVector)
         {
-            if (RobotVisionSensor.IsObjectInsideVisionAngle(objectToFindPosition, fromPosition, forwardPointingVector))
+            // Not even going to bother with unit testing these. Unit testing raycasts is a bitch.
+            if (_robotVisionSensor.IsObjectInsideVisionAngle(objectToFindPosition, fromPosition, forwardPointingVector, viewAngle))
                 return true;
 
-            if (!RobotVisionSensor.IsObjectWithinDistance(objectToFindPosition, fromPosition, 1.0f))
+            if (!_robotVisionSensor.IsObjectWithinDistance(objectToFindPosition, fromPosition, 1.0f))
                 return false;
 
             if (!IsRobotFacingObjectToFind(objectToFindName, fromPosition, forwardPointingVector))
@@ -122,13 +127,6 @@ namespace Sensors
 
     public class RobotVisionSensor : RobotSensor
     {
-        public List<ObjectOfInterestVisionStatus> ObjectOfInterestVisionStatuses;
-        private float _viewAngle;
-
-        public RobotVisionSensor(float viewAngle)
-        {
-            _viewAngle = viewAngle;
-        }
         public IEnumerable<ObjectOfInterestVisionStatus> CreateObjectOfInterestForGameObjects(GameObject[] gameObjects)
         {
             foreach (var gameObjectByTag in gameObjects)
@@ -151,15 +149,13 @@ namespace Sensors
         /// <summary>
         /// Checks whether the object is inside the robot's vision angle or not
         /// </summary>
-        /// <param name="objectToFind"></param>
-        /// <returns>bool</returns>
-        public bool IsObjectInsideVisionAngle(Vector3 objectToFindPosition, Vector3 fromPosition, Vector3 forwardPointingVector)
+        public bool IsObjectInsideVisionAngle(Vector3 objectToFindPosition, Vector3 fromPosition, Vector3 forwardPointingVector, float viewAngle)
         {
             // Get the direction to the object
-            var directionToObject = (objectToFindPosition - fromPosition);
+            var directionToObject = objectToFindPosition - fromPosition;
 
             // Calculate the angle to the object and check if it's inside our viewAngle.
-            return Vector3.Angle(forwardPointingVector, directionToObject) < _viewAngle;
+            return Vector3.Angle(forwardPointingVector, directionToObject) < viewAngle;
         }
     }
 }

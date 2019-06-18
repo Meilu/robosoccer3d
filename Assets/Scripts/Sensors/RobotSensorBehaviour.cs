@@ -16,6 +16,6 @@ namespace Sensors
 
     public abstract class RobotSensor
     {
-        
+        // Not sure yet what to put in this class. leaving it here for now.
     }
 }
