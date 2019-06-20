@@ -23,46 +23,46 @@ namespace Tests
             _team = new Team(_teamSide);
             _robot = new GameObject("robot");
         }
-        [Test]
-        public void AddPlannerComponentToRobot_ValidTeamPosition_KeeperComponentAdded()
-        {
-            _team.AddPlannerComponentToRobot(TeamPosition.Keeper, _robot);
-            
-            Assert.IsTrue(_robot.GetComponent<KeeperPlanner>() != null);
-        }
-        
-        [Test]
-        public void AddPlannerComponentToRobot_ValidTeamPosition_AttackerComponentAdded()
-        {
-            _team.AddPlannerComponentToRobot(TeamPosition.Attacker, _robot);
-            
-            Assert.IsTrue(_robot.GetComponent<AttackerPlanner>() != null);
-        }
-        
-        [Test]
-        public void AddPlannerComponentToRobot_ValidTeamPosition_MidfielderComponentAdded()
-        {
-            _team.AddPlannerComponentToRobot(TeamPosition.Midfielder, _robot);
-            
-            Assert.IsTrue(_robot.GetComponent<MidfielderPlanner>() != null);
-        }
-        
-        [Test]
-        public void AddPlannerComponentToRobot_ValidTeamPosition_DefenderComponentAdded()
-        {
-            _team.AddPlannerComponentToRobot(TeamPosition.Defender, _robot);
-            
-            Assert.IsTrue(_robot.GetComponent<DefenderPlanner>() != null);
-        }
-        
-        [Test]
-        public void AddPlannerComponentToRobot_InValidTeamPosition_DefenderComponentNotAdded()
-        {
-            _team.AddPlannerComponentToRobot(TeamPosition.Midfielder, _robot);
-            
-            Assert.IsTrue(_robot.GetComponent<DefenderPlanner>() == null);
-        }
-        
+//        [Test]
+//        public void AddPlannerComponentToRobot_ValidTeamPosition_KeeperComponentAdded()
+//        {
+//            _team.AddPlannerComponentToRobot(TeamPosition.Keeper, _robot);
+//            
+//            Assert.IsTrue(_robot.GetComponent<KeeperPlanner>() != null);
+//        }
+//        
+//        [Test]
+//        public void AddPlannerComponentToRobot_ValidTeamPosition_AttackerComponentAdded()
+//        {
+//            _team.AddPlannerComponentToRobot(TeamPosition.Attacker, _robot);
+//            
+//            Assert.IsTrue(_robot.GetComponent<AttackerPlanner>() != null);
+//        }
+//        
+//        [Test]
+//        public void AddPlannerComponentToRobot_ValidTeamPosition_MidfielderComponentAdded()
+//        {
+//            _team.AddPlannerComponentToRobot(TeamPosition.Midfielder, _robot);
+//            
+//            Assert.IsTrue(_robot.GetComponent<MidfielderPlanner>() != null);
+//        }
+//        
+//        [Test]
+//        public void AddPlannerComponentToRobot_ValidTeamPosition_DefenderComponentAdded()
+//        {
+//            _team.AddPlannerComponentToRobot(TeamPosition.Defender, _robot);
+//            
+//            Assert.IsTrue(_robot.GetComponent<DefenderPlanner>() != null);
+//        }
+//        
+//        [Test]
+//        public void AddPlannerComponentToRobot_InValidTeamPosition_DefenderComponentNotAdded()
+//        {
+//            _team.AddPlannerComponentToRobot(TeamPosition.Midfielder, _robot);
+//            
+//            Assert.IsTrue(_robot.GetComponent<DefenderPlanner>() == null);
+//        }
+//        
         [Test]
         public void GetFormationPositions_TwoPositions_ListPopulated()
         {
