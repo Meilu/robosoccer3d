@@ -15,11 +15,12 @@ namespace Tests
     {
         private GameObject _robot;
         private Team _team;
+        private TeamSide _teamSide = TeamSide.Home;
         
         [SetUp]
         public void Init()
         {
-            _team = new Team();
+            _team = new Team(_teamSide);
             _robot = new GameObject("robot");
         }
         [Test]
