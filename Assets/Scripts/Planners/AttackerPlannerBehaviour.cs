@@ -19,6 +19,7 @@ namespace Planners
     {
         protected override IList<RobotActionState> ExecutePlan(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
         {
+            // Hand out cookies based on the behaviour of the attacker here (machine learning)
             return new List<RobotActionState>();
         }
     }
