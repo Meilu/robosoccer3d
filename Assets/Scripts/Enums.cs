@@ -1,17 +1,10 @@
 using System;
 
-public enum BoundarySide
+public enum BallBoundType
 {
-    TopLeftEndline,
-    BottomLeftEndline,
-    TopRightEndline,
-    BottomRightEndline,
-    TopLeftSideline,
-    TopRightSideLine,
-    BottomLeftSideline,
-    BottomRightSideline,
-    LeftGoalLine,
-    RightGoalLine
+    LeftGoalBound,
+    RightGoalBound,
+    SideLineBound
 }
 
 public enum EventType
