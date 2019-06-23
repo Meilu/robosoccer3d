@@ -8,55 +8,36 @@ using PhysReps;
 using RobotActionStates;
 using Sensors;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
 using Team = PhysReps.Team;
 using Timer = System.Timers.Timer;
 
 namespace Planners
 {
-    public abstract class RobotPlanner : MonoBehaviour
+    public abstract class RobotPlannerBehaviour : MonoBehaviour
     {
         private RobotActuator _robotVisionActuator;
         private RobotVisionSensorBehaviour _robotVisionSensor;
+        protected abstract RobotPlanner RobotPlanner { get; }
+        protected Robot RobotModel { get; set; }
         
-        public Robot RobotModel { get; set; }
-        
-        private readonly IList<RobotActionState> _robotActionQueue = new List<RobotActionState>();
-        
-        protected abstract IList<RobotActionState> ExecutePlan(
-            IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList);
-
         void Start()
         {
             _robotVisionActuator = transform.GetComponent<RobotActuator>();
             _robotVisionSensor = transform.Find(Settings.RobotFieldOfViewObjectName).GetComponent<RobotVisionSensorBehaviour>();
             
             InitializeObjectsOfInterestSubscriptions();
-            DetermineRobotActionForCurrentSensors();
         }
-
-        private void Update()
+        
+        /// <summary>
+        /// This is the event handler that is called whenever a property of an object of interest changes.
+        /// Here we will determine the action we need to take based on the new state of the visionstatus
+        /// </summary>
+        private void ObjectOfInterestPropertyChangeHandler(object sender, EventArgs args)
         {
-            // Check if there are items in the queue at this moment.
-            if (!_robotActionQueue.Any())
-                return;
-
-            // Get the first robotactionstate ordered by the highest weight first.
-            var robotActionToExecute = _robotActionQueue.OrderByDescending(x => x.Weight).First();
-            var activeRobotAction = _robotVisionActuator.ActiveRobotActionState;
-
-            // Before sending the new action, make sure the current one is not more important (and also still true).
-            if (activeRobotAction != null && activeRobotAction.Weight > robotActionToExecute.Weight && IsVisionStillCurrent(activeRobotAction.VisionStatusOnCreate))
-                // The current vision is still current and also more important, dont continue.
-                return;
-
-            // Save the state of the current vision on the action before we execute it :)
-            // This way we have a small history of the state he had before we transitioned to it's new state (maybe come in handy)
-            robotActionToExecute.VisionStatusOnCreate = GetCurrentVisionStatusList();
-            
-            // Execute the dequeued action.
-            _robotVisionActuator.ExecuteRobotAction(robotActionToExecute);
+            RobotPlanner.DetermineRobotActionForCurrentSensors();
         }
-
+        
         /// <summary>
         /// Binds event handlers to the properties of the object of interest.
         /// </summary>
@@ -69,79 +50,26 @@ namespace Planners
                 objectOfInterestVisionStatus.IsWithinDistanceChangeEvent += ObjectOfInterestPropertyChangeHandler;
             }
         }
+    }
 
-        /// <summary>
-        /// This is the event handler that is called whenever a property of an object of interest changes.
-        /// Here we will determine the action we need to take based on the new state of the visionstatus :)
-        /// </summary>
-        private void ObjectOfInterestPropertyChangeHandler(object sender, EventArgs args)
+    public abstract class RobotPlanner
+    {
+        private readonly IList<RobotActionState> _robotActionQueue = new List<RobotActionState>();
+        protected abstract IList<RobotActionState> ExecutePlan(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList);
+
+        public bool ShouldExecuteAction(RobotActionState activeRobotAction, RobotActionState robotActionToExecute)
         {
-            DetermineRobotActionForCurrentSensors();
-        }
-
-        private void DetermineRobotActionForCurrentSensors()
-        {
-            // Check what state belongs to our current vision.
-            var robotActionStatesForCurrentVision = DetermineRobotActionStateForCurrentVision();
-
-            // Clear the current queue and add all new items based on the new vision.
-            _robotActionQueue.Clear();
-            
-            foreach (var robotActionState in robotActionStatesForCurrentVision)
-            {
-                _robotActionQueue.Add(robotActionState);
-            }
+            return activeRobotAction != null && activeRobotAction.Weight > robotActionToExecute.Weight && IsVisionStillCurrent(activeRobotAction.VisionStatusOnCreate);
         }
         
-        private IList<RobotActionState> DetermineRobotActionStateForCurrentVision()
+        public bool IsVisionStillCurrent(IList<ObjectOfInterestVisionStatus> visionStatus)
         {
-            var currentVisionSensorStatusList = GetCurrentVisionStatusList();
-            
-            return ExecutePlan(currentVisionSensorStatusList);
-        }
-
-        private IList<ObjectOfInterestVisionStatus> GetCurrentVisionStatusList()
-        {
-            IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList = new List<ObjectOfInterestVisionStatus>();
-
-            _robotVisionSensor.objectOfInterestVisionStatuses.ForEach(x => currentVisionSensorStatusList.Add(x.Copy()));
-
-            return currentVisionSensorStatusList;
+            return false;
         }
         
-        private bool IsVisionStillCurrent(IList<ObjectOfInterestVisionStatus> visionStatus)
+        public IList<RobotActionState> DetermineRobotActionForCurrentSensors()
         {
-            return _robotVisionSensor.objectOfInterestVisionStatuses.SequenceEqual(visionStatus);
+            return new List<RobotActionState>();
         }
-
-        private TeamSide GetTeamSide()
-        {
-            return transform.parent.GetComponent<TeamBehaviour>().teamSide;
-        }
-
-        protected string GetOwnGoalName()
-        {
-            return GetTeamSide() == TeamSide.Home ? Settings.HomeGoalLine : Settings.AwayGoalLine;
-        }
-
-        protected string GetAwayGoalName()
-        {
-            return GetTeamSide() == TeamSide.Home ? Settings.AwayGoalLine : Settings.HomeGoalLine;
-        }
-        
-        protected ObjectOfInterestVisionStatus GetOwnGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
-        {
-            return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetOwnGoalName());
-        }
-        
-        protected ObjectOfInterestVisionStatus GetAwayGoalVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
-        {
-            return currentVisionSensorStatusList.FirstOrDefault(x => x.ObjectName == GetAwayGoalName());
-        }
-        
-        protected ObjectOfInterestVisionStatus GetSoccerBallVisionStatus(IList<ObjectOfInterestVisionStatus> currentVisionSensorStatusList)
-        {
-            return currentVisionSensorStatusList.First(x => x.ObjectName == Settings.SoccerBallObjectName);
-        }  
     }
 }

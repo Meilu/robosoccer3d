@@ -18,7 +18,7 @@ namespace PhysReps
         
         private void Awake()
         {
-            _team = new Team();
+            _team = new Team(teamSide);
             _formationsPositions = _team.GetFormationPositions(3, GetComponent<BoxCollider>().bounds.size, robotPrefab.transform.GetComponent<BoxCollider>().size, -0.4f).ToList();
             
             // Create some robots (for now hardcoded, but in the future the player will be able to set these from the ui and add any robot he wishes :))
@@ -42,8 +42,8 @@ namespace PhysReps
                 robot.transform.localPosition = new Vector3(positionVector.x, positionVector.y, positionVector.z);
                 RobotPlanner plannerComponent = _team.AddPlannerComponentToRobot(robotModel.TeamPosition, robot);
                 
-                // Save all of the properties of the robotmodel onto the prefab, so we can access them during the game if needed:)
-                plannerComponent.RobotModel = robotModel;
+//                // Save all of the properties of the robotmodel onto the prefab, so we can access them during the game if needed:)
+//                plannerComponent.RobotModel = robotModel;
             }
         }   
     }
@@ -51,6 +51,12 @@ namespace PhysReps
     // Placed all logic in a seperate class so we can unit test it without annoying unity dependencies. (humble pattern)
     public class Team
     {
+        private TeamSide _teamSide;
+
+        public Team(TeamSide teamSide)
+        {
+            _teamSide = teamSide;
+        }
         public IEnumerable<FormationPosition> GetFormationPositions(int maxSquadNumber, Vector3 colliderBounds, Vector3 robotPrefabSize, float robotYAxisPosition)
         {
             for (var i = 0; i < maxSquadNumber; i++)
@@ -88,20 +94,25 @@ namespace PhysReps
         
         public RobotPlanner AddPlannerComponentToRobot(TeamPosition teamPosition, GameObject robotObject)
         {
-            switch (teamPosition)
-            {
-                case TeamPosition.Keeper:
-                    return robotObject.AddComponent<KeeperPlanner>();
-                case TeamPosition.Midfielder:
-                    return robotObject.AddComponent<MidfielderPlanner>();
-                case TeamPosition.Defender:
-                    return robotObject.AddComponent<DefenderPlanner>();
-                case TeamPosition.Attacker:
-                    return robotObject.AddComponent<AttackerPlanner>();
-                default:
-                    return null;
-            }
+            return null;
+//            switch (teamPosition)
+//            {
+//                case TeamPosition.Keeper:
+//                    return robotObject.AddComponent<KeeperPlannerBehaviour>();
+//                case TeamPosition.Midfielder:
+//                    return robotObject.AddComponent<MidfielderPlannerBehaviour>();
+//                case TeamPosition.Defender:
+//                    return robotObject.AddComponent<DefenderPlannerBehaviour>();
+//                case TeamPosition.Attacker:
+//                    return robotObject.AddComponent<AttackerPlannerBehaviour>();
+//                default:
+//                    return null;
+//            }
         }
         
+        public string GetGoalName()
+        {
+            return _teamSide == TeamSide.Home ? Settings.HomeGoalLine : Settings.AwayGoalLine;
+        }
     }
 }
