@@ -1,0 +1,122 @@
+fileFormatVersion: 2
+guid: 93e193c89b435f2488d13bdc74cd19ce
+timeCreated: 1525819580
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: banner
+    100002: Camera
+    100004: feld_asche
+    100006: feld_wiese
+    100008: //RootNode
+    100010: gelaender
+    100012: markierungen
+    100014: stadion_details
+    100016: stadion_main
+    100018: tore
+    400000: banner
+    400002: Camera
+    400004: feld_asche
+    400006: feld_wiese
+    400008: //RootNode
+    400010: gelaender
+    400012: markierungen
+    400014: stadion_details
+    400016: stadion_main
+    400018: tore
+    2300000: banner
+    2300002: feld_asche
+    2300004: feld_wiese
+    2300006: gelaender
+    2300008: markierungen
+    2300010: stadion_details
+    2300012: stadion_main
+    2300014: tore
+    3300000: banner
+    3300002: feld_asche
+    3300004: feld_wiese
+    3300006: gelaender
+    3300008: markierungen
+    3300010: stadion_details
+    3300012: stadion_main
+    3300014: tore
+    4300000: feld_wiese
+    4300002: feld_asche
+    4300004: markierungen
+    4300006: gelaender
+    4300008: stadion_main
+    4300010: banner
+    4300012: stadion_details
+    4300014: tore
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 38
+    normalImportMode: 1
+    tangentImportMode: 3
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

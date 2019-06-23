@@ -42,8 +42,8 @@ namespace PhysReps
                 robot.transform.localPosition = new Vector3(positionVector.x, positionVector.y, positionVector.z);
                 RobotPlanner plannerComponent = _team.AddPlannerComponentToRobot(robotModel.TeamPosition, robot);
                 
-                // Save all of the properties of the robotmodel onto the prefab, so we can access them during the game if needed:)
-                plannerComponent.RobotModel = robotModel;
+//                // Save all of the properties of the robotmodel onto the prefab, so we can access them during the game if needed:)
+//                plannerComponent.RobotModel = robotModel;
             }
         }   
     }
@@ -94,19 +94,20 @@ namespace PhysReps
         
         public RobotPlanner AddPlannerComponentToRobot(TeamPosition teamPosition, GameObject robotObject)
         {
-            switch (teamPosition)
-            {
-                case TeamPosition.Keeper:
-                    return robotObject.AddComponent<KeeperPlannerBehaviour>();
-                case TeamPosition.Midfielder:
-                    return robotObject.AddComponent<MidfielderPlannerBehaviour>();
-                case TeamPosition.Defender:
-                    return robotObject.AddComponent<DefenderPlannerBehaviour>();
-                case TeamPosition.Attacker:
-                    return robotObject.AddComponent<AttackerPlannerBehaviour>();
-                default:
-                    return null;
-            }
+            return null;
+//            switch (teamPosition)
+//            {
+//                case TeamPosition.Keeper:
+//                    return robotObject.AddComponent<KeeperPlannerBehaviour>();
+//                case TeamPosition.Midfielder:
+//                    return robotObject.AddComponent<MidfielderPlannerBehaviour>();
+//                case TeamPosition.Defender:
+//                    return robotObject.AddComponent<DefenderPlannerBehaviour>();
+//                case TeamPosition.Attacker:
+//                    return robotObject.AddComponent<AttackerPlannerBehaviour>();
+//                default:
+//                    return null;
+//            }
         }
         
         public string GetGoalName()
