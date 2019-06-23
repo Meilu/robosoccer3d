@@ -35,7 +35,19 @@
             <e p="FovDebugger.cs" t="Include" />
           </e>
           <e p="Enums.cs" t="Include" />
-          <e p="EventManager.cs" t="Include" />
+          <e p="EventSystem" t="Include">
+            <e p="Event.cs" t="Include" />
+            <e p="EventHandler.cs" t="Include" />
+            <e p="EventManager.cs" t="Include" />
+            <e p="Events" t="Include">
+              <e p="BallCrossedGoalLineEvent.cs" t="Include" />
+              <e p="BaseEvent.cs" t="Include" />
+            </e>
+            <e p="Handlers" t="Include">
+              <e p="BallEventsHandler.cs" t="Include" />
+            </e>
+            <e p="IEventHandler.cs" t="Include" />
+          </e>
           <e p="MiscObjects" t="Include">
             <e p="BallBoundCollision.cs" t="Include" />
             <e p="BallBoundsCollision.cs" t="Include" />

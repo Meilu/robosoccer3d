@@ -1,4 +1,6 @@
 ﻿using System;
+using EventSystem;
+using EventSystem.Events;
 using UnityEngine;
 
 namespace MiscObjects
@@ -12,9 +14,24 @@ namespace MiscObjects
             if (ballBoundCollision == null)
                 return;
 
-            var type = ballBoundCollision.BallBoundType;
+            if (other == null || other.gameObject.name != Settings.SoccerBallObjectName)
+                return;
             
-            // Do something with type here.
+            var type = ballBoundCollision.BallBoundType;
+
+            switch (type)
+            {
+                case BallBoundType.LeftGoalBound:
+                case BallBoundType.RightGoalBound:
+                    EventManager.Instance.Raise(
+                        new BallCrossedGoalLineEvent(
+                                other.gameObject.transform.position,
+                                type
+                            ));
+                    break;
+                default:
+                    return;
+            }
         }
     }
 }
