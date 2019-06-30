@@ -17,22 +17,59 @@ namespace EventSystem.Handlers
         // Update is called once per frame
         void Update()
         {
-            if (_rulesHandler.checkForRulesToStartGame()) {
-                _rulesHandler.checkForRulesDuringTheGame();
+            if (_rulesHandler.CheckForRulesToStartGame()) {
+                do
+                {
+                    _rulesHandler.CheckForRulesDuringTheGame();
+                }
+                while (!_rulesHandler.GameHasEnded());
             };
         }
     }
 
     public class SoccerRulesHandler
     {
-        public bool checkForRulesToStartGame()
+        private int teamHomePlayerAmount;
+        private int teamAwayPlayerAmount;
+
+        private Color teamHomeOutfit;
+        private Color teamAwayOutfit;
+
+        public bool CheckForRulesToStartGame()
         {
-            return true;
+            if (ThereAreEnoughPlayersOnTheTeam(teamHomePlayerAmount) 
+                && ThereAreEnoughPlayersOnTheTeam(teamAwayPlayerAmount) 
+                && PlayerOutfitsAreNotTheSameOnOtherTeam(teamHomeOutfit, teamAwayOutfit))
+            {
+                return true;
+            } else return false;
         }
 
-        public void checkForRulesDuringTheGame()
+        public void CheckForRulesDuringTheGame()
         {
             Console.Write("checking rules during the game");
+        }
+
+        public bool ThereAreEnoughPlayersOnTheTeam(int teamPlayerAmount)
+        {
+            if (teamPlayerAmount >= 7 && teamPlayerAmount <= 11)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public bool PlayerOutfitsAreNotTheSameOnOtherTeam(Color ColorTeamHome, Color ColorTeamAway)
+        {
+            if (ColorTeamHome == ColorTeamAway)
+            {
+                return false;
+            } else return true;
+        }
+
+        public bool GameHasEnded()
+        {
+            return false;
         }
     }
 }
