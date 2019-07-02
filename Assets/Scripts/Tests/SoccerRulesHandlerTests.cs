@@ -20,7 +20,7 @@ namespace Tests
         public void CheckForRulesToStartGame_ReturnsTrue()
         {
            // _soccerRulesHandler.ThereAreEnoughPlayersOnTheTeam() = true;
-           // _soccerRulesHandler.playerOutfitsAreNotTheSameOnOtherTeam() = true;
+           // _soccerRulesHandler.playerOutfitsAreTheSameOnOtherTeam() = false;
 
             Assert.IsTrue(_soccerRulesHandler.CheckForRulesToStartGame());
         }
@@ -44,6 +44,24 @@ namespace Tests
         {
             int teamPlayerAmount = 12;
             Assert.IsFalse(_soccerRulesHandler.ThereAreEnoughPlayersOnTheTeam(teamPlayerAmount));
+        }
+
+        [Test]
+        public void PlayerOutfitsAreTheSameOnOtherTeam_ReturnsTrue()
+        {
+            Color ColorTeamHome = Color.blue;
+            Color ColorTeamAway = Color.blue;
+
+            Assert.IsTrue(_soccerRulesHandler.PlayerOutfitsAreTheSameOnOtherTeam(ColorTeamHome, ColorTeamAway));
+        }
+
+        [Test]
+        public void PlayerOutfitsAreTheSameOnOtherTeam_ReturnsFalse()
+        {
+            Color ColorTeamHome = Color.blue;
+            Color ColorTeamAway = Color.green;
+
+            Assert.IsFalse(_soccerRulesHandler.PlayerOutfitsAreTheSameOnOtherTeam(ColorTeamHome, ColorTeamAway));
         }
 
     }

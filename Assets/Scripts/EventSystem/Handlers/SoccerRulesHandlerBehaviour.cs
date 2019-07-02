@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PhysReps;
 
 namespace EventSystem.Handlers
 {
@@ -22,7 +23,7 @@ namespace EventSystem.Handlers
                 {
                     _rulesHandler.CheckForRulesDuringTheGame();
                 }
-                while (!_rulesHandler.GameHasEnded());
+                while (!_rulesHandler.GameHasEnded);
             };
         }
     }
@@ -35,41 +36,63 @@ namespace EventSystem.Handlers
         private Color teamHomeOutfit;
         private Color teamAwayOutfit;
 
+        Vector3 ballPosition = new Vector3 (0f, 0f, 0f);
+        Team teamToShoot;
+
+        private Team teamHome;
+        private Team teamAway;
+
+        //these bools should come from events during the game.
+        public bool GameHasEnded = false;
+        public bool ballCrossedTheLine = false;
+        public bool gameStateChanged = false;
+        public bool foulHasBeenCommitted = false;
+
         public bool CheckForRulesToStartGame()
         {
-            if (ThereAreEnoughPlayersOnTheTeam(teamHomePlayerAmount) 
-                && ThereAreEnoughPlayersOnTheTeam(teamAwayPlayerAmount) 
-                && PlayerOutfitsAreNotTheSameOnOtherTeam(teamHomeOutfit, teamAwayOutfit))
+            if (ThereAreEnoughPlayersOnTheTeam(teamHomePlayerAmount)
+                && ThereAreEnoughPlayersOnTheTeam(teamAwayPlayerAmount)
+                && !PlayerOutfitsAreTheSameOnOtherTeam(teamHomeOutfit, teamAwayOutfit))
             {
+
                 return true;
-            } else return false;
+            }
+            else
+                Console.Write("Start Game conditions are not met");
+                return false;
         }
 
         public void CheckForRulesDuringTheGame()
         {
-            Console.Write("checking rules during the game");
+            //checks for 3 different reasons why the ball should be replaced and a team gets to shoot
+            if (ballCrossedTheLine || gameStateChanged || foulHasBeenCommitted)
+            {
+                ballPosition = ReturnNewBallLocation(ballPosition);
+                teamToShoot = ReturnTeamToShoot(teamHome, teamAway);
+            }
+            //no rules implemented yet for changing players during the game
         }
 
         public bool ThereAreEnoughPlayersOnTheTeam(int teamPlayerAmount)
         {
-            if (teamPlayerAmount >= 7 && teamPlayerAmount <= 11)
-            {
-                return true;
-            }
-            else return false;
+            return (teamPlayerAmount >= 7 && teamPlayerAmount <= 11);
         }
 
-        public bool PlayerOutfitsAreNotTheSameOnOtherTeam(Color ColorTeamHome, Color ColorTeamAway)
+        public bool PlayerOutfitsAreTheSameOnOtherTeam(Color ColorTeamHome, Color ColorTeamAway)
         {
-            if (ColorTeamHome == ColorTeamAway)
-            {
-                return false;
-            } else return true;
+            return (ColorTeamHome == ColorTeamAway);
+        }  
+
+        public Vector3 ReturnNewBallLocation(Vector3 ballLocation)
+        {
+            //depending on the event, the ball will get a different location. For now just this position
+            return ballPosition = new Vector3(0, 0, 0);
         }
 
-        public bool GameHasEnded()
+        public Team ReturnTeamToShoot(Team teamHome, Team teamAway)
         {
-            return false;
+            //depending on the event, should determine which team gets to shoot. For now just team home
+            return teamToShoot = teamHome;
         }
     }
 }
