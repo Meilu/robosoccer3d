@@ -12,19 +12,23 @@ namespace EventSystem.Handlers
         // Start is called before the first frame update
         void Start()
         {
+            var canStart = _rulesHandler.CheckForRulesToStartGame();
 
+            if (!canStart)
+                // toon melding
+                return;
+            
+            // start game
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (_rulesHandler.CheckForRulesToStartGame()) {
-                do
-                {
-                    _rulesHandler.CheckForRulesDuringTheGame();
-                }
-                while (!_rulesHandler.GameHasEnded);
-            };
+            if (_rulesHandler.GameHasEnded)
+                return;
+            
+            _rulesHandler.CheckForRulesDuringTheGame();
+            
         }
     }
 
@@ -86,13 +90,13 @@ namespace EventSystem.Handlers
         public Vector3 ReturnNewBallLocation(Vector3 ballLocation)
         {
             //depending on the event, the ball will get a different location. For now just this position
-            return ballPosition = new Vector3(0, 0, 0);
+            return new Vector3(0, 0, 0);
         }
 
         public Team ReturnTeamToShoot(Team teamHome, Team teamAway)
         {
             //depending on the event, should determine which team gets to shoot. For now just team home
-            return teamToShoot = teamHome;
+            return teamHome;
         }
     }
 }
