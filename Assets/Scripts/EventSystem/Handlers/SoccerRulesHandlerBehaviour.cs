@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game;
 using UnityEngine;
 using PhysReps;
 
@@ -34,12 +35,9 @@ namespace EventSystem.Handlers
 
     public class SoccerRulesHandler
     {
-        private int teamHomePlayerAmount;
-        private int teamAwayPlayerAmount;
 
-        private Color teamHomeOutfit;
-        private Color teamAwayOutfit;
-
+        private MatchController _matchController;
+        
         Vector3 ballPosition = new Vector3 (0f, 0f, 0f);
         Team teamToShoot;
 
@@ -54,16 +52,8 @@ namespace EventSystem.Handlers
 
         public bool CheckForRulesToStartGame()
         {
-            if (ThereAreEnoughPlayersOnTheTeam(teamHomePlayerAmount)
-                && ThereAreEnoughPlayersOnTheTeam(teamAwayPlayerAmount)
-                && !PlayerOutfitsAreTheSameOnOtherTeam(teamHomeOutfit, teamAwayOutfit))
-            {
-
-                return true;
-            }
-            else
-                Console.Write("Start Game conditions are not met");
-                return false;
+            canStart = _matchController.StartGame();
+            return canStart;
         }
 
         public void CheckForRulesDuringTheGame()
@@ -77,15 +67,10 @@ namespace EventSystem.Handlers
             //no rules implemented yet for changing players during the game
         }
 
-        public bool ThereAreEnoughPlayersOnTheTeam(int teamPlayerAmount)
+        public void GiveExtraTimeToTheMatch()
         {
-            return (teamPlayerAmount >= 7 && teamPlayerAmount <= 11);
+            
         }
-
-        public bool PlayerOutfitsAreTheSameOnOtherTeam(Color ColorTeamHome, Color ColorTeamAway)
-        {
-            return (ColorTeamHome == ColorTeamAway);
-        }  
 
         public Vector3 ReturnNewBallLocation(Vector3 ballLocation)
         {

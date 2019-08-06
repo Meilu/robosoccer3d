@@ -5,7 +5,7 @@ namespace PhysReps
 {
     public class RefereeBehaviour: MonoBehaviour
     {
-        public SoccerRulesHandlerBehaviour soccer
+        //public SoccerRulesHandlerBehaviour soccer
         
         private void Update()
         {
