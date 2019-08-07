@@ -1,29 +1,31 @@
 using System;
 using DataModels;
+using UnityEngine;
 
 namespace Game
 {
-    public class MatchController : UnityEngine.MonoBehaviour
+    public class MatchController
     {
-        private Match _match;
-        private int teamHomePlayerAmount;
-        private int teamAwayPlayerAmount;
 
-        private Color teamHomeOutfit;
-        private Color teamAwayOutfit;
-        
-        public bool StartGame()
+        public Match CreateMatch(Team homeTeam, Team awayTeam)
         {
-            if (ThereAreEnoughPlayersOnTheTeam(teamHomePlayerAmount)
-                && ThereAreEnoughPlayersOnTheTeam(teamAwayPlayerAmount)
-                && !PlayerOutfitsAreTheSameOnOtherTeam(teamHomeOutfit, teamAwayOutfit))
+            var match = new Match(homeTeam, awayTeam)
             {
+                // Generate an id?
+                Id = 1
+            };
 
-                return true;
-            }
-            else
-                Console.Write("Start Game conditions are not met");
-            return false;
+            // Set any initial properties for a match here
+
+            // Return it
+            return match;
+        }
+        public bool ValidateStartMatch(Match match)
+        {
+            return ThereAreEnoughPlayersOnTheTeam(match.HomeTeam.GetPlayerCount())
+                   && ThereAreEnoughPlayersOnTheTeam(match.AwayTeam.GetPlayerCount())
+                   && !PlayerOutfitsAreTheSameOnOtherTeam(match.HomeTeam.TeamColor, match.AwayTeam.TeamColor);
+
         }
         
         public bool ThereAreEnoughPlayersOnTheTeam(int teamPlayerAmount)
@@ -36,9 +38,9 @@ namespace Game
             return (ColorTeamHome == ColorTeamAway);
         }
 
-        public void SetStartGameTime()
+        public void SetStartGameTime(Match match)
         {
-            _match.StartTime = DateTime.Now;
+            match.StartTime = DateTime.Now;
         }
 
         public void SetFirstHalfTime()
