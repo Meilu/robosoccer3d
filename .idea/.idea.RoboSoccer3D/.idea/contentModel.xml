@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\jurge\.Rider2019.1\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\jurge\.Rider2019.1\system\resharper-host\local\Transient\ReSharperHost\v191\SolutionCaches\_robosoccer3d.622644642.00" t="ExcludeRecursive" />
-    <e p="C:\Users\jurge\Documents\projects\robosoccer3d" t="IncludeRecursive">
+    <e p="$USER_HOME$/Library/Caches/Rider2018.3/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2018.3/resharper-host/local/Transient/ReSharperHost/v183/SolutionCaches/_robosoccer3d.1783388596.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="CameraController.cs" t="Include" />
@@ -25,6 +25,7 @@
           </e>
           <e p="DataModels" t="Include">
             <e p="FormationPosition.cs" t="Include" />
+            <e p="Match.cs" t="Include" />
             <e p="ObjectOfInterestMovementStatus.cs" t="Include" />
             <e p="ObjectOfInterestStatus.cs" t="Include" />
             <e p="ObjectOfInterestVisionStatus.cs" t="Include" />
@@ -42,11 +43,17 @@
             <e p="Events" t="Include">
               <e p="BallCrossedGoalLineEvent.cs" t="Include" />
               <e p="BaseEvent.cs" t="Include" />
+              <e p="MatchDurationChangedEvent.cs" t="Include" />
+              <e p="StartMatchEvent.cs" t="Include" />
             </e>
             <e p="Handlers" t="Include">
               <e p="BallEventsHandler.cs" t="Include" />
+              <e p="SoccerRulesHandlerBehaviour.cs" t="Include" />
             </e>
             <e p="IEventHandler.cs" t="Include" />
+          </e>
+          <e p="Game" t="Include">
+            <e p="MatchController.cs" t="Include" />
           </e>
           <e p="MiscObjects" t="Include">
             <e p="BallBoundCollision.cs" t="Include" />
@@ -54,7 +61,9 @@
           </e>
           <e p="PhysReps" t="Include">
             <e p="BallBehaviour.cs" t="Include" />
+            <e p="MatchBehaviour.cs" t="Include" />
             <e p="ModeCanvas.cs" t="Include" />
+            <e p="RefereeBehaviour.cs" t="Include" />
             <e p="RobotBatteryBehaviour.cs" t="Include" />
             <e p="ShowRobotName.cs" t="Include" />
             <e p="TeamBehaviour.cs" t="Include" />
@@ -78,6 +87,7 @@
             <e p="BatteryTests.cs" t="Include" />
             <e p="RobotSensorTests.cs" t="Include" />
             <e p="RobotVisionSensorTests.cs" t="Include" />
+            <e p="SoccerRulesHandlerTests.cs" t="Include" />
             <e p="TeamTests.cs" t="Include" />
             <e p="Tests.asmdef" t="Include" />
           </e>
@@ -152,11 +162,14 @@
           </e>
         </e>
       </e>
+      <e p="Library" t="ExcludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
       <e p="robosoccer3d.sln" t="IncludeFlat" />
       <e p="ScriptsAssembly.csproj" t="IncludeRecursive" />
-      <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
       <e p="Tests.csproj" t="IncludeRecursive" />
     </e>
   </component>

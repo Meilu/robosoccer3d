@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DataModels;
+using EventSystem.Events;
+using Game;
 using UnityEngine;
-using PhysReps;
+using Team = PhysReps.Team;
 
 namespace EventSystem.Handlers
 {
@@ -12,60 +15,67 @@ namespace EventSystem.Handlers
         // Start is called before the first frame update
         void Start()
         {
-            var canStart = _rulesHandler.CheckForRulesToStartGame();
-
-            if (!canStart)
-                // toon melding
-                return;
-            
-            // start game
+            _rulesHandler.InitializeMatch();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (_rulesHandler.GameHasEnded)
+            if (!_rulesHandler.GameHasStarted)
                 return;
             
-            _rulesHandler.CheckForRulesDuringTheGame();
             
+            
+            _rulesHandler.CheckForRulesDuringTheGame();            
         }
     }
 
     public class SoccerRulesHandler
     {
-        private int teamHomePlayerAmount;
-        private int teamAwayPlayerAmount;
 
-        private Color teamHomeOutfit;
-        private Color teamAwayOutfit;
-
+        private MatchController _matchController;
+        
         Vector3 ballPosition = new Vector3 (0f, 0f, 0f);
-        Team teamToShoot;
-
-        private Team teamHome;
-        private Team teamAway;
 
         //these bools should come from events during the game.
-        public bool GameHasEnded = false;
         public bool ballCrossedTheLine = false;
         public bool gameStateChanged = false;
         public bool foulHasBeenCommitted = false;
 
+        public bool GameHasStarted = false;
         public bool CheckForRulesToStartGame()
         {
-            if (ThereAreEnoughPlayersOnTheTeam(teamHomePlayerAmount)
-                && ThereAreEnoughPlayersOnTheTeam(teamAwayPlayerAmount)
-                && !PlayerOutfitsAreTheSameOnOtherTeam(teamHomeOutfit, teamAwayOutfit))
-            {
-
-                return true;
-            }
-            else
-                Console.Write("Start Game conditions are not met");
-                return false;
+            return;
         }
 
+        public void InitializeMatch()
+        {
+            // Create the teams (they need to come from the unity scene but creating them here for now as an example)
+            var homeTeam = new DataModels.Team();
+            var awayTeam = new DataModels.Team();
+            
+            // Create the match
+            var match = _matchController.CreateMatch(homeTeam, awayTeam);
+            
+            // Validate if it can be started at all
+            var canBeStarted = _matchController.ValidateStartMatch(match);
+
+            if (!canBeStarted)
+            {
+                // toon melding i geuss
+                return;
+            }
+            
+            // The match can be started, set the starttime
+            _matchController.SetStartGameTime(match);
+            
+            // Finally, raise an event that the match has started along with the match itself.
+            EventManager.Instance.Raise(
+                new StartMatchEvent(
+                    match
+                ));
+        }
+        
         public void CheckForRulesDuringTheGame()
         {
             //checks for 3 different reasons why the ball should be replaced and a team gets to shoot
@@ -77,15 +87,10 @@ namespace EventSystem.Handlers
             //no rules implemented yet for changing players during the game
         }
 
-        public bool ThereAreEnoughPlayersOnTheTeam(int teamPlayerAmount)
+        public void GiveExtraTimeToTheMatch()
         {
-            return (teamPlayerAmount >= 7 && teamPlayerAmount <= 11);
+            
         }
-
-        public bool PlayerOutfitsAreTheSameOnOtherTeam(Color ColorTeamHome, Color ColorTeamAway)
-        {
-            return (ColorTeamHome == ColorTeamAway);
-        }  
 
         public Vector3 ReturnNewBallLocation(Vector3 ballLocation)
         {
