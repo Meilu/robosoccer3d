@@ -1,49 +1,40 @@
 using NUnit.Framework;
 using PhysReps;
 using UnityEngine;
-using EventSystem.Handlers;
+using Game;
 
 namespace Tests
 {
     [TestFixture]
-    public class SoccerRulesHandlerTests
+    public class MatchControllerTests
     {
-        private SoccerRulesHandler _soccerRulesHandler;
+        private MatchController _matchController;
 
         [SetUp]
         public void Init()
         {
-            _soccerRulesHandler = new SoccerRulesHandler();
-        }
-
-        [Test]
-        public void CheckForRulesToStartGame_ReturnsTrue()
-        {
-           // _soccerRulesHandler.ThereAreEnoughPlayersOnTheTeam() = true;
-           // _soccerRulesHandler.playerOutfitsAreTheSameOnOtherTeam() = false;
-
-            Assert.IsTrue(_soccerRulesHandler.CheckForRulesToStartGame());
+            _matchController = new MatchController();
         }
 
         [Test]
         public void ThereAreEnoughPLayersOnTheTeams_ReturnsTrue()
         {
             int teamPlayerAmount = 11;
-            Assert.IsTrue(_soccerRulesHandler.ThereAreEnoughPlayersOnTheTeam(teamPlayerAmount));
+            Assert.IsTrue(_matchController.ThereAreEnoughPlayersOnTheTeam(teamPlayerAmount));
         }
 
         [Test]
         public void ThereAreTooFewPLayersOnTheTeam_ReturnsFalse()
         {
             int teamPlayerAmount = 6;
-            Assert.IsFalse(_soccerRulesHandler.ThereAreEnoughPlayersOnTheTeam(teamPlayerAmount));
+            Assert.IsFalse(_matchController.ThereAreEnoughPlayersOnTheTeam(teamPlayerAmount));
         }
 
         [Test]
         public void ThereAreTooManyPLayersOnTheTeam_ReturnsFalse()
         {
             int teamPlayerAmount = 12;
-            Assert.IsFalse(_soccerRulesHandler.ThereAreEnoughPlayersOnTheTeam(teamPlayerAmount));
+            Assert.IsFalse(_matchController.ThereAreEnoughPlayersOnTheTeam(teamPlayerAmount));
         }
 
         [Test]
@@ -52,7 +43,7 @@ namespace Tests
             Color ColorTeamHome = Color.blue;
             Color ColorTeamAway = Color.blue;
 
-            Assert.IsTrue(_soccerRulesHandler.PlayerOutfitsAreTheSameOnOtherTeam(ColorTeamHome, ColorTeamAway));
+            Assert.IsTrue(_matchController.PlayerOutfitsAreTheSameOnOtherTeam(ColorTeamHome, ColorTeamAway));
         }
 
         [Test]
@@ -61,7 +52,7 @@ namespace Tests
             Color ColorTeamHome = Color.blue;
             Color ColorTeamAway = Color.green;
 
-            Assert.IsFalse(_soccerRulesHandler.PlayerOutfitsAreTheSameOnOtherTeam(ColorTeamHome, ColorTeamAway));
+            Assert.IsFalse(_matchController.PlayerOutfitsAreTheSameOnOtherTeam(ColorTeamHome, ColorTeamAway));
         }
 
     }

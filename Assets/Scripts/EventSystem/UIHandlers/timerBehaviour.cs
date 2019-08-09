@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using EventSystem.Events;
 
 public class timerBehaviour : MonoBehaviour
 {
     private Text _textComponent;
-    private Timer _timer;
+    private TimerText _timer;
 
     private bool GameHasEnded = false;
 
@@ -17,18 +18,17 @@ public class timerBehaviour : MonoBehaviour
     {
         _textComponent = GetComponent<Text>();
         _textComponent.text = "START";
-        //InvokeRepeating("_timer.startCountdown(_textComponent)", 1.0f, 1.0f);
+        InvokeRepeating("UpdateTimerText", 1.0f, 1.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!GameHasEnded)
+        if (GameHasEnded)
         {
-            InvokeRepeating("UpdateTimerText()", 1.0f, 1.0f);
+            CancelInvoke("UpdateTimerText");
         }
-        //not sure if this is needed anymore...
-        else CancelInvoke("UpdateTimerText()");
+        
     }
 
     void UpdateTimerText()
@@ -38,7 +38,7 @@ public class timerBehaviour : MonoBehaviour
     }
 }
 
-public class Timer {
+public class TimerText {
 
     private float duration = 30f;
 
@@ -47,7 +47,7 @@ public class Timer {
         string MatchPartName = DetermineMatchPartName();
         string CountDownTimer = UpdateCountdownTime();
 
-        return MatchPartName + "/n" + CountDownTimer;
+        return MatchPartName + "/n test /n" + CountDownTimer;
     }
 
     public string DetermineMatchPartName()

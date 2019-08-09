@@ -45,7 +45,7 @@ namespace EventSystem.Handlers
         public bool GameHasStarted = false;
         public bool CheckForRulesToStartGame()
         {
-            return;
+            return true;
         }
 
         public void InitializeMatch()
@@ -82,7 +82,7 @@ namespace EventSystem.Handlers
             if (ballCrossedTheLine || gameStateChanged || foulHasBeenCommitted)
             {
                 ballPosition = ReturnNewBallLocation(ballPosition);
-                teamToShoot = ReturnTeamToShoot(teamHome, teamAway);
+                //teamToShoot = ReturnTeamToShoot(teamHome, teamAway);
             }
             //no rules implemented yet for changing players during the game
         }
