@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using DataModels;
 using NUnit.Framework;
-using Planners;
-using UnityEditor;
+using PhysReps;
+
 using UnityEngine;
-using Team = PhysReps.Team;
 
 namespace Tests
 {
@@ -14,13 +13,13 @@ namespace Tests
     public class TeamTests
     {
         private GameObject _robot;
-        private Team _team;
+        private HumbleTeamBehaviour _team;
         private TeamSide _teamSide = TeamSide.Home;
         
         [SetUp]
         public void Init()
         {
-            _team = new Team(_teamSide);
+            _team = new HumbleTeamBehaviour(_teamSide);
             _robot = new GameObject("robot");
         }
 //        [Test]

@@ -14,7 +14,6 @@ namespace EventSystem.UIHandlers
 
         public float matchDuration;
 
-        // Start is called before the first frame update
         void Start()
         {
             _timer = new TimerText(matchDuration);
@@ -23,24 +22,15 @@ namespace EventSystem.UIHandlers
 
         public void StartMatchTimer()
         {
-            EventManager.Instance.Raise(
-                new StartMatchEvent(
-                    new DataModels.Match(null, null)
-                ));
-            
+            EventManager.Instance.Raise(new MatchTimerStartedEvent());
             InvokeRepeating("UpdateTimerText", 1.0f, 1.0f);
         }
 
         public void StopMatchTimer()
         {
-            EventManager.Instance.Raise(
-                new EndMatchEvent(
-                    new DataModels.Match(null, null)
-                )
-            );
-
             _timer.ResetDuration();
             CancelInvoke("UpdateTimerText");
+            EventManager.Instance.Raise(new MatchTimerEndedEvent());
         }
 
         void UpdateTimerText()

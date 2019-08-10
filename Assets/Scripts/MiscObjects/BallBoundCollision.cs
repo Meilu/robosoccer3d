@@ -9,7 +9,7 @@ namespace MiscObjects
         {
             // Unity does not support a way to send both collisions on the ontriggerexit function to the parent
             // So we are doing it ourselfs.
-            gameObject.GetComponentInParent<BallBoundsCollision>().HandleCollision(gameObject, other);;
+            gameObject.GetComponentInParent<BallBoundsCollision>().HandleCollision(gameObject, other);
         }
     }
 }
