@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,12 +19,20 @@ namespace EventSystem.UIHandlers
         {
             _timer = new TimerText(matchDuration);
             _textComponent = GetComponent<Text>();
+            
+            EventManager.Instance.AddListener<EndMatchEvent>(EndMatchEventListener);
+
         }
 
+        void EndMatchEventListener(EndMatchEvent e)
+        {
+            print("match ended");
+            StopMatchTimer();
+        }
         public void StartMatchTimer()
         {
-            EventManager.Instance.Raise(new MatchTimerStartedEvent());
             InvokeRepeating("UpdateTimerText", 1.0f, 1.0f);
+            EventManager.Instance.Raise(new MatchTimerStartedEvent());
         }
 
         public void StopMatchTimer()

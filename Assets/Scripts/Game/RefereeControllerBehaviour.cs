@@ -14,10 +14,10 @@ namespace Game
         private RefereeController _refereeController;
         public MatchControllerBehaviour matchControllerBehaviour;
         public TimerBehaviour matchTimer;
+
         private void Start()
         {
             _refereeController = new RefereeController();
-            print("Adding referee listener");
             EventManager.Instance.AddListener<MatchTimerStartedEvent>(MatchTimerStartedEventLister);
         }
 
@@ -28,7 +28,10 @@ namespace Game
 
             if (!_refereeController.ValidateStartMatch(match))
             {
-                // Match is not allowed to start, show warning?
+                print("not allowed to start");
+                // Match is not allowed to start, throw the end match event.
+                EventManager.Instance.Raise(new EndMatchEvent(match));
+
                 return;
             }
             
