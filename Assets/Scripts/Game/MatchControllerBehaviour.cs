@@ -16,17 +16,19 @@ namespace Game
         private void Start()
         {
             _matchController = new MatchController();
-            EventManager.Instance.AddListener<StartMatchEvent>(StartMatchEventListener);
         }
 
-        public void StartMatchEventListener(StartMatchEvent e)
+        public void StartMatch(Match match)
         {
             // Initialize the teams which will place all their players on the field.
-            homeTeamBehaviour.InitializeTeam(e.match.HomeTeam);
-            awayTeamBehaviour.InitializeTeam(e.match.AwayTeam);
+            homeTeamBehaviour.InitializeTeam(match.HomeTeam);
+            awayTeamBehaviour.InitializeTeam(match.AwayTeam);
             
-            _matchController.match = e.match;
+            _matchController.match = match;
             _matchController.SetStartGameTime();
+            
+            // All good, throw the startmatchevent
+            EventManager.Instance.Raise(new StartMatchEvent(match));
         }
     }
 

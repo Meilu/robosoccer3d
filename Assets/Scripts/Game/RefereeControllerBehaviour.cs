@@ -35,8 +35,7 @@ namespace Game
                 return;
             }
             
-            // All good, throw the startmatchevent so that the matchcontroller can take over.
-            EventManager.Instance.Raise(new StartMatchEvent(match));
+            matchControllerBehaviour.StartMatch(match);
         }
 
         private Match CreateMatch()
