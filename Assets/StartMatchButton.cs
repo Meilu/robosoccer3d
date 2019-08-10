@@ -9,38 +9,25 @@ using EventSystem.UIHandlers;
 
 public class StartMatchButton : MonoBehaviour
 {
-    GameObject button;
-    private timerBehaviour _timer;
+    private TimerBehaviour _timer;
     // Start is called before the first frame update
     void Start()
     {
-        button = GameObject.Find("StartButton");
+        _timer = GameObject.Find("MatchTimer").GetComponent<TimerBehaviour>();
+        
         EventManager.Instance.AddListener<EndMatchEvent>(EndMatchListener);
-        _timer = gameObject.AddComponent(typeof(timerBehaviour)) as timerBehaviour;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    
     public void OnStartMatchButtonClick()
     {
-        Console.WriteLine("start knop");
-        // Finally, raise an event that the match has started along with the match itself.
-        EventManager.Instance.Raise(
-            new StartMatchEvent(
-                new DataModels.Match(null, null)
-            ));
-        button.SetActive(false);
+        _timer.StartMatchTimer();
+        gameObject.SetActive(false);
 
     }
 
     void EndMatchListener(EndMatchEvent endMatchEvent)
     {
         Console.WriteLine("ending match");
-        button.SetActive(true);
-        _timer.ResetTimer();
+        gameObject.SetActive(true);
     }
 }

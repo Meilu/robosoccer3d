@@ -1,75 +1,73 @@
-﻿using EventSystem;
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using UnityEngine.UI;
-using System;
+
 using EventSystem.Events;
 
 namespace EventSystem.UIHandlers
 {
 
-    public class timerBehaviour : MonoBehaviour
+    public class TimerBehaviour : MonoBehaviour
     {
         private Text _textComponent;
         private TimerText _timer;
 
         public float matchDuration;
-        public float duration;
 
         // Start is called before the first frame update
         void Start()
         {
-            _timer = new TimerText(matchDuration, duration);
+            _timer = new TimerText(matchDuration);
             _textComponent = GetComponent<Text>();
-
-            EventManager.Instance.AddListener<StartMatchEvent>(StartMatchListener);
         }
 
-        // Update is called once per frame
-        void Update()
+        public void StartMatchTimer()
         {
-        }
-
-        void StartMatchListener(StartMatchEvent startMatchEvent)
-        {
-            Console.WriteLine("starting match");
+            EventManager.Instance.Raise(
+                new StartMatchEvent(
+                    new DataModels.Match(null, null)
+                ));
+            
             InvokeRepeating("UpdateTimerText", 1.0f, 1.0f);
+        }
+
+        public void StopMatchTimer()
+        {
+            EventManager.Instance.Raise(
+                new EndMatchEvent(
+                    new DataModels.Match(null, null)
+                )
+            );
+
+            _timer.ResetDuration();
+            CancelInvoke("UpdateTimerText");
         }
 
         void UpdateTimerText()
         {
             //sets the text for the timer
             _textComponent.text = _timer.DetermineMatchTimerText();
-
+            
             if (_timer.IsMatchEnded())
             {
-                ResetTimer();
-                CancelInvoke("UpdateTimerText");
-
-                EventManager.Instance.Raise(
-                    new EndMatchEvent(
-                        new DataModels.Match(null, null)
-                    ));
+                StopMatchTimer();
             }
         }
-
-        public void ResetTimer()
-        {
-            duration = 0;
-        }
     }
-
-
+    
     public class TimerText
     {
         private float maxDuration;
-        private float duration;
+        private float duration = 0;
 
-        public TimerText(float maxDuration, float duration)
+        public TimerText(float maxDuration)
         {
             this.maxDuration = maxDuration;
-            this.duration = duration;
+        }
+
+        public void ResetDuration()
+        {
+            duration = 0;
         }
 
         public bool IsMatchEnded()
