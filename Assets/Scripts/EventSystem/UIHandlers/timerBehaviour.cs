@@ -12,52 +12,61 @@ public class timerBehaviour : MonoBehaviour
     private TimerText _timer;
 
     private bool GameHasEnded = false;
+    public float matchDuration;
 
     // Start is called before the first frame update
     void Start()
     {
+        _timer = new TimerText(matchDuration);
         _textComponent = GetComponent<Text>();
         _textComponent.text = "START";
-        InvokeRepeating("UpdateTimerText", 1.0f, 1.0f);
+
+        EventManager.Instance.AddListener<StartMatchEvent>(StartMatchListener);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameHasEnded)
-        {
-            CancelInvoke("UpdateTimerText");
-        }
-        
     }
 
+    void StartMatchListener(StartMatchEvent startMatchEvent)
+    {
+        Console.WriteLine("starting match");
+        InvokeRepeating("UpdateTimerText", 1.0f, 1.0f);
+    }
     void UpdateTimerText()
     {
         //sets the text for the timer
         _textComponent.text = _timer.DetermineMatchTimerText();
+
+        if (_timer.IsMatchEnded())
+        {
+            CancelInvoke("UpdateTimerText");
+
+            EventManager.Instance.Raise(
+                new EndMatchEvent(
+                    new DataModels.Match(null, null)
+                ));
+        }
     }
 }
 
 public class TimerText {
+    private float duration = 0;
+    private float maxDuration;
 
-    private float duration = 30f;
-
+    public TimerText(float maxDuration)
+    {
+        this.maxDuration = maxDuration;
+    }
+    public bool IsMatchEnded()
+    {
+        return duration >= maxDuration;
+    }
     public string DetermineMatchTimerText()
     {
-        string MatchPartName = DetermineMatchPartName();
-        string CountDownTimer = UpdateCountdownTime();
+        duration++;
 
-        return MatchPartName + "/n test /n" + CountDownTimer;
-    }
-
-    public string DetermineMatchPartName()
-    {
-        string name = "MATCH IN PLAY";
-        return name;
-    }
-
-    public string UpdateCountdownTime()
-    {
         float minutes = Mathf.Floor(duration / 60);
         float seconds = Mathf.RoundToInt(duration%60);
 

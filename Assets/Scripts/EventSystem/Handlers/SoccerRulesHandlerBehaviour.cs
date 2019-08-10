@@ -24,8 +24,6 @@ namespace EventSystem.Handlers
             if (!_rulesHandler.GameHasStarted)
                 return;
             
-            
-            
             _rulesHandler.CheckForRulesDuringTheGame();            
         }
     }
