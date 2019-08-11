@@ -25,6 +25,7 @@
           </e>
           <e p="DataModels" t="Include">
             <e p="FormationPosition.cs" t="Include" />
+            <e p="Match.cs" t="Include" />
             <e p="ObjectOfInterestMovementStatus.cs" t="Include" />
             <e p="ObjectOfInterestStatus.cs" t="Include" />
             <e p="ObjectOfInterestVisionStatus.cs" t="Include" />
@@ -42,19 +43,33 @@
             <e p="Events" t="Include">
               <e p="BallCrossedGoalLineEvent.cs" t="Include" />
               <e p="BaseEvent.cs" t="Include" />
+              <e p="EndMatchEvent.cs" t="Include" />
+              <e p="MatchTimerEndedEvent.cs" t="Include" />
+              <e p="MatchTimerStartedEvent.cs" t="Include" />
+              <e p="StartMatchEvent.cs" t="Include" />
             </e>
             <e p="Handlers" t="Include">
               <e p="BallEventsHandler.cs" t="Include" />
             </e>
             <e p="IEventHandler.cs" t="Include" />
+            <e p="UIHandlers" t="Include">
+              <e p="timerBehaviour.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Game" t="Include">
+            <e p="MatchControllerBehaviour.cs" t="Include" />
+            <e p="RefereeControllerBehaviour.cs" t="Include" />
           </e>
           <e p="MiscObjects" t="Include">
             <e p="BallBoundCollision.cs" t="Include" />
             <e p="BallBoundsCollision.cs" t="Include" />
+            <e p="StartMatchButton.cs" t="Include" />
           </e>
           <e p="PhysReps" t="Include">
             <e p="BallBehaviour.cs" t="Include" />
+            <e p="MatchBehaviour.cs" t="Include" />
             <e p="ModeCanvas.cs" t="Include" />
+            <e p="RefereeBehaviour.cs" t="Include" />
             <e p="RobotBatteryBehaviour.cs" t="Include" />
             <e p="ShowRobotName.cs" t="Include" />
             <e p="TeamBehaviour.cs" t="Include" />
@@ -78,11 +93,12 @@
             <e p="BatteryTests.cs" t="Include" />
             <e p="RobotSensorTests.cs" t="Include" />
             <e p="RobotVisionSensorTests.cs" t="Include" />
+            <e p="SoccerRulesHandlerTests.cs" t="Include" />
             <e p="TeamTests.cs" t="Include" />
             <e p="Tests.asmdef" t="Include" />
           </e>
-          <e p="timer.cs" t="Include" />
         </e>
+        <e p="StartMatchButton.cs" t="Include" />
         <e p="TextMesh Pro" t="Include">
           <e p="Examples &amp; Extras" t="Include">
             <e p="Fonts" t="Include">
