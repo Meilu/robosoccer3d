@@ -21,10 +21,11 @@ namespace MiscObjects
 
             switch (type)
             {
+                case BallBoundType.SideLineBound:
                 case BallBoundType.LeftGoalBound:
                 case BallBoundType.RightGoalBound:
                     EventManager.Instance.Raise(
-                        new BallCrossedGoalLineEvent(
+                        new BallCrossedLineEvent(
                                 other.gameObject.transform.position,
                                 type
                             ));

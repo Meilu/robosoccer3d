@@ -17,9 +17,13 @@ namespace MiscObjects
             // So i add them in this awake method
             EventManager.Instance.AddListener<MatchTimerStartedEvent>(MatchTimerStartedListener);
             EventManager.Instance.AddListener<MatchTimerEndedEvent>(MatchTimerEndedListener);
+            gameObject.SetActive(false);
         }
 
-     
+        public void SetActive()
+        {
+            gameObject.SetActive(true);
+        }
 
         void MatchTimerEndedListener(MatchTimerEndedEvent e)
         {
