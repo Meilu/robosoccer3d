@@ -15,10 +15,17 @@ public class RobotAgent : Agent
     Rigidbody rBody;
     RobotActuator actuator;
     public RobotVisionSensorBehaviour visionSensor;
+    Vector3 start;
+    int step = 0;
 
     void Start() {
         rBody = GetComponent<Rigidbody>();
         actuator = GetComponent<RobotActuator>();
+        start = transform.position;
+    }
+
+    public override void AgentReset() {
+        transform.position = start;
     }
     
     public override void CollectObservations() {
@@ -39,14 +46,18 @@ public class RobotAgent : Agent
         actuator.ExecuteRobotAction(new RobotActionState(armAction, legAction, motorAction, wheelAction));
 
         DetermineReward();
+        step++;
     }
 
     void DetermineReward() {
         var soccerBallObjectOfInterest = visionSensor.objectOfInterestVisionStatuses.FirstOrDefault(x => x.ObjectName == Settings.SoccerBallObjectName);
-        if(soccerBallObjectOfInterest.IsWithinDistance) {
-            Debug.Log("Rewarded!");
+        float distance = Vector3.Distance(transform.position, soccerBallObjectOfInterest.GameObjectToFind.transform.position);
+        if(soccerBallObjectOfInterest.IsInsideVisionAngle) {
             SetReward(1.0f);
+        }
+        if(step >= 500) {
             Done();
+            step = 0;
         }
     }
 

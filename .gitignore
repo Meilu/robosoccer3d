@@ -1,3 +1,11 @@
+# MLAgents
+summaries
+models
+UnitySDK.log
+Assets/MLAgents/ML-Agents/Plugins/ProtoBuffer/runtimes/linux/native/.fuse_hidden*
+
+# Unity
+
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
