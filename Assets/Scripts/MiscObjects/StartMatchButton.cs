@@ -19,16 +19,7 @@ namespace MiscObjects
             EventManager.Instance.AddListener<MatchTimerEndedEvent>(MatchTimerEndedListener);
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            _timer = GameObject.Find("MatchTimer").GetComponent<TimerBehaviour>();
-        }
-        
-        public void OnStartMatchButtonClick()
-        {
-            _timer.StartMatchTimer();
-        }
+     
 
         void MatchTimerEndedListener(MatchTimerEndedEvent e)
         {
