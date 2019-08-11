@@ -21,7 +21,7 @@ namespace Game
             _refereeController = new RefereeController();
             _ball = GameObject.Find("soccerball");
             EventManager.Instance.AddListener<MatchTimerStartedEvent>(MatchTimerStartedEventListener);
-            EventManager.Instance.AddListener<BallCrossedGoalLineEvent>(BallCrossedGoalLineEventListener);
+            EventManager.Instance.AddListener<BallCrossedLineEvent>(BallCrossedLineEventListener);
         }
 
         void MatchTimerStartedEventListener(MatchTimerStartedEvent e)
@@ -72,7 +72,7 @@ namespace Game
             _refereeController.CheckForRulesDuringTheGame();            
         }
 
-        public void BallCrossedGoalLineEventListener(BallCrossedGoalLineEvent e)
+        public void BallCrossedLineEventListener(BallCrossedLineEvent e)
         {
             //return ball to middle position
             _ball.transform.position = _refereeController.ReturnNewBallLocation();

@@ -17,7 +17,7 @@ public class ScoresUI : MonoBehaviour
     {
         HomeTextComponent = scores.transform.GetChild(0).gameObject.GetComponent<Text>();
         AwayTextComponent = scores.transform.GetChild(1).gameObject.GetComponent<Text>();
-        EventManager.Instance.AddListener<BallCrossedGoalLineEvent>(BallCrossedGoalLineEventListener);
+        EventManager.Instance.AddListener<BallCrossedLineEvent>(BallCrossedLineEventListener);
     }
 
     // Update is called once per frame
@@ -26,7 +26,7 @@ public class ScoresUI : MonoBehaviour
         
     }
 
-    void BallCrossedGoalLineEventListener(BallCrossedGoalLineEvent e)
+    void BallCrossedLineEventListener(BallCrossedLineEvent e)
     {
         if(e.BallBoundType == BallBoundType.LeftGoalBound)
         {

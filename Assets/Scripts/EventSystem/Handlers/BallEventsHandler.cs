@@ -6,14 +6,14 @@ namespace EventSystem.Handlers
     {
         public override void SubscribeEvents()
         {
-            EventManager.Instance.AddListener<BallCrossedGoalLineEvent>(OnBallCrossedGoalLine);
+            EventManager.Instance.AddListener<BallCrossedLineEvent>(OnBallCrossedLine);
         }
 
         public override void UnsubscribeEvents()
         {
         }
 
-        public void OnBallCrossedGoalLine(BallCrossedGoalLineEvent e)
+        public void OnBallCrossedLine(BallCrossedLineEvent e)
         {
             print("ball crosed the line from handler");
             print(e.Position);
