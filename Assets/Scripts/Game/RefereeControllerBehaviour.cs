@@ -14,14 +14,17 @@ namespace Game
         private RefereeController _refereeController;
         public MatchControllerBehaviour matchControllerBehaviour;
         public TimerBehaviour matchTimer;
+        public GameObject _ball;
 
         private void Start()
         {
             _refereeController = new RefereeController();
-            EventManager.Instance.AddListener<MatchTimerStartedEvent>(MatchTimerStartedEventLister);
+            _ball = GameObject.Find("soccerball");
+            EventManager.Instance.AddListener<MatchTimerStartedEvent>(MatchTimerStartedEventListener);
+            EventManager.Instance.AddListener<BallCrossedGoalLineEvent>(BallCrossedGoalLineEventListener);
         }
 
-        void MatchTimerStartedEventLister(MatchTimerStartedEvent e)
+        void MatchTimerStartedEventListener(MatchTimerStartedEvent e)
         {
             // Now that the timer has started, we should create the match object and then start playing the actual match.
             var match = CreateMatch();
@@ -60,27 +63,28 @@ namespace Game
 
             return match;
         }
+
         // Update is called once per frame
         void Update()
         {
-            if (!_refereeController.GameHasStarted)
-                return;
+            //if (!_refereeController.GameHasStarted) return;
             
             _refereeController.CheckForRulesDuringTheGame();            
+        }
+
+        public void BallCrossedGoalLineEventListener(BallCrossedGoalLineEvent e)
+        {
+            //return ball to middle position
+            _ball.transform.position = _refereeController.ReturnNewBallLocation();
         }
     }
 
     public class RefereeController
     {
-        
-        Vector3 ballPosition = new Vector3 (0f, 0f, 0f);
-
+   
         //these bools should come from events during the game.
-        public bool ballCrossedTheLine = false;
         public bool gameStateChanged = false;
         public bool foulHasBeenCommitted = false;
-
-        public bool GameHasStarted = false;
 
         public bool ValidateStartMatch(Match match)
         {
@@ -104,9 +108,9 @@ namespace Game
         public void CheckForRulesDuringTheGame()
         {
             //checks for 3 different reasons why the ball should be replaced and a team gets to shoot
-            if (ballCrossedTheLine || gameStateChanged || foulHasBeenCommitted)
+            //if (ballCrossedTheLine || gameStateChanged || foulHasBeenCommitted)
             {
-                ballPosition = ReturnNewBallLocation(ballPosition);
+                //ballPosition = ReturnNewBallLocation(ballPosition);
                 //teamToShoot = ReturnTeamToShoot(teamHome, teamAway);
             }
             //no rules implemented yet for changing players during the game
@@ -117,10 +121,10 @@ namespace Game
             
         }
 
-        public Vector3 ReturnNewBallLocation(Vector3 ballLocation)
+        public Vector3 ReturnNewBallLocation()
         {
             //depending on the event, the ball will get a different location. For now just this position
-            return new Vector3(0, 0, 0);
+            return new Vector3(0, 0.35f, 0);
         }
 
         public Team ReturnTeamToShoot(Team teamHome, Team teamAway)
