@@ -21,7 +21,6 @@ public enum RobotMotorAction
     MoveForward,
     MoveBackward,
     BoostForward,
-    DoNothing,
     MoveLeft,
     MoveRight
 }
@@ -30,15 +29,13 @@ public enum RobotWheelAction
 {
     None,
     TurnRight,
-    TurnLeft,
-    DoNothing
+    TurnLeft
 }
 
 public enum RobotLegAction
 {
     None,
-    KickForward,
-    DoNothing
+    KickForward
 }
 
 public enum RobotArmAction
@@ -47,8 +44,7 @@ public enum RobotArmAction
     MoveRightArmInward,
     MoveRightArmOutward,
     MoveLeftArmInward,
-    MoveLeftArmOutward,
-    DoNothing
+    MoveLeftArmOutward
 }
 
 public enum TeamSide

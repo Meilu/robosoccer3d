@@ -12,15 +12,12 @@ namespace RobotActionStates
         public RobotWheelAction WheelAction { get; }
         public float Weight = 0.0f;
         public IList<ObjectOfInterestVisionStatus> VisionStatusOnCreate { get; set;  }
-        public RobotActionState(RobotArmAction armAction, RobotLegAction legAction, RobotMotorAction motorAction, RobotWheelAction wheelAction, float weight)
+        public RobotActionState(RobotArmAction armAction, RobotLegAction legAction, RobotMotorAction motorAction, RobotWheelAction wheelAction)
         {
             ArmAction = armAction;
             LegAction = legAction;
             MotorAction = motorAction;
             WheelAction = wheelAction;
-            
-            // The weight of the state will determine it's importance relative to other states. The highest state will always be picked first.
-            Weight = weight;
         }
     }
 }

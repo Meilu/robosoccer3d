@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: RobotLearningBrain
   m_EditorClassIdentifier: 
   brainParameters:
-    vectorObservationSize: 1
+    vectorObservationSize: 20
     numStackedVectorObservations: 1
-    vectorActionSize: 01000000
+    vectorActionSize: 06000000030000000200000005000000
     cameraResolutions: []
-    vectorActionDescriptions: []
+    vectorActionDescriptions:
+    - 
+    - 
+    - 
+    - 
     vectorActionSpaceType: 0
   model: {fileID: 0}
   inferenceDevice: 0
