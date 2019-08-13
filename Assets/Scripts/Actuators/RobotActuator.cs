@@ -1,10 +1,5 @@
-﻿using System.Linq;
-using System.Timers;
-using RobotActionStates;
+﻿using DataModels;
 using UnityEngine;
-using DataModels;
-using Planners;
-using UnityEngine.Serialization;
 
 namespace Actuators
 {
@@ -13,16 +8,16 @@ namespace Actuators
         public RobotActionState ActiveRobotActionState { get; internal set; }
         public bool IsBoosting => ActiveRobotActionState != null && ActiveRobotActionState.MotorAction == RobotMotorAction.BoostForward;
 
-        private Rigidbody _rigidBody;
+        public Rigidbody rigidBody;
         private Animator _frontLegsAnimator;
         
         private void Start()
         {
-            _rigidBody = GetComponent<Rigidbody>();
+            rigidBody = GetComponent<Rigidbody>();
             _frontLegsAnimator = transform.Find("frontLegs").GetComponent<Animator>();
             
             // Dont allow the robot to be rotate by the physics engine.
-            _rigidBody.freezeRotation = true;
+            rigidBody.freezeRotation = true;
         }
         
         public void ExecuteRobotAction(RobotActionState robotActionState)
@@ -75,27 +70,27 @@ namespace Actuators
         //move motors
         public void MoveRight()
         {      
-            _rigidBody.velocity = transform.right * 100.0f * Time.deltaTime;
+            rigidBody.velocity = transform.right * 100.0f * Time.deltaTime;
         }
 
         public void MoveLeft()
         {
-            _rigidBody.velocity = -transform.right * 100.0f * Time.deltaTime;
+            rigidBody.velocity = -transform.right * 100.0f * Time.deltaTime;
         }
 
         public void MoveForward()
         {
-            _rigidBody.velocity = transform.forward * 100.0f * Time.deltaTime;
+            rigidBody.velocity = transform.forward * 100.0f * Time.deltaTime;
         }
 
         public void BoostForward()
         {
-            _rigidBody.velocity = transform.forward * 120.0f * Time.deltaTime;
+            rigidBody.velocity = transform.forward * 120.0f * Time.deltaTime;
         }
 
         public void MoveBackward()
         {
-            _rigidBody.velocity = -transform.forward * 100.0f * Time.deltaTime;
+            rigidBody.velocity = -transform.forward * 100.0f * Time.deltaTime;
         }
 
         public void TurnRight()

@@ -31,7 +31,7 @@ namespace EventSystem.UIHandlers
         }
         public void StartMatchTimer()
         {
-            InvokeRepeating("UpdateTimerText", 1.0f, 1.0f);
+           // InvokeRepeating("UpdateTimerText", 1.0f, 1.0f);
             EventManager.Instance.Raise(new MatchTimerStartedEvent());
         }
 

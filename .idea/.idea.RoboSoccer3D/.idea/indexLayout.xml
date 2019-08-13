@@ -15,9 +15,12 @@
     <explicitExcludes>
       <Path>.git</Path>
       <Path>.idea</Path>
+      <Path>.vs</Path>
       <Path>Library</Path>
       <Path>Temp</Path>
+      <Path>models</Path>
       <Path>obj</Path>
+      <Path>summaries</Path>
     </explicitExcludes>
   </component>
 </project>

@@ -16,12 +16,15 @@ namespace Game
         public TimerBehaviour matchTimer;
         public GameObject _ball;
 
-        private void Start()
+        private void Awake()
         {
             _refereeController = new RefereeController();
             _ball = GameObject.Find("soccerball");
             EventManager.Instance.AddListener<MatchTimerStartedEvent>(MatchTimerStartedEventListener);
             EventManager.Instance.AddListener<BallCrossedLineEvent>(BallCrossedLineEventListener);
+            
+            // Doing it hardcoded from here, don't feel like clicking the start match button everytime.
+            EventManager.Instance.Raise(new MatchTimerStartedEvent());
         }
 
         void MatchTimerStartedEventListener(MatchTimerStartedEvent e)

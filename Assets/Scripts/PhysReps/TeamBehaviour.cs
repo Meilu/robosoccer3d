@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DataModels;
-using Planners;
+using RobotActionRewardCalculators;
 using UnityEngine;
 
 namespace PhysReps
@@ -40,11 +40,7 @@ namespace PhysReps
                 var positionVector = _humbleTeam.FindFormationPositionVectorBySquadNumber(_formationsPositions, robotModel.Number);
                 var robot = Instantiate(robotPrefab, transform, false);
                 robot.transform.localPosition = new Vector3(positionVector.x, positionVector.y, positionVector.z);
-                
-                // Save all of the properties of the robotmodel onto the prefab, so we can access them during the game if needed:)
-                // Creating planners is commented out for now because we do not know yet how to implement them along with machine learning
-//                RobotPlanner plannerComponent = _team.AddPlannerComponentToRobot(robotModel.TeamPosition, robot);
-//                plannerComponent.RobotModel = robotModel;
+                _humbleTeam.AddActionRewardCalculatorToRobot(robotModel.TeamPosition, robot);
             }
         }
     }
@@ -93,22 +89,15 @@ namespace PhysReps
             return formationPositions.First(x => x.Number == squadNumber).CalculatedPosition;
         }
         
-        public RobotPlanner AddPlannerComponentToRobot(TeamPosition teamPosition, GameObject robotObject)
+        public RobotActionRewardCalculatorBehaviour AddActionRewardCalculatorToRobot(TeamPosition teamPosition, GameObject robotObject)
         {
-            return null;
-//            switch (teamPosition)
-//            {
-//                case TeamPosition.Keeper:
-//                    return robotObject.AddComponent<KeeperPlannerBehaviour>();
-//                case TeamPosition.Midfielder:
-//                    return robotObject.AddComponent<MidfielderPlannerBehaviour>();
-//                case TeamPosition.Defender:
-//                    return robotObject.AddComponent<DefenderPlannerBehaviour>();
-//                case TeamPosition.Attacker:
-//                    return robotObject.AddComponent<AttackerPlannerBehaviour>();
-//                default:
-//                    return null;
-//            }
+            switch (teamPosition)
+            {
+                case TeamPosition.Attacker:
+                    return robotObject.AddComponent<AttackerActionRewardCalculatorBehaviour>();
+                default:
+                    return null;
+            }
         }
         
         public string GetGoalName()

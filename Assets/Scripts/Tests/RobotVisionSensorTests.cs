@@ -41,9 +41,10 @@ namespace Tests
             // Setup
             var objectPosition = new Vector3(2.0f, 2.5f, 5f);
             var robotPosition = new Vector3(2.0f, 2.5f, 4.5f);
-
+            var distance = 0.5f;
+            
             // Act
-            var result = _robotVisionSensor.IsObjectWithinDistance(objectPosition, robotPosition, 1.0f);
+            var result = _robotVisionSensor.IsObjectWithinDistance(objectPosition, robotPosition, 1.0f, distance);
             
             // Assert
             Assert.IsTrue(result);
@@ -55,9 +56,10 @@ namespace Tests
             // Setup
             var objectPosition = new Vector3(2.0f, 2.5f, 5f);
             var robotPosition = new Vector3(2.0f, 2.5f, 10f);
-
+            var distance = 2f;
+            
             // Act
-            var result = _robotVisionSensor.IsObjectWithinDistance(objectPosition, robotPosition, 1.0f);
+            var result = _robotVisionSensor.IsObjectWithinDistance(objectPosition, robotPosition, 1.0f, distance);
             
             // Assert
             Assert.IsFalse(result);

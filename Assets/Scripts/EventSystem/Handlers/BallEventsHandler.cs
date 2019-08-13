@@ -17,7 +17,7 @@ namespace EventSystem.Handlers
         {
             print("ball crosed the line from handler");
             print(e.Position);
-            print(e.BallBoundType);
+            print(e.FieldBoundType);
         }
     }
 }

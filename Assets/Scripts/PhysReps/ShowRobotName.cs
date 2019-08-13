@@ -1,13 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using DataModels;
-using Planners;
+﻿using UnityEngine;
 
 public class ShowRobotName : MonoBehaviour
 {
     private RectTransform _RobotNameTransform;
-    private RobotPlannerBehaviour _robotPlanner;
+ //   private RobotPlannerBehaviour _robotPlanner;
 //  private TextMeshProUGUI RobotTextName;
 
     // Start is called before the first frame update
@@ -16,7 +12,7 @@ public class ShowRobotName : MonoBehaviour
         _RobotNameTransform = GetComponent<RectTransform>();
 
         //Seems this isn't really working? How else can I get it's name?
-        _robotPlanner = GetComponentInParent<RobotPlannerBehaviour>();
+     //   _robotPlanner = GetComponentInParent<RobotPlannerBehaviour>();
 
 //       RobotTextName = GetComponent<TextMeshProUGUI>();
 //       RobotTextName.SetText(_robotPlanner.RobotModel.Name);

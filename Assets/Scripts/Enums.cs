@@ -1,6 +1,6 @@
 using System;
 
-public enum BallBoundType
+public enum FieldBoundType
 {
     LeftGoalBound,
     RightGoalBound,

@@ -20,19 +20,13 @@ public class ScoresUI : MonoBehaviour
         EventManager.Instance.AddListener<BallCrossedLineEvent>(BallCrossedLineEventListener);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void BallCrossedLineEventListener(BallCrossedLineEvent e)
     {
-        if(e.BallBoundType == BallBoundType.LeftGoalBound)
+        if(e.FieldBoundType == FieldBoundType.LeftGoalBound)
         {
             HomeTextComponent.text = HomeScore++.ToString();
         }
-        else if (e.BallBoundType == BallBoundType.RightGoalBound)
+        else if (e.FieldBoundType == FieldBoundType.RightGoalBound)
         {
             AwayTextComponent.text = AwayScore++.ToString();
         }

@@ -46,8 +46,7 @@ namespace DataModels
             {
                 ObjectName = ObjectName,
                 ObjectMovementSpeed = ObjectMovementSpeed,
-                ObjectMovementDirection = ObjectMovementDirection,
-                GameObjectToFind = GameObjectToFind,
+                GameObjectToFind = GameObjectToFind
             };
         }
     }

@@ -20,18 +20,18 @@ namespace Sensors
             _robotVisionSensor = new RobotVisionSensor();
         }
         
-        private void Start()
+        private void Awake()
         {
             var tempObjectOfInterestStatuses = new List<ObjectOfInterestVisionStatus>() {
                 new ObjectOfInterestVisionStatus()
                 {
                     ObjectName = Settings.SoccerBallObjectName,
-                    MinimunDistance = 0.3f
+                    MaxReachDistance = 2.0f
                 },
                 new ObjectOfInterestVisionStatus()
                 {
                     ObjectName = Settings.AwayGoalLine,
-                    MinimunDistance = 3.0f
+                    MaxReachDistance = 3.0f
                 },
                 new ObjectOfInterestVisionStatus()
                 {
@@ -64,20 +64,22 @@ namespace Sensors
 
                 var objectPosition = objectOfInterestVisionStatus.GameObjectToFind.transform.position;
                 var position = transform.position;
+                var distanceFromObject = _robotVisionSensor.DistanceFromObject(objectPosition, position);
                 
-                // Update the distance and vision angle status of this object of interest.
-                objectOfInterestVisionStatus.IsWithinDistance = _robotVisionSensor.IsObjectWithinDistance(objectPosition, position, objectOfInterestVisionStatus.MinimunDistance);
-                objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectPosition, objectOfInterestVisionStatus.ObjectName, position, transform.up, transform.forward);
+                // Update properties of interest that belong to this object.
+                objectOfInterestVisionStatus.DistanceFromObject = distanceFromObject;
+                objectOfInterestVisionStatus.IsWithinDistance = _robotVisionSensor.IsObjectWithinDistance(objectPosition, position, objectOfInterestVisionStatus.MaxReachDistance, distanceFromObject);
+                objectOfInterestVisionStatus.IsInsideVisionAngle = IsObjectInsideVisionAngle(objectPosition, objectOfInterestVisionStatus.ObjectName, position, transform.up, transform.forward, distanceFromObject);
             }
         }
 
-        private bool IsObjectInsideVisionAngle(Vector3 objectToFindPosition, string objectToFindName, Vector3 fromPosition, Vector3 upPointingVector, Vector3 forwardPointingVector)
+        private bool IsObjectInsideVisionAngle(Vector3 objectToFindPosition, string objectToFindName, Vector3 fromPosition, Vector3 upPointingVector, Vector3 forwardPointingVector, float distanceFromObject)
         {
             // Not even going to bother with unit testing these. Unit testing raycasts is a bitch.
             if (_robotVisionSensor.IsObjectInsideVisionAngle(objectToFindPosition, fromPosition, forwardPointingVector, viewAngle))
                 return true;
 
-            if (!_robotVisionSensor.IsObjectWithinDistance(objectToFindPosition, fromPosition, 1.0f))
+            if (!_robotVisionSensor.IsObjectWithinDistance(objectToFindPosition, fromPosition, 1.0f, distanceFromObject))
                 return false;
 
             if (!IsRobotFacingObjectToFind(objectToFindName, fromPosition, forwardPointingVector))
@@ -140,10 +142,16 @@ namespace Sensors
         /// <summary>
         /// Checks whether the object is inside the given max distance.
         /// </summary>
-        public bool IsObjectWithinDistance(Vector3 objectToFindPosition, Vector3 robotObjectPosition, float maxDistanceToCheck)
+        public bool IsObjectWithinDistance(Vector3 objectToFindPosition, Vector3 robotObjectPosition, float maxDistanceToCheck, float distance)
         {
             // Check whether the object is within the given max distance.
-            return Vector3.Distance(objectToFindPosition, robotObjectPosition) < maxDistanceToCheck;
+            return distance < maxDistanceToCheck;
+        }
+
+        public float DistanceFromObject(Vector3 objectToFindPosition, Vector3 robotObjectPosition)
+        {
+            return Vector3.Distance(objectToFindPosition, robotObjectPosition);
+
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ namespace Game
         public TeamBehaviour awayTeamBehaviour;
 
         private MatchController _matchController;
-        private void Start()
+        private void Awake()
         {
             _matchController = new MatchController();
         }

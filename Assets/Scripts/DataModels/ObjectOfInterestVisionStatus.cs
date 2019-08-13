@@ -41,8 +41,24 @@ namespace DataModels
             }
         }
         #endregion
+        
+        
+        #region DistanceFromObject definition
+        public event EventHandler DistanceFromObjectChangeEvent;
+        private float _distanceFromObject;
+        public float DistanceFromObject
+        {
+            get => _distanceFromObject;
+            set
+            {
+                _distanceFromObject = value;
+                DistanceFromObjectChangeEvent?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        #endregion
 
-        public float MinimunDistance;
+        // This defines the max distance this object can reach. Is used to determine if an object is within distance
+        public float MaxReachDistance;
         public override ObjectOfInterestVisionStatus Copy()
         {
             return new ObjectOfInterestVisionStatus()
@@ -51,6 +67,7 @@ namespace DataModels
                 IsInsideVisionAngle = IsInsideVisionAngle,
                 IsWithinDistance = IsWithinDistance,
                 GameObjectToFind = GameObjectToFind,
+                MaxReachDistance = MaxReachDistance
             };
         }
     }
