@@ -2466,7 +2466,7 @@ PrefabInstance:
     - target: {fileID: 1923776847536730289, guid: 6a96727162d36904286f925c1b5a5e77,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.03
+      value: -16.76
       objectReference: {fileID: 0}
     - target: {fileID: 1923776847536730289, guid: 6a96727162d36904286f925c1b5a5e77,
         type: 3}
@@ -2476,7 +2476,7 @@ PrefabInstance:
     - target: {fileID: 1923776847536730289, guid: 6a96727162d36904286f925c1b5a5e77,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 8.45
       objectReference: {fileID: 0}
     - target: {fileID: 1923776847536730289, guid: 6a96727162d36904286f925c1b5a5e77,
         type: 3}
@@ -3367,6 +3367,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HomeTeam
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923776847536730294, guid: 6a96727162d36904286f925c1b5a5e77,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1923776847536730289, guid: 6a96727162d36904286f925c1b5a5e77,
         type: 3}
