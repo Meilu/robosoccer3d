@@ -35,7 +35,7 @@ namespace RobotActionRewardCalculators
 
         public List<RobotActionReward> CollectActionRewards()
         {
-            return RobotActionRewardCalculator.CollectActionRewardsForSensors(_robotVisionSensor.objectOfInterestVisionStatuses, _robotTravelDistanceSensor.distanceTravelled);
+            return RobotActionRewardCalculator.CollectActionRewardsForSensors(_robotVisionSensor.objectOfInterestVisionStatuses, _robotTravelDistanceSensor.distanceTraveled);
         }
         
         private void InitializeObjectsOfInterestSubscriptions()

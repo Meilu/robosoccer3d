@@ -27,7 +27,7 @@ namespace MachineLearning
 
         public override void AgentReset()
         {
-            transform.position = originalPosition;
+            // transform.position = originalPosition;
         }
 
         public override void AgentAction(float[] action, string actionText)
@@ -37,7 +37,7 @@ namespace MachineLearning
             var legAction = (RobotLegAction) (int) action[2];
             var armAction = (RobotArmAction) (int) action[3];
 
-            var robotActionState = new RobotActionState(armAction, legAction, motorAction, wheelAction);
+            var robotActionState = new RobotActionState(RobotArmAction.None, RobotLegAction.None, motorAction, RobotWheelAction.None);
             
             _robotActuator.ExecuteRobotAction(robotActionState);
 
@@ -47,7 +47,6 @@ namespace MachineLearning
                 return;
             
             rewards.ForEach(x => AddReward(x.RewardAmount));
-            Done();
         }
 
         public override void CollectObservations()

@@ -1,68 +1,68 @@
 {
   "name": "root",
-  "total": 229.2040251,
+  "total": 13.2640043,
   "count": 1,
-  "self": 10.326263899997713,
+  "self": 7.473340300000032,
   "children": [
     {
       "name": "TrainerController.advance",
-      "total": 218.87776120000228,
-      "count": 17730,
-      "self": 10.032950900003073,
+      "total": 5.790663999999968,
+      "count": 457,
+      "self": 0.282553999999962,
       "children": [
         {
           "name": "env_step",
-          "total": 194.9587266999993,
-          "count": 17730,
-          "self": 184.7385329999971,
+          "total": 5.096773300000008,
+          "count": 457,
+          "self": 4.7911384999999855,
           "children": [
             {
               "name": "SubprocessEnvManager._take_step",
-              "total": 10.03052750000058,
-              "count": 17730,
-              "self": 1.0880330999989898,
+              "total": 0.3006092999999943,
+              "count": 457,
+              "self": 0.027572999999964765,
               "children": [
                 {
                   "name": "PPOPolicy.evaluate",
-                  "total": 8.942494400001591,
-                  "count": 17730,
-                  "self": 8.942494400001591
+                  "total": 0.27303630000002954,
+                  "count": 457,
+                  "self": 0.27303630000002954
                 }
               ]
             },
             {
               "name": "workers",
-              "total": 0.18966620000161782,
-              "count": 17729,
+              "total": 0.005025500000027883,
+              "count": 456,
               "self": 0.0,
               "children": [
                 {
                   "name": "worker_root",
-                  "total": 225.14570649999953,
-                  "count": 17729,
+                  "total": 9.879372699999998,
+                  "count": 456,
                   "is_parallel": true,
-                  "self": 50.8052603999993,
+                  "self": 5.376020699999989,
                   "children": [
                     {
                       "name": "UnityEnvironment.step",
-                      "total": 174.34044610000024,
-                      "count": 17729,
+                      "total": 4.5033520000000085,
+                      "count": 456,
                       "is_parallel": true,
-                      "self": 4.572674599999459,
+                      "self": 0.11696229999999641,
                       "children": [
                         {
                           "name": "UnityEnvironment._generate_step_input",
-                          "total": 0.9645719999989844,
-                          "count": 17729,
+                          "total": 0.025477699999989056,
+                          "count": 456,
                           "is_parallel": true,
-                          "self": 0.9645719999989844
+                          "self": 0.025477699999989056
                         },
                         {
                           "name": "communicator.exchange",
-                          "total": 168.8031995000018,
-                          "count": 17729,
+                          "total": 4.360912000000023,
+                          "count": 456,
                           "is_parallel": true,
-                          "self": 168.8031995000018
+                          "self": 4.360912000000023
                         }
                       ]
                     }
@@ -74,15 +74,15 @@
         },
         {
           "name": "update_policy",
-          "total": 13.88608359999992,
-          "count": 272,
-          "self": 2.179518299998433,
+          "total": 0.4113366999999979,
+          "count": 7,
+          "self": 0.06426149999999708,
           "children": [
             {
               "name": "PPOPolicy.update",
-              "total": 11.706565300001486,
-              "count": 10608,
-              "self": 11.706565300001486
+              "total": 0.3470752000000008,
+              "count": 273,
+              "self": 0.3470752000000008
             }
           ]
         }

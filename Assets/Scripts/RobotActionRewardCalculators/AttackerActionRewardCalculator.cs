@@ -19,18 +19,23 @@ namespace RobotActionRewardCalculators
     {
         protected override List<RobotActionReward> CollectRewardsForCurrentVision(IList<ObjectOfInterestVisionStatus> visionStatuses, float distanceTravelled)
         {
-            var soccerBallStatus = visionStatuses.FirstOrDefault(x => x.ObjectName == Settings.SoccerBallObjectName);
             var actionRewardList = new List<RobotActionReward>();
-            
-            if (soccerBallStatus == null)
-                return actionRewardList;
 
-            if (soccerBallStatus.IsWithinDistance)
-            {
-                actionRewardList.Add(new RobotActionReward(0.4f));
-            }
+            actionRewardList.Add(new RobotActionReward(distanceTravelled / 10.0f));
+            
 
             return actionRewardList;
+//            var soccerBallStatus = visionStatuses.FirstOrDefault(x => x.ObjectName == Settings.SoccerBallObjectName);
+//            var actionRewardList = new List<RobotActionReward>();
+//            
+//            if (soccerBallStatus == null)
+//                return actionRewardList;
+//
+//            if (soccerBallStatus.IsWithinDistance)
+//            {
+//                actionRewardList.Add(new RobotActionReward(0.4f));
+//            }
+
         }
     }
 }
